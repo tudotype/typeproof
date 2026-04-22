@@ -678,5 +678,183 @@ The model layer is doing genuine work on the fuzzy rules. Combined pipeline (lin
 
 ### Git
 
-v3 commit: [pending]
+v3 commit: `2dff4ff` — "pipeline: LoRA v3 — targeted template expansion, rank 32"
+
+---
+
+## 2026-04-22 — Reflection: The Architecture Decision Tree
+
+*Written after v3 eval, at the point where Llama 3B is showing its ceiling. Intended as a record of the reasoning behind each fork — both for my own reference and as material for a future visualisation.*
+
+---
+
+### Where we are
+
+Three iterations in. The project has produced a working fine-tuning pipeline, a lint layer that handles the deterministic 80%, and a model that now scores 27.7% exact / 90% similarity on 83 ground-truth cases. That sounds modest but the baseline (the unmodified Llama 3.2 3B Instruct) scored 0% exact / 21.6% similarity — we've moved from a model that echoes inputs to one that genuinely applies typographic rules in most cases.
+
+The 15 remaining failures cluster around a clear boundary: rules that require emitting invisible Unicode characters (NBSP, NNBSP, ZWNJ) and rules where the model's language intelligence overrides its typographic instruction. Both are real, but they're different problems.
+
+---
+
+### Decision tree: the main forks
+
+Every significant choice in this project has been a branch. Documenting them here for two reasons: (1) future me needs to understand why the current state looks the way it does, (2) these forks become the nodes in a visualisation that explains the project to others.
+
+---
+
+**Fork 1 — What kind of correction system?**
+
+```
+Should typography correction be...
+├── A rule engine (regex + Unicode tables)
+│   └── Fast, auditable, zero cost, but brittle to context
+│       └── Chosen for Layer 1 (typography_lint.py)
+├── A prompted LLM (system prompt + examples)
+│   └── Flexible but expensive per-call, no fine-grained control
+│       └── Rejected — no persistent knowledge, can't be the canonical source
+└── A fine-tuned model trained from a formal schema
+    └── Schema is the source of truth; model internalises it
+        └── Chosen for Layer 2
+```
+
+*Why the hybrid?* Because the rules fall into two categories with fundamentally different natures. Quotation mark substitution is lookup. Colon capitalisation after a long subordinate clause is judgment. The 80/20 split isn't a compromise — it's the correct taxonomy of the problem.
+
+---
+
+**Fork 2 — What is the schema for?**
+
+```
+The YAML schema could be...
+├── Documentation only (human-readable spec)
+│   └── Rejected — documentation drifts from implementation
+├── The rule engine (parsed and executed at runtime)
+│   └── Too rigid, edge cases accumulate in YAML
+└── The training data generator
+    └── Schema → JSONL pairs → fine-tuning
+        └── Chosen — schema is machine-readable intent,
+            generator handles execution complexity
+```
+
+*This was the central insight.* The schema doesn't execute rules directly — it describes them. The generator translates that description into training examples. This means the schema stays clean and auditable while the generator handles the messiness of real data. When the schema changes, regenerate the dataset. The YAML never knows about edge cases; the Python handles them.
+
+---
+
+**Fork 3 — How to handle the 80/20 split operationally?**
+
+```
+Deterministic rules could be...
+├── Handled entirely by the model (single layer)
+│   └── Rejected — wastes model capacity on lookup problems,
+│       regressions on simple rules are costly
+├── Pre-processed then passed to the model
+│   └── Chosen — Layer 1 (lint) fires first,
+│       catches deterministic cases, passes the rest
+└── Post-processed (model runs first, lint cleans up)
+    └── Rejected — model output is harder to reason about
+        as a starting point for deterministic rules
+```
+
+*The lint-first order matters.* If the model runs first, its output might change the surface that deterministic rules operate on (e.g. the model might curl some quotes, then lint has to handle partially-corrected input). Lint first gives you a clean, deterministic baseline; the model only sees what it can't resolve.
+
+---
+
+**Fork 4 — Which base model?**
+
+```
+Base model options (Apple Silicon, MLX):
+├── Llama 3.2 3B Instruct (4-bit)
+│   ├── Fast: ~1.6 it/sec, 70-100 min per training run
+│   ├── Fits any modern Mac (4-6 GB peak memory)
+│   └── Ceiling: weak invisible Unicode representation,
+│       semantic override on abbreviations
+│       └── Used for v1, v2, v3
+├── Mistral 7B Instruct v0.3 (4-bit)
+│   ├── 2× training time (~3h)
+│   ├── Better instruction-following prior
+│   ├── Stronger Unicode representation
+│   └── Expected to clear invisible-char failures
+│       └── Next candidate — v4
+└── Gemma 2 9B (4-bit)
+    ├── 3× training time
+    ├── Strongest of the three
+    └── Memory: 10-16 GB — may constrain batch size
+        └── Reserve for if Mistral 7B hits ceiling too
+```
+
+*Why start with 3B?* Iteration speed. Each training run at 3B takes ~90 min; at 7B it's ~3h. Three iterations at 3B = ~5h total and we learned the data quality lesson (v1 → v2 jump was huge), the instruction format lesson, and the template targeting lesson. Switching to 7B now, we bring all that learning. The experiments weren't wasted on the wrong model — they were cheap experiments to understand what the training data needed to look like before committing to a longer run.
+
+---
+
+**Fork 5 — How to handle invisible Unicode in training data?**
+
+```
+Invisible characters (NBSP, NNBSP, ZWNJ) in training:
+├── Present in output as raw invisible bytes
+│   └── Current approach — model must learn to emit codepoints
+│       it cannot see in the token stream
+│       └── Works for NBSP (common), fails for NNBSP and ZWNJ
+├── Represented as escape sequences in training output
+│   ├── e.g. output: "Auf\u200Clage" (literal backslash-u)
+│   └── Model learns to emit the notation;
+│       post-processor converts notation to actual characters
+│       └── Not yet tried — viable v4 experiment
+└── Moved back to Layer 1 (lint handles deterministically)
+    ├── ZWNJ (ligature suppression) already in lint
+    ├── NBSP obligations already in lint
+    └── NNBSP (French high punctuation) already in lint
+        └── The model's job is the FUZZY rules —
+            invisible char insertion is deterministic enough
+            for lint. Move the boundary, don't fight the ceiling.
+```
+
+*This is the most interesting fork still open.* The invisible-char failures in v3 aren't evidence that the model is bad — they're evidence that we mis-categorised some rules. NBSP after `Mme` is deterministic: if the next token is a proper noun, insert NBSP. That belongs in lint, not in the model. The model should be reserved for cases where the correct behaviour genuinely depends on context: serial comma, colon capitalisation after a subordinate clause, quote-punctuation placement based on what the quotation contains.
+
+---
+
+**Fork 6 — What does "done" look like?**
+
+```
+Definition of done:
+├── Academic (maximise eval score)
+│   └── Chase 80+/83 exact matches; keep training until
+│       diminishing returns become negligible
+├── Engineering (shippable pipeline)
+│   └── Wire lint + model + gate into correct.py;
+│       one command in → corrected text out;
+│       publish weights on HuggingFace
+└── Strategic (Automattic blog post + open-source)
+    └── Tell the story: YAML as source of truth,
+        80/20 architecture, what the model learned,
+        what it couldn't learn and why;
+        position as infrastructure, not a product
+```
+
+*All three are valid, but the sequencing matters.* The academic goal (eval score) is a proxy for the engineering goal (does it actually correct text). The engineering goal is a prerequisite for the strategic goal (can you demo it, does it hold up to scrutiny). The blog post needs to be honest about the limitations — that honesty is actually the interesting part. A model that gets 27.7% exact on a strict eval but 90% similarity, and where you can explain exactly which rules fail and why, is a more credible story than a black box claiming 95%.
+
+---
+
+### The choice I'm making now
+
+Switch to Mistral 7B for v4. Reasons:
+
+1. The 3B ceiling is confirmed — three iterations with diminishing returns on the same root causes.
+2. The lessons from v1-v3 (instruction format, correction-only training, targeted templates, output cleaning) transfer directly. v4 starts with a better base, not from scratch.
+3. Training time (~3h) is acceptable given I have the time.
+4. If 7B clears the invisible-char failures (expected), the remaining model failures will be the genuinely fuzzy cases — exactly the ones the model is *supposed* to handle.
+5. After v4, the right move is to reassess the rule categorisation: move any remaining deterministic rules to lint, and evaluate whether the model has a clean 17-case remaining domain that it can own.
+
+What I'm NOT doing: chasing 100% on the eval. The eval has 83 cases, some of which test rules that are either context-dependent by nature (serial comma in ambiguous lists) or require font-system awareness (ligature suppression). A model that scores 90% similarity across all 83 cases is already production-useful.
+
+---
+
+### What the blog post should say
+
+The project's honest arc:
+1. **The insight**: typography is language-specific pattern recognition, not lookup — the right architecture is a formal schema that generates training data, not a prompt that guesses.
+2. **The architecture**: three layers with clear boundaries, each doing what it's suited for.
+3. **The data lesson**: the biggest jump (v1→v2) came from data quality, not model size. Removing 815 pairs that taught the model to explain rather than correct, and adding "output only the corrected text" to the instruction, produced a 26× improvement in exact matches (1→22). Template data quality matters more than quantity at this scale.
+4. **The ceiling lesson**: a 3B model can learn typographic rules for quotation marks, dashes, ellipsis, inverted punctuation, diacritics — rules where the correction is phonologically or semantically salient. It struggles with invisible characters and anti-paraphrase constraints — rules where the correction is below the semantic surface. This tells you something about how these models represent language.
+5. **The open question**: where exactly should the model↔lint boundary sit? The project started with a 80/20 estimate. After three iterations, the evidence suggests the lint layer can absorb more rules than originally planned, leaving the model with a cleaner, smaller, genuinely fuzzy domain.
+
+This is interesting not just for typography. It's a generalizable lesson about fine-tuning: the hardest part is not the model, it's correctly classifying which rules belong in code and which belong in the model.
 
