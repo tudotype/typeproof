@@ -58,11 +58,11 @@ def get_args():
                         help="Path to JSONL training data")
     parser.add_argument("--output_dir", type=str, default="./typography-lora",
                         help="Directory for LoRA adapter output")
-    parser.add_argument("--epochs", type=int, default=3,
+    parser.add_argument("--epochs", type=int, default=12,
                         help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=4,
                         help="Training batch size")
-    parser.add_argument("--learning_rate", type=float, default=1e-5,
+    parser.add_argument("--learning_rate", type=float, default=2e-5,
                         help="Learning rate")
     parser.add_argument("--lora_rank", type=int, default=16,
                         help="LoRA rank")
@@ -81,6 +81,8 @@ def get_args():
                         help="GGUF quantization level for Ollama export")
     parser.add_argument("--dry_run", action="store_true",
                         help="Validate config and data without training")
+    parser.add_argument("--correction-only", action="store_true",
+                        help="Train only on correction + cross-language pairs; exclude detection/explanation pairs")
     return parser.parse_args()
 
 
@@ -496,8 +498,21 @@ def main():
     print(f"  Loaded {len(raw_data)} examples from {args.dataset}")
 
     if len(raw_data) == 0:
-        print("  ERROR: No training examples found. Regenerate with: python pipeline/generate_dataset.py")
+        print("  ERROR: No training examples found. Regenerate with: python generate_dataset.py")
         sys.exit(1)
+
+    # --correction-only: keep only pairs where the output is the corrected text
+    # (type: correction or cross_language). Excludes detection and explanation pairs
+    # which train the model to produce verbose, explanatory outputs.
+    if getattr(args, 'correction_only', False):
+        _keep_types = {"correction", "cross_language"}
+        before = len(raw_data)
+        raw_data = [
+            r for r in raw_data
+            if r.get("metadata", {}).get("type", "correction") in _keep_types
+        ]
+        print(f"  --correction-only: filtered {before} → {len(raw_data)} examples "
+              f"(removed {before - len(raw_data)} detection/explanation pairs)")
 
     # Split into train / valid (stratified by language x rule)
     train_records, valid_records = split_train_valid(raw_data, valid_ratio=0.1)

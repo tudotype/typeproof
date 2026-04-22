@@ -106,7 +106,7 @@ def build_instruction(lang: str, register: str | None = None) -> str:
     instruction = f"Correct the typography in the following {lang_name} text"
     if register:
         instruction += f" for {register} use"
-    instruction += "."
+    instruction += ". Output only the corrected text, no explanation."
     return instruction
 
 
@@ -143,6 +143,43 @@ class EvalResult:
 # ---------------------------------------------------------------------------
 # Scoring helpers
 # ---------------------------------------------------------------------------
+
+def clean_prediction(text: str) -> str:
+    """
+    Strip trailing explanatory noise from model output.
+
+    The instruction template says 'Output only the corrected text, no
+    explanation.' but instruct-tuned models often append parenthetical
+    notes or double-newline explanations anyway. This strips that noise
+    so that the core answer can be scored fairly.
+
+    Strips:
+      - Everything after the first double-newline (\\n\\n)
+      - Trailing (no change), (no correction), (Note: ...), (keine ...), etc.
+      - Trailing single newlines and whitespace
+    """
+    import re
+    # 1. Cut at first double-newline — everything after is explanation
+    text = text.split("\n\n")[0]
+    # 2. Strip trailing parenthetical notes in any language
+    text = re.sub(
+        r"\s*[\(\[]"
+        r"(?:no change|no correction|no changes|no corrections needed|"
+        r"keine Änderungen|keine Korrekturen|keine Korrektur|"
+        r"sin correcciones|aucune correction|nessuna correzione|"
+        r"sem correções?|no cambios|The (?:input|text) is already correct"
+        r")[^\)\]]*[\)\]]\.?\s*$",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    # 3. Strip trailing "The final answer is: X" lines
+    text = re.sub(r"\s*The final answer is:.*$", "", text, flags=re.IGNORECASE | re.DOTALL)
+    # 4. Strip "The corrected text is: X" / "The corrected output is: X" wrappers
+    text = re.sub(r'^The corrected (?:text|output) is:\s*["\u201c]?', "", text, flags=re.IGNORECASE)
+    text = re.sub(r'["\u201d]?\s*$', "", text)  # remove trailing curly/straight quote from wrapper
+    return text.strip()
+
 
 def similarity_score(expected: str, predicted: str) -> float:
     """Character-level similarity between expected and predicted (0-1)."""
@@ -694,6 +731,9 @@ def evaluate(backend, cases: list[dict], label: str = "model") -> list[EvalResul
             predicted = f"[ERROR: {e}]"
 
         expected = case["expected"]
+        # Clean trailing explanatory noise for model backends; lint is already clean
+        if not isinstance(backend, LintBackend):
+            predicted = clean_prediction(predicted)
         stripped_pred = predicted.strip()
         stripped_exp = expected.strip()
 

@@ -1379,9 +1379,11 @@ def generate_correction_pairs(templates: dict) -> list[TrainingPair]:
                     reg_suffix = f" for {register} use" if register else ""
                     instruction = (
                         f"Correct the typography in the following "
-                        f"{lang_label} text{reg_suffix}."
+                        f"{lang_label} text{reg_suffix}. "
+                        f"Output only the corrected text, no explanation."
                     ) if actual_lang else (
-                        f"Correct the typography in the following text{reg_suffix}."
+                        f"Correct the typography in the following text{reg_suffix}. "
+                        f"Output only the corrected text, no explanation."
                     )
                     pairs.append(TrainingPair(
                         instruction=instruction,
@@ -1641,7 +1643,7 @@ def generate_cross_language_pairs(templates: dict) -> list[TrainingPair]:
             src_name = LANG_NAMES[source_lang]
             tgt_name = LANG_NAMES[target_lang]
             pairs.append(TrainingPair(
-                instruction=f"Apply {tgt_name} typography conventions to this text, which was originally typeset for {src_name}.",
+                instruction=f"Apply {tgt_name} typography conventions to this text, which was originally typeset for {src_name}. Output only the corrected text, no explanation.",
                 input=src_raw,
                 output=tgt_correct,
                 metadata={
