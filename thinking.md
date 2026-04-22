@@ -584,5 +584,5 @@ Added `clean_prediction()` post-processing in `eval_typography.py` to strip trai
 
 ### Git
 
-v2 commit: [pending]
+v2 commit: `685337b` — "pipeline: LoRA v2 — 12 epochs, correction-only training, output cleaning"
 
