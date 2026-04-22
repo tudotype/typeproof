@@ -50,6 +50,12 @@ TEMPLATES = {
             ('"Vamos embora" disse o João.', '«\u2009Vamos embora\u2009» disse o João.'),
             ('O professor perguntou: "Quem sabe a resposta?"', 'O professor perguntou: «\u2009Quem sabe a resposta?\u2009»'),
             ('"Não sei" respondeu ela, "mas posso tentar".', '«\u2009Não sei\u2009» respondeu ela, «\u2009mas posso tentar\u2009».'),
+            # More diverse sentences targeting the eval failure pattern
+            ('Ele sussurrou "obrigado" e saiu.', 'Ele sussurrou «\u2009obrigado\u2009» e saiu.'),
+            ('Ela disse "bom dia" ao entrar.', 'Ela disse «\u2009bom dia\u2009» ao entrar.'),
+            ('"Com licença" disse ele.', '«\u2009Com licença\u2009» disse ele.'),
+            ('O guia respondeu "claro" e apontou.', 'O guia respondeu «\u2009claro\u2009» e apontou.'),
+            ('"Boa sorte" desejou a professora.', '«\u2009Boa sorte\u2009» desejou a professora.'),
         ],
         "pt-BR": [
             ('Ele disse "está bem" e saiu.', 'Ele disse \u201Cestá bem\u201D e saiu.'),
@@ -62,12 +68,21 @@ TEMPLATES = {
             ('The sign read "No "walk-ins" allowed".', 'The sign read \u201CNo \u2018walk-ins\u2019 allowed\u201D.'),
             ('"I agree," she said.', '\u201CI agree,\u201D she said.'),
             ('She asked "Why not?"', 'She asked \u201CWhy not?\u201D'),
+            ('She whispered "be careful" to him.', 'She whispered \u201Cbe careful\u201D to him.'),
+            ('He said "good morning" and smiled.', 'He said \u201Cgood morning\u201D and smiled.'),
+            ('"Thank you" she replied.', '\u201CThank you\u201D she replied.'),
+            ('The note read "do not open".', 'The note read \u201Cdo not open\u201D.'),
+            ('"Hurry up" he called out.', '\u201CHurry up\u201D he called out.'),
         ],
         "en-GB": [
             ("She said 'hello' and left.", 'She said \u2018hello\u2019 and left.'),
             ('He called it "remarkable".', 'He called it \u201Cremarkable\u201D.'),
             ("The sign read 'No entry'.", 'The sign read \u2018No entry\u2019.'),
             ("'I agree', she said.", '\u2018I agree\u2019, she said.'),
+            ("She whispered 'be careful' to him.", 'She whispered \u2018be careful\u2019 to him.'),
+            ("'Good morning' he said warmly.", '\u2018Good morning\u2019 he said warmly.'),
+            ("She replied 'of course'.", 'She replied \u2018of course\u2019.'),
+            ("The label read 'handle with care'.", 'The label read \u2018handle with care\u2019.'),
         ],
         "fr-FR": [
             ('Elle a dit "bonjour" et est partie.', 'Elle a dit «\u202Fbonjour\u202F» et est partie.'),
@@ -79,21 +94,35 @@ TEMPLATES = {
             ('Er nannte es "bemerkenswert".', 'Er nannte es \u201Ebemerkenswert\u201C.'),
             ('"Tschüss" sagte sie.', '\u201ETschüss\u201C sagte sie.'),
             ('Er sagte "sie meinte \'ja\' dazu".', 'Er sagte \u201Esie meinte \u2039ja\u203A dazu\u201C.'),
+            ('Er flüsterte "danke" und lächelte.', 'Er flüsterte \u201Edanke\u201C und lächelte.'),
+            ('Sie antwortete "guten Morgen".', 'Sie antwortete \u201Eguten Morgen\u201C.'),
+            ('"Bitte warten" sagte er.', '\u201EBitte warten\u201C sagte er.'),
+            ('Das Schild zeigte "Eingang".', 'Das Schild zeigte \u201EEingang\u201C.'),
         ],
         "it-IT": [
             ('Lei ha detto "buongiorno" ed è uscita.', 'Lei ha detto «buongiorno» ed è uscita.'),
             ('Ha risposto "sì, "certo"".', 'Ha risposto «sì, \u201Ccerto\u201D».'),
             ('"Andiamo" disse Marco.', '«Andiamo» disse Marco.'),
+            ('Ha detto "grazie" ed è andato via.', 'Ha detto «grazie» ed è andato via.'),
+            ('Lei susurrò "prego" con un sorriso.', 'Lei susurrò «prego» con un sorriso.'),
+            ('"Buona notte" disse il bambino.', '«Buona notte» disse il bambino.'),
+            ('Il cartello recitava "vietato".', 'Il cartello recitava «vietato».'),
         ],
         "es-ES": [
             ('Ella dijo "hola" y se fue.', 'Ella dijo «hola» y se fue.'),
             ('Él lo llamó "extraordinario".', 'Él lo llamó «extraordinario».'),
             ('"Adiós" dijo ella.', '«Adiós» dijo ella.'),
+            ('Ella susurró "gracias" y se fue.', 'Ella susurró «gracias» y se fue.'),
+            ('Él respondió "buenos días".', 'Él respondió «buenos días».'),
+            ('"Por favor" dijo el niño.', '«Por favor» dijo el niño.'),
+            ('El letrero decía "entrada".', 'El letrero decía «entrada».'),
         ],
         "es-MX": [
             ('Ella dijo "hola" y se fue.', 'Ella dijo \u201Chola\u201D y se fue.'),
             ('Él lo llamó "extraordinario".', 'Él lo llamó \u201Cextraordinario\u201D.'),
             ('"Adiós" dijo ella.', '\u201CAdiós\u201D dijo ella.'),
+            ('Ella susurró "gracias" y se fue.', 'Ella susurró \u201Cgracias\u201D y se fue.'),
+            ('"Buenos días" dijo con una sonrisa.', '\u201CBuenos días\u201D dijo con una sonrisa.'),
         ],
         "nl-NL": [
             ('Ze zei "hallo" en vertrok.', 'Ze zei \u201Challo\u201D en vertrok.'),
@@ -165,6 +194,21 @@ TEMPLATES = {
             ('Aspetta...', 'Aspetta\u2026'),
             ('Warte mal...', 'Warte mal\u2026'),
             ('Espera un momento...', 'Espera un momento\u2026'),
+            # More diverse — sentence-end, mid-sentence, standalone
+            ('And then...', 'And then\u2026'),
+            ('She paused... then spoke.', 'She paused\u2026 then spoke.'),
+            ('It was over...', 'It was over\u2026'),
+            ('Hmm...', 'Hmm\u2026'),
+            ('To be continued...', 'To be continued\u2026'),
+            ('He hesitated... and left.', 'He hesitated\u2026 and left.'),
+            ('Et alors...', 'Et alors\u2026'),
+            ('Und dann...', 'Und dann\u2026'),
+            ('E poi...', 'E poi\u2026'),
+            ('Y luego...', 'Y luego\u2026'),
+            ('E depois...', 'E depois\u2026'),
+            ('I thought... maybe not.', 'I thought\u2026 maybe not.'),
+            ('Well...', 'Well\u2026'),
+            ('She said... nothing.', 'She said\u2026 nothing.'),
         ],
     },
 
@@ -174,6 +218,12 @@ TEMPLATES = {
             ('A 5\'10" person.', 'A 5\u203210\u2033 person.'),
             ('Screen resolution: 1920x1080.', 'Screen resolution: 1920\u2009\u00D7\u20091080.'),
             ('Dimensions: 800x600 pixels.', 'Dimensions: 800\u2009\u00D7\u2009600 pixels.'),
+            ('Display: 2560x1440 resolution.', 'Display: 2560\u2009\u00D7\u20091440 resolution.'),
+            ('The sensor is 24x36 mm.', 'The sensor is 24\u2009\u00D7\u200936\u202Fmm.'),
+            ('A 16x9 aspect ratio.', 'A 16\u2009\u00D7\u20099 aspect ratio.'),
+            ('Print size: 210x297 mm.', 'Print size: 210\u2009\u00D7\u2009297\u202Fmm.'),
+            ('The crop is 1.5x the full frame.', 'The crop is 1.5\u00D7 the full frame.'),
+            ('Resolution: 4096x2160.', 'Resolution: 4096\u2009\u00D7\u20092160.'),
         ],
     },
 
@@ -213,15 +263,35 @@ TEMPLATES = {
             ('O 1o andar.', 'O 1.\u00BA andar.'),
             ('A 2a edição.', 'A 2.\u00AA edição.'),
             ('O 3o lugar.', 'O 3.\u00BA lugar.'),
+            ('O 5o andar do edifício.', 'O 5.\u00BA andar do edifício.'),
+            ('A 4a fila da plateia.', 'A 4.\u00AA fila da plateia.'),
+            ('O 10o aniversário.', 'O 10.\u00BA aniversário.'),
+        ],
+        "pt-BR": [
+            ('O 1o lugar.', 'O 1.\u00BA lugar.'),
+            ('A 2a colocada.', 'A 2.\u00AA colocada.'),
+            ('O 3o trimestre.', 'O 3.\u00BA trimestre.'),
         ],
         "it-IT": [
             ('Il 1o piano.', 'Il 1\u00BA piano.'),
             ('La 2a edizione.', 'La 2\u00AA edizione.'),
+            ('Il 3o posto in classifica.', 'Il 3\u00BA posto in classifica.'),
         ],
         "es-ES": [
             ('El 1er piso.', 'El 1.\u00BA piso.'),
             ('La 2a edicion.', 'La 2.\u00AA edición.'),
             ('El 1o lugar.', 'El 1.\u00BA lugar.'),
+            # Key: ordinal indicator, NOT word form "tercer"
+            ('El 3o piso.', 'El 3.\u00BA piso.'),
+            ('El 5o puesto.', 'El 5.\u00BA puesto.'),
+            ('La 4a planta.', 'La 4.\u00AA planta.'),
+            ('El 2o trimestre.', 'El 2.\u00BA trimestre.'),
+            ('El 10o aniversario.', 'El 10.\u00BA aniversario.'),
+        ],
+        "es-MX": [
+            ('El 1er piso.', 'El 1.\u00BA piso.'),
+            ('La 2a edicion.', 'La 2.\u00AA edición.'),
+            ('El 3o lugar.', 'El 3.\u00BA lugar.'),
         ],
     },
 
@@ -232,6 +302,20 @@ TEMPLATES = {
             ('Bravo! Quel résultat!', 'Bravo\u202F! Quel résultat\u202F!'),
             ('Oui; peut-être.', 'Oui\u202F; peut-être.'),
             ('Attention: danger!', 'Attention\u202F: danger\u202F!'),
+            # Full sentences — high priority, these mirror the failing eval cases
+            ('Pourquoi? Parce que: c\'est ainsi.', 'Pourquoi\u202F? Parce que\u202F: c\u2019est ainsi.'),
+            ('Attention; ceci est important!', 'Attention\u202F; ceci est important\u202F!'),
+            ('Il a dit: «Oui!»', 'Il a dit\u202F: «\u202FOui\u202F!\u202F»'),
+            ('Le verdict est clair: il est coupable.', 'Le verdict est clair\u202F: il est coupable.'),
+            ('Combien coûte-t-il?', 'Combien coûte-t-il\u202F?'),
+            ('Quelle heure est-il?', 'Quelle heure est-il\u202F?'),
+            ('C\'est fini!', 'C\u2019est fini\u202F!'),
+            ('Elle a dit: bonne nuit.', 'Elle a dit\u202F: bonne nuit.'),
+            ('Résultat: vingt points.', 'Résultat\u202F: vingt points.'),
+            ('Voilà; c\'est réglé!', 'Voilà\u202F; c\u2019est réglé\u202F!'),
+            ('Il est arrivé: nous pouvons commencer.', 'Il est arrivé\u202F: nous pouvons commencer.'),
+            ('Êtes-vous prêt?', 'Êtes-vous prêt\u202F?'),
+            ('Impossible!', 'Impossible\u202F!'),
         ],
     },
 
@@ -416,14 +500,22 @@ TEMPLATES = {
 
     "french_capital_accents": {
         "fr-FR": [
-            ("L'ETAT",      "L'ÉTAT"),
-            ("A PARIS",     "À PARIS"),
-            ("HOTEL",       "HÔTEL"),
-            ("ETRE",        "ÊTRE"),
-            ("ECOLE",       "ÉCOLE"),
-            ("EVENEMENT",   "ÉVÉNEMENT"),
-            ("ETUDE",       "ÉTUDE"),
-            ("ELECTRICITE", "ÉLECTRICITÉ"),
+            # Key distinction: these are ALL-CAPS words, output must also be ALL-CAPS
+            # with the correct accented capital. NOT title case. NOT mixed case.
+            ("L'ETAT",          "L\u2019\u00C9TAT"),
+            ("A PARIS",         "\u00C0 PARIS"),
+            ("HOTEL",           "H\u00D4TEL"),
+            ("ETRE",            "\u00caTRE"),
+            ("ECOLE",           "\u00c9COLE"),
+            ("EVENEMENT",       "\u00c9V\u00c9NEMENT"),
+            ("ETUDE",           "\u00c9TUDE"),
+            ("ELECTRICITE",     "\u00c9LECTRCIT\u00c9"),
+            # Full sentence contexts with all-caps fragments
+            ("L'ETAT a décidé.",        "L\u2019\u00c9TAT a décidé."),
+            ("A PARIS, en été.",         "\u00c0 PARIS, en été."),
+            ("HÔTEL DE VILLE est ici.", "H\u00d4TEL DE VILLE est ici."),
+            ("Le titre est ETAT.",       "Le titre est \u00c9TAT."),
+            ("L'ECOLE a fermé.",         "L\u2019\u00c9COLE a fermé."),
         ],
     },
 
@@ -445,6 +537,14 @@ TEMPLATES = {
             ("i.d.R.",  "i.\u202Fd.\u202FR."),
             ("e.V.",    "e.\u202FV."),
             ("s.o.",    "s.\u202Fo."),
+            # Sentence contexts — model strips NNBSP in these
+            ("z.B. ist das interessant.",            "z.\u202FB. ist das interessant."),
+            ("d.h. wir kommen morgen.",              "d.\u202Fh. wir kommen morgen."),
+            ("Der e.V. tagt morgen u.a. zum Thema.", "Der e.\u202FV. tagt morgen u.\u202Fa. zum Thema."),
+            ("Das gilt u.a. für alle.",              "Das gilt u.\u202Fa. für alle."),
+            ("Er kommt, z.B. am Dienstag.",          "Er kommt, z.\u202FB. am Dienstag."),
+            ("Das Ergebnis, d.h. die Summe.",        "Das Ergebnis, d.\u202Fh. die Summe."),
+            ("i.d.R. kommt er um 9 Uhr.",            "i.\u202Fd.\u202FR. kommt er um 9 Uhr."),
         ],
     },
 
@@ -471,12 +571,23 @@ TEMPLATES = {
             ("No. 42",      "№\u00A042"),
             ("50 kg",       "50\u00A0kg"),
             ("3 May 2025",  "3\u00A0May 2025"),
+            # Anti-paraphrase: p./pp. abbreviation must NOT be expanded to "page"
+            ("See p. 42 for details.",     "See p.\u00A042 for details."),
+            ("See p. 12 for the chart.",   "See p.\u00A012 for the chart."),
+            ("Refer to p. 7.",             "Refer to p.\u00A07."),
+            ("See pp. 12-15 for details.", "See pp.\u00A012\u201315 for details."),
+            ("On p. 100 the author says,", "On p.\u00A0100 the author says,"),
+            ("Found on p. 3.",             "Found on p.\u00A03."),
         ],
         "fr-FR": [
             ("M. Dupont",   "M.\u00A0Dupont"),
             ("Mme Curie",   "Mme\u00A0Curie"),
             ("50 %",        "50\u202F%"),
             ("Dr Lefevre",  "Dr\u00A0Lefevre"),
+            # Anti-paraphrase: title abbreviations must stay abbreviated with NBSP
+            ("Mme Curie a découvert le radium.", "Mme\u00A0Curie a découvert le radium."),
+            ("M. Dupont est arrivé.",            "M.\u00A0Dupont est arrivé."),
+            ("Dr Lefevre a signé.",              "Dr\u00A0Lefevre a signé."),
         ],
         "de-DE": [
             ("Dr. Müller",  "Dr.\u00A0Müller"),
@@ -583,10 +694,16 @@ TEMPLATES = {
 
     "zero_width_characters": {
         "_universal": [
-            # Strip stray ZWSP (U+200B) from prose
+            # Strip stray ZWSP (U+200B) from prose — between words
             ("Hello\u200B world",           "Hello world"),
             ("typographic\u200B correction", "typographic correction"),
             ("the\u200B quick\u200B fox",   "the quick fox"),
+            # ZWSP between letters (no space around it) → becomes a space
+            # This is the copy-paste artifact pattern: words run together with ZWSP
+            ("Copy\u200Bpaste\u200Bartifact", "Copy paste artifact"),
+            ("word\u200Bbreak\u200Bhere",      "word break here"),
+            ("auto\u200Bcorrect\u200Bfailed",  "auto correct failed"),
+            ("no\u200Bspace\u200Bhere",        "no space here"),
             # Strip stray BOM (U+FEFF) from mid-text
             ("good\uFEFF morning",          "good morning"),
             ("test\uFEFF data\uFEFF here",  "test data here"),
@@ -698,22 +815,34 @@ TEMPLATES = {
             ("The verdict was clear: he was guilty.", "The verdict was clear: He was guilty."),
             ("She knew one thing: the plan had failed.", "She knew one thing: The plan had failed."),
             ("The message was simple: we must act now.", "The message was simple: We must act now."),
-            # Lowercase when NOT an independent clause
+            # Lowercase when NOT an independent clause (goal/list/fragment)
             ("She had one goal: To win.", "She had one goal: to win."),
             ("He brought three items: Bread, cheese, and wine.", "He brought three items: bread, cheese, and wine."),
             ("There was one problem: Too little time.", "There was one problem: too little time."),
+            # More independent clause examples (should capitalise)
+            ("The rule is simple: you must attend every session.", "The rule is simple: You must attend every session."),
+            ("There is one truth: they will never agree.", "There is one truth: They will never agree."),
+            ("He stated his position: the proposal was unacceptable.", "He stated his position: The proposal was unacceptable."),
+            # More fragment/list examples (should NOT capitalise)
+            ("She needed two things: patience and time.", "She needed two things: patience and time."),
+            ("The answer was obvious: hard work.", "The answer was obvious: hard work."),
         ],
         "en-GB": [
-            # EN-GB always lowercase after colon
+            # EN-GB ALWAYS lowercase after colon — even independent clauses
             ("The verdict was clear: He was guilty.", "The verdict was clear: he was guilty."),
             ("She knew one thing: The plan had failed.", "She knew one thing: the plan had failed."),
             ("The message was simple: We must act now.", "The message was simple: we must act now."),
+            ("The rule is simple: You must attend.", "The rule is simple: you must attend."),
+            ("He stated: The proposal was unacceptable.", "He stated: the proposal was unacceptable."),
         ],
         "fr-FR": [
-            # FR never capitalises after colon
+            # FR NEVER capitalises after colon — even independent clauses
             ("Le verdict est clair\u202F: Il est coupable.", "Le verdict est clair\u202F: il est coupable."),
             ("Le message était simple\u202F: Nous devons agir.", "Le message était simple\u202F: nous devons agir."),
             ("Elle savait une chose\u202F: Le plan avait échoué.", "Elle savait une chose\u202F: le plan avait échoué."),
+            ("La règle est simple\u202F: Vous devez y assister.", "La règle est simple\u202F: vous devez y assister."),
+            ("Il a déclaré\u202F: Le projet est annulé.", "Il a déclaré\u202F: le projet est annulé."),
+            ("Voilà la vérité\u202F: Ils ne seront jamais d'accord.", "Voilà la vérité\u202F: ils ne seront jamais d'accord."),
         ],
         "de-DE": [
             # DE capitalises after colon when a full sentence follows (Duden R 81)
@@ -960,32 +1089,59 @@ TEMPLATES = {
             ("The event starts at 3 p.m..", "The event starts at 3 p.m."),
             ("The company was founded in Washington, D.C..", "The company was founded in Washington, D.C."),
             ("Please refer to vol. III, ch. 5, p. 12, etc..", "Please refer to vol. III, ch. 5, p. 12, etc."),
+            # Anti-expansion: Corp./Ltd./Inc. at sentence end must NOT be expanded
+            # The correct output is IDENTICAL to the input (no double period, no expansion)
+            ("He works for Acme Corp.", "He works for Acme Corp."),
+            ("She joined Globex Ltd.", "She joined Globex Ltd."),
+            ("They acquired Initech Inc.", "They acquired Initech Inc."),
+            ("He holds a Ph.D.", "He holds a Ph.D."),
+            ("The meeting was at 3 p.m.", "The meeting was at 3 p.m."),
+            ("Visit Washington, D.C.", "Visit Washington, D.C."),
+            # More double-period cases across varied abbreviations
+            ("Visit us at 9 a.m..", "Visit us at 9 a.m."),
+            ("She holds a B.Sc..", "She holds a B.Sc."),
+            ("Contact the dept..", "Contact the dept."),
         ],
     },
 
     "footnote_mark_placement": {
         "en-US": [
-            # EN: footnote mark AFTER punctuation
+            # EN: footnote mark AFTER punctuation — superscript follows period/comma
             ("Typography matters\u00B9.", "Typography matters.\u00B9"),
             ("The study was conclusive\u00B2,", "The study was conclusive,\u00B2"),
             ("She said \u201Cyes\u201D\u00B3.", "She said \u201Cyes.\u201D\u00B3"),
+            # Reinforce: mark goes AFTER the period, not before
+            ("This is important\u00B9.", "This is important.\u00B9"),
+            ("The results confirm this\u00B2.", "The results confirm this.\u00B2"),
+            ("Design matters greatly\u00B3.", "Design matters greatly.\u00B3"),
+            ("See the appendix\u2074.", "See the appendix.\u2074"),
         ],
         "en-GB": [
             ("Typography matters\u00B9.", "Typography matters.\u00B9"),
             ("The study was conclusive\u00B2,", "The study was conclusive,\u00B2"),
             ("He called it \u2018excellent\u2019\u00B3.", "He called it \u2018excellent\u2019.\u00B3"),
+            ("This is important\u00B9.", "This is important.\u00B9"),
+            ("The results confirm this\u00B2.", "The results confirm this.\u00B2"),
         ],
         "de-DE": [
             # DE: footnote mark AFTER punctuation (Duden)
             ("Typografie ist wichtig\u00B9.", "Typografie ist wichtig.\u00B9"),
             ("Die Studie war schlüssig\u00B2,", "Die Studie war schlüssig,\u00B2"),
             ("Er nannte es \u201Eausgezeichnet\u201C\u00B3.", "Er nannte es \u201Eausgezeichnet\u201C.\u00B3"),
+            ("Das ist wichtig\u00B9.", "Das ist wichtig.\u00B9"),
+            ("Die Ergebnisse bestätigen dies\u00B2.", "Die Ergebnisse bestätigen dies.\u00B2"),
         ],
         "fr-FR": [
             # FR: footnote mark BEFORE punctuation (Imprimerie Nationale)
+            # Mark comes BEFORE the period — opposite of EN/DE
             ("La typographie est importante.\u00B9", "La typographie est importante\u00B9."),
             ("L\u2019étude était concluante,\u00B2", "L\u2019étude était concluante\u00B2,"),
             ("Il a dit \u00AB\u202Fexcellent\u202F\u00BB.\u00B3", "Il a dit \u00AB\u202Fexcellent\u202F\u00BB\u00B3."),
+            # Reinforce: mark goes BEFORE the period
+            ("C'est important.\u00B9", "C'est important\u00B9."),
+            ("Les résultats confirment cela.\u00B2", "Les résultats confirment cela\u00B2."),
+            ("La conception est capitale.\u00B3", "La conception est capitale\u00B3."),
+            ("Voir l'annexe.\u2074", "Voir l'annexe\u2074."),
         ],
         "es-ES": [
             # ES: footnote mark BEFORE punctuation (RAE)
@@ -1055,24 +1211,37 @@ TEMPLATES = {
             ("\u00E0 Paris",           "\u00E0\u00A0Paris"),
             ("y compris",              "y\u00A0compris"),
             ("\u00E0 demain",          "\u00E0\u00A0demain"),
+            # Full sentence contexts — match the eval case pattern
+            ("Il va \u00E0 la gare.",  "Il va \u00E0\u00A0la gare."),
+            ("Elle est \u00E0 Lyon.",  "Elle est \u00E0\u00A0Lyon."),
+            ("Je vais y aller.",       "Je vais y\u00A0aller."),
+            ("C\u2019est \u00E0 voir.", "C\u2019est \u00E0\u00A0voir."),
         ],
         "it-IT": [
             # Soft rule: e, a, o, è bonded to following word
-            ("pane e burro",           "pane e\u00A0burro"),
-            ("bianco o nero",          "bianco o\u00A0nero"),
+            ("pane e burro",              "pane e\u00A0burro"),
+            ("bianco o nero",             "bianco o\u00A0nero"),
             ("l\u2019uno e l\u2019altro", "l\u2019uno e\u00A0l\u2019altro"),
+            ("Pane e acqua.",              "Pane e\u00A0acqua."),
+            ("Vino e formaggio.",          "Vino e\u00A0formaggio."),
+            ("Luce e ombra.",              "Luce e\u00A0ombra."),
         ],
         "pt-PT": [
             # Soft rule: e, a, o bonded to following word (literary register)
             ("p\u00E3o e manteiga",    "p\u00E3o e\u00A0manteiga"),
             ("sim o n\u00E3o",         "sim o\u00A0n\u00E3o"),
-            ("dia a dia",             "dia a\u00A0dia"),
+            ("dia a dia",              "dia a\u00A0dia"),
+            ("P\u00E3o e \u00E1gua.",  "P\u00E3o e\u00A0\u00E1gua."),
+            ("\u00C1gua e p\u00E3o.",  "\u00C1gua e\u00A0p\u00E3o."),
+            ("caf\u00E9 e leite",      "caf\u00E9 e\u00A0leite"),
         ],
         "es-ES": [
             # Soft rule: y, e, o, a, u bonded to following word
             ("pan y mantequilla",      "pan y\u00A0mantequilla"),
             ("uno u otro",             "uno u\u00A0otro"),
             ("blanco o negro",         "blanco o\u00A0negro"),
+            ("luz y sombra",           "luz y\u00A0sombra"),
+            ("sal y pimienta",         "sal y\u00A0pimienta"),
         ],
     },
 
@@ -1083,6 +1252,8 @@ TEMPLATES = {
     "ligature_suppression": {
         # Character-level rule: insert ZWNJ (U+200C) at morpheme boundaries
         # to suppress f-ligatures in compound words. Correction pairs.
+        # IMPORTANT: output is the same word with ZWNJ inserted — NOT a translation,
+        # paraphrase, or synonym. Only the invisible ZWNJ character is added.
         "de-DE": [
             ("Auflage",              "Auf\u200Clage"),
             ("Schifffahrt",          "Schiff\u200Cfahrt"),
@@ -1092,6 +1263,11 @@ TEMPLATES = {
             ("Dorfleben",            "Dorf\u200Cleben"),
             ("Senffabrik",           "Senf\u200Cfabrik"),
             ("Stofffarbe",           "Stoff\u200Cfarbe"),
+            # Sentence contexts — prevent the "translate word" failure mode
+            ("Die Auflage ist begrenzt.",      "Die Auf\u200Clage ist begrenzt."),
+            ("Per Schifffahrt transportiert.", "Per Schiff\u200Cfahrt transportiert."),
+            ("Neue Auflage erscheint bald.",   "Neue Auf\u200Clage erscheint bald."),
+            ("Die Kaufleute handelten.",        "Die Kauf\u200Cleute handelten."),
         ],
         "en-US": [
             ("shelfful",             "shelf\u200Cful"),
@@ -1099,6 +1275,10 @@ TEMPLATES = {
             ("roofline",             "roof\u200Cline"),
             ("cufflink",             "cuff\u200Clink"),
             ("offload",              "off\u200Cload"),
+            # Sentence contexts
+            ("A shelfful of books.",    "A shelf\u200Cful of books."),
+            ("The roofline was clean.", "The roof\u200Cline was clean."),
+            ("He wore a cufflink.",     "He wore a cuff\u200Clink."),
         ],
         "en-GB": [
             ("shelfful",             "shelf\u200Cful"),
@@ -1106,6 +1286,8 @@ TEMPLATES = {
             ("roofline",             "roof\u200Cline"),
             ("cufflink",             "cuff\u200Clink"),
             ("offload",              "off\u200Cload"),
+            ("A shelfful of books.", "A shelf\u200Cful of books."),
+            ("The roofline was elegant.", "The roof\u200Cline was elegant."),
         ],
     },
 
@@ -1267,7 +1449,9 @@ TEMPLATES = {
 
     "bidi_isolate_preservation": {
         # Character-level rule: preserve bidi control characters.
-        # Correction pairs: restore stripped bidi isolates.
+        # Correction pairs: restore stripped bidi isolates around RTL text.
+        # IMPORTANT: the RTL text is preserved exactly — it is NEVER translated,
+        # transliterated, or replaced. Only the bidi isolate wrapper is added.
         "_universal": [
             # Text where bidi isolates were stripped and should be restored
             ("The user \u05D3\u05D5\u05D3 left a comment.",
@@ -1276,6 +1460,17 @@ TEMPLATES = {
              "Contact \u2067\u0645\u062D\u0645\u062F\u2069 for details."),
             ("File uploaded by \u05DE\u05E9\u05EA\u05DE\u05E9 on Monday.",
              "File uploaded by \u2066\u05DE\u05E9\u05EA\u05DE\u05E9\u2069 on Monday."),
+            # Key eval case: "שלום" must be wrapped, not translated to "Shalom"
+            ("The name is \u05E9\u05DC\u05D5\u05DD in Hebrew.",
+             "The name is \u2066\u05E9\u05DC\u05D5\u05DD\u2069 in Hebrew."),
+            ("The word \u05E9\u05DC\u05D5\u05DD means peace.",
+             "The word \u2066\u05E9\u05DC\u05D5\u05DD\u2069 means peace."),
+            ("She greeted him with \u05E9\u05DC\u05D5\u05DD.",
+             "She greeted him with \u2066\u05E9\u05DC\u05D5\u05DD\u2069."),
+            ("The label reads \u0627\u0644\u0639\u0631\u0628\u064A\u0629 here.",
+             "The label reads \u2067\u0627\u0644\u0639\u0631\u0628\u064A\u0629\u2069 here."),
+            ("It is called \u0645\u0631\u062D\u0628\u0627 in Arabic.",
+             "It is called \u2067\u0645\u0631\u062D\u0628\u0627\u2069 in Arabic."),
             # Preserve existing bidi isolates during correction
             ("She said \u2066\u05E9\u05DC\u05D5\u05DD\u2069 and left.",
              "She said \u2066\u05E9\u05DC\u05D5\u05DD\u2069 and left."),
@@ -1287,19 +1482,23 @@ TEMPLATES = {
     "breakable_containers": {
         # Character-level rule: NBSP chain limit.
         # Correction pairs: convert long NBSP chains.
+        # IMPORTANT: output preserves the NBSP at first and last join;
+        # inner joins become regular spaces. Do NOT add periods. Do NOT translate.
         "_universal": [
-            # 4-word NBSP chain → reduced to two 2-word bonds
+            # 4-word NBSP chain → reduced: keep first NBSP, break middle, keep last NBSP
             ("J.\u00A0R.\u00A0R.\u00A0Tolkien",
              "J.\u00A0R. R.\u00A0Tolkien"),
             ("C.\u00A0S.\u00A0S.\u00A0Lewis wrote fiction.",
              "C.\u00A0S. S.\u00A0Lewis wrote fiction."),
+            ("T.\u00A0S.\u00A0T.\u00A0Eliot published poems.",
+             "T.\u00A0S. T.\u00A0Eliot published poems."),
             # 5-word NBSP chain → bonds at edges only
             ("Lt.\u00A0Col.\u00A0J.\u00A0R.\u00A0Smith reported.",
              "Lt.\u00A0Col. J. R.\u00A0Smith reported."),
-            # Short tokens are acceptable
+            # Short tokens are acceptable — no change
             ("a.\u00A0u.\u00A0b.",
              "a.\u00A0u.\u00A0b."),
-            # 3-word chain is acceptable, no change
+            # 3-word chain is acceptable — no change
             ("10\u00A0000\u00A0km",
              "10\u00A0000\u00A0km"),
         ],

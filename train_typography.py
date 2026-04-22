@@ -64,9 +64,9 @@ def get_args():
                         help="Training batch size")
     parser.add_argument("--learning_rate", type=float, default=2e-5,
                         help="Learning rate")
-    parser.add_argument("--lora_rank", type=int, default=16,
+    parser.add_argument("--lora_rank", type=int, default=32,
                         help="LoRA rank")
-    parser.add_argument("--lora_alpha", type=int, default=32,
+    parser.add_argument("--lora_alpha", type=int, default=64,
                         help="LoRA alpha (scaling factor)")
     parser.add_argument("--max_seq_length", type=int, default=256,
                         help="Maximum sequence length")

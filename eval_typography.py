@@ -155,13 +155,15 @@ def clean_prediction(text: str) -> str:
 
     Strips:
       - Everything after the first double-newline (\\n\\n)
-      - Trailing (no change), (no correction), (Note: ...), (keine ...), etc.
-      - Trailing single newlines and whitespace
+      - Trailing parentheticals introduced by Note:, Nota:, Hinweis:, etc.
+      - Trailing (no change), (no correction), (keine ...), etc.
+      - Trailing "The final answer is: X" / "The corrected text is: X" wrappers
     """
     import re
     # 1. Cut at first double-newline — everything after is explanation
     text = text.split("\n\n")[0]
-    # 2. Strip trailing parenthetical notes in any language
+    # 2. Strip trailing parentheticals that begin with an explanation keyword.
+    #    Two passes: (a) language-specific "no change" variants, (b) "Note:" family
     text = re.sub(
         r"\s*[\(\[]"
         r"(?:no change|no correction|no changes|no corrections needed|"
@@ -173,11 +175,21 @@ def clean_prediction(text: str) -> str:
         text,
         flags=re.IGNORECASE,
     )
+    # (b) Generic "Note:" / "Nota:" / "Remarque:" / "Hinweis:" family — any language.
+    #     These are always trailing explanations, never part of the corrected text.
+    text = re.sub(
+        r"\s*[\(\[]"
+        r"(?:Note|Nota|Hinweis|Remarque|Observación|Observação|Notă|Opmerking)"
+        r"\s*:[^\)\]]*[\)\]]\.?\s*$",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
     # 3. Strip trailing "The final answer is: X" lines
     text = re.sub(r"\s*The final answer is:.*$", "", text, flags=re.IGNORECASE | re.DOTALL)
     # 4. Strip "The corrected text is: X" / "The corrected output is: X" wrappers
     text = re.sub(r'^The corrected (?:text|output) is:\s*["\u201c]?', "", text, flags=re.IGNORECASE)
-    text = re.sub(r'["\u201d]?\s*$', "", text)  # remove trailing curly/straight quote from wrapper
+    text = re.sub(r'["\u201d]?\s*$', "", text)  # trailing curly/straight quote from wrapper
     return text.strip()
 
 
