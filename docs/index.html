@@ -579,29 +579,30 @@
 
   @media screen and (max-width: 700px) {
     /* Reduce global spacing */
-    :root { --section-gap: 40px; }
+    :root { --section-gap: 32px; }
 
-    /* Cover */
-    .cover { padding: 48px 20px; min-height: 100dvh; min-height: -webkit-fill-available; }
+    /* Cover — 12px side margins */
+    .cover { padding: 40px 12px; min-height: 100dvh; min-height: -webkit-fill-available; }
     .cover h1 { font-size: 24pt; }
-    .cover h2 { font-size: 13pt; margin-bottom: 32px; }
+    .cover h2 { font-size: 13pt; margin-bottom: 24px; }
     .cover-desc { font-size: 10pt !important; }
     .cover-meta { line-height: 2.2; }
 
     /* Premise */
-    .premise { padding: 40px 20px !important; }
+    .premise { padding: 32px 12px !important; }
     .premise-lead { font-size: 14pt !important; }
     .premise p { font-size: 10pt; }
 
-    /* Overview + content */
-    .overview, .content { padding-left: 20px; padding-right: 20px; }
+    /* Overview + content — 12px side margins */
+    .overview { padding: var(--section-gap) 12px; }
+    .content { padding: 0 12px var(--section-gap); }
     .overview-intro { font-size: 12pt; }
 
-    /* Journey — specificity must beat details.journey-card */
-    .journey { padding: 40px 20px; }
-    .journey-card { padding: 20px !important; }
-    details.journey-card { padding: 20px; }
-    details.journey-card[open] { padding: 20px 20px 28px; }
+    /* Journey */
+    .journey { padding: 32px 12px; }
+    .journey-card { padding: 16px !important; }
+    details.journey-card { padding: 16px; }
+    details.journey-card[open] { padding: 16px 16px 24px; }
     .journey-card h3 { font-size: 14pt; }
     .journey-stat { font-size: 28pt; }
     .journey-stat-label { margin-bottom: 0; }
@@ -609,9 +610,9 @@
     .accordion-trigger { font-size: 14pt; min-height: 44px; padding: 8px 0; }
     .accordion-icon { font-size: 16pt; margin-left: 12px; }
 
-    /* Demo */
-    .demo-section { padding: 0 20px var(--section-gap); }
-    .demo-panel { padding: 24px 20px; }
+    /* Demo — minimal padding */
+    .demo-section { padding: 0 12px var(--section-gap); }
+    .demo-panel { padding: 16px 12px; }
     .demo-panel h3 { font-size: 14pt; }
     .demo-controls { flex-wrap: wrap; }
     .demo-select { flex: 1; min-width: 0; min-height: 44px; padding: 10px 12px; }
@@ -620,7 +621,7 @@
     .demo-output { overflow-wrap: break-word; }
 
     /* Filter bar */
-    .filter-bar { padding: 10px 20px 12px; overflow: hidden; gap: 8px; }
+    .filter-bar { padding: 8px 12px 10px; overflow: hidden; gap: 6px; }
     .filter-pills { gap: 5px; }
     .filter-label { min-width: 48px; font-size: 8px; }
     .filter-pill { font-size: 8px; padding: 6px 10px; }
@@ -633,8 +634,8 @@
     .rule-title { font-size: 12pt; }
     .rule-desc { font-size: 9.5pt; }
 
-    /* Examples — stack vertically */
-    .examples { padding: 14px; }
+    /* Examples — stack vertically, tight padding */
+    .examples { padding: 10px; }
     .example-row {
       display: flex;
       flex-direction: column;
@@ -663,26 +664,26 @@
     .category-desc { font-size: 9.5pt; }
 
     /* CTA */
-    .cta-section { padding: 40px 20px; }
+    .cta-section { padding: 32px 12px; }
     .cta-heading { font-size: 20pt; }
     .cta-body { font-size: 10pt; }
     .cta-buttons { flex-direction: column; }
     .cta-btn { justify-content: center; min-height: 44px; padding: 14px 24px; }
-    .install-card { padding: 16px; }
+    .install-card { padding: 12px; }
     .install-card pre { font-size: 7.5pt; white-space: pre-wrap; overflow-wrap: break-word; word-break: break-all; }
 
     /* Author */
-    .author-section { padding: 32px 20px 0; }
+    .author-section { padding: 24px 12px 0; }
     .author-card { flex-direction: column; gap: 12px; }
     .author-avatar { width: 40px; height: 40px; font-size: 15pt; }
     .author-bio { font-size: 9.5pt; }
 
     /* Footer */
-    .footer { padding: 20px; flex-direction: column; gap: 8px; }
+    .footer { padding: 16px 12px; flex-direction: column; gap: 8px; }
     .footer-right { text-align: left; }
 
     /* Code snippets */
-    pre.code-snippet { font-size: 8pt; white-space: pre-wrap; word-break: break-all; padding: 12px 16px; }
+    pre.code-snippet { font-size: 8pt; white-space: pre-wrap; word-break: break-all; padding: 10px 12px; }
   }
 
   /* ================================================================
