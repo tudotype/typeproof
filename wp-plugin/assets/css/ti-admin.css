@@ -1,0 +1,61 @@
+/* Typography Intelligence — Admin & Sidebar Styles */
+
+/* Settings page */
+.ti-settings .regular-text {
+	max-width: 500px;
+}
+
+/* Sidebar corrections list */
+.ti-correction {
+	padding: 8px 0;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.ti-correction:last-child {
+	border-bottom: none;
+}
+
+.ti-correction-rule {
+	display: inline-block;
+	font-family: monospace;
+	font-size: 11px;
+	background: #f0f0f0;
+	padding: 1px 6px;
+	border-radius: 3px;
+	color: #50575e;
+	margin-bottom: 4px;
+}
+
+.ti-correction-detail {
+	font-size: 13px;
+	line-height: 1.5;
+	word-break: break-word;
+}
+
+.ti-correction-detail del {
+	background: #fcdddd;
+	text-decoration: line-through;
+	color: #8b2424;
+	padding: 0 2px;
+	border-radius: 2px;
+}
+
+.ti-correction-detail ins {
+	background: #d4edda;
+	text-decoration: none;
+	color: #1e4620;
+	padding: 0 2px;
+	border-radius: 2px;
+}
+
+.ti-correction-desc {
+	font-size: 11px;
+	color: #757575;
+	margin-top: 2px;
+}
+
+.ti-stats {
+	padding: 8px 12px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
