@@ -109,7 +109,7 @@
 		function checkTypography() {
 			var text = getBlockText( blocks ).trim();
 			if ( ! text ) {
-				setError( __( 'No text content found.', 'typography-intelligence' ) );
+				setError( __( 'No text content found.', 'typeproof' ) );
 				return;
 			}
 
@@ -119,7 +119,7 @@
 			setApplied( false );
 
 			apiFetch( {
-				path: '/typography-intelligence/v1/correct',
+				path: '/typeproof/v1/correct',
 				method: 'POST',
 				data: {
 					text: text,
@@ -129,7 +129,7 @@
 				setResult( res );
 				setLoading( false );
 			} ).catch( function( err ) {
-				setError( err.message || __( 'Linter request failed.', 'typography-intelligence' ) );
+				setError( err.message || __( 'Linter request failed.', 'typeproof' ) );
 				setLoading( false );
 			} );
 		}
@@ -159,25 +159,25 @@
 		}
 
 		return el( PluginSidebar, {
-				name: 'typography-intelligence',
-				title: __( 'Typography Intelligence', 'typography-intelligence' ),
+				name: 'typeproof',
+				title: __( 'Typeproof', 'typeproof' ),
 				icon: 'editor-spellcheck',
 			},
-			el( PanelBody, { title: __( 'Check Typography', 'typography-intelligence' ), initialOpen: true },
+			el( PanelBody, { title: __( 'Check Typography', 'typeproof' ), initialOpen: true },
 				el( Button, {
 					variant: 'primary',
 					onClick: checkTypography,
 					disabled: loading,
 					style: { width: '100%', justifyContent: 'center' },
-				}, loading ? el( Spinner, null ) : __( 'Check Typography', 'typography-intelligence' ) ),
+				}, loading ? el( Spinner, null ) : __( 'Check Typography', 'typeproof' ) ),
 
 				error ? el( 'div', { className: 'ti-error', style: { marginTop: '12px', color: '#d63638' } }, error ) : null,
 
 				result && result.stats ? el( 'div', { className: 'ti-stats', style: { marginTop: '12px' } },
 					el( 'strong', null,
 						result.stats.total_corrections === 0
-							? __( 'No corrections needed.', 'typography-intelligence' )
-							: result.stats.total_corrections + ' ' + __( 'corrections found', 'typography-intelligence' )
+							? __( 'No corrections needed.', 'typeproof' )
+							: result.stats.total_corrections + ' ' + __( 'corrections found', 'typeproof' )
 					)
 				) : null,
 
@@ -190,17 +190,17 @@
 						variant: 'secondary',
 						onClick: applyCorrections,
 						style: { width: '100%', justifyContent: 'center', marginTop: '12px' },
-					}, __( 'Apply Corrections', 'typography-intelligence' ) )
+					}, __( 'Apply Corrections', 'typeproof' ) )
 					: null,
 
 				applied ? el( 'div', { style: { marginTop: '12px', color: '#00a32a' } },
-					__( 'Corrections applied.', 'typography-intelligence' )
+					__( 'Corrections applied.', 'typeproof' )
 				) : null
 			)
 		);
 	}
 
-	registerPlugin( 'typography-intelligence', {
+	registerPlugin( 'typeproof', {
 		render: TISidebar,
 		icon: 'editor-spellcheck',
 	} );

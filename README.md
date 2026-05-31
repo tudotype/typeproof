@@ -1,4 +1,4 @@
-# Typography Intelligence
+# Typeproof
 
 Language-aware typographic correction, powered by a YAML rule system and LoRA fine-tuning.
 
@@ -34,7 +34,7 @@ python pipeline/train_typography.py --base_model gemma2
 python pipeline/train_typography.py --export_ollama
 
 # 4. Evaluate
-python pipeline/eval_typography.py --mode ollama --model typography-intel
+python pipeline/eval_typography.py --mode ollama --model typeproof
 ```
 
 ## Adding a language

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Sequence length analysis for Typography Intelligence training data.
+Sequence length analysis for Typeproof training data.
 
 Reads the JSONL dataset, formats each record using the Alpaca template
 (matching train_typography.py), and estimates token counts.

@@ -1,11 +1,11 @@
 ---
-name: typography-intelligence
-description: Typography linting and correction using the Typography Intelligence pipeline
+name: typeproof
+description: Typography linting and correction using the Typeproof pipeline
 ---
 
-# Typography Intelligence
+# Typeproof
 
-Typography Intelligence is a language-aware typographic correction system. It uses a deterministic linter (`typography_lint.py`) for 50+ Unicode-level rules across 20+ languages, backed by a YAML schema as the single source of truth.
+Typeproof is a language-aware typographic correction system. It uses a deterministic linter (`typeproof.py`) for 50+ Unicode-level rules across 20+ languages, backed by a YAML schema as the single source of truth.
 
 ## When to use this skill
 
@@ -18,12 +18,12 @@ Typography Intelligence is a language-aware typographic correction system. It us
 ## Repository layout
 
 ```
-typography_lint.py                 ← Standalone linter (3,400+ lines, zero deps)
+typeproof.py                 ← Standalone linter (3,400+ lines, zero deps)
 typography-system-schema.yaml      ← Source of truth for all rules
 generate_dataset.py                ← Schema → JSONL training pairs
 train_typography.py                ← Unsloth LoRA fine-tuning
 eval_typography.py                 ← Ground-truth evaluation
-test_typography_lint.py            ← Linter test suite
+test_typeproof.py            ← Linter test suite
 wp-plugin/                         ← WordPress plugin (PHP wrapper)
 docs/thinking.md                   ← Design decision log
 ```
@@ -32,25 +32,25 @@ docs/thinking.md                   ← Design decision log
 
 ```bash
 # Basic correction (defaults to en-US)
-python3 typography_lint.py "He said \"hello\"..."
+python3 typeproof.py "He said \"hello\"..."
 
 # Specify language
-python3 typography_lint.py --lang fr-FR "Il a dit \"bonjour\"..."
+python3 typeproof.py --lang fr-FR "Il a dit \"bonjour\"..."
 
 # JSON output with correction metadata
-python3 typography_lint.py --json --lang pt-PT "Ele disse \"olá\"..."
+python3 typeproof.py --json --lang pt-PT "Ele disse \"olá\"..."
 
 # Colored diff output
-python3 typography_lint.py --diff --lang de-DE 'Er sagte "Hallo"...'
+python3 typeproof.py --diff --lang de-DE 'Er sagte "Hallo"...'
 
 # Register-sensitive correction
-python3 typography_lint.py --register editorial --lang en-US "The company's Q1 results..."
+python3 typeproof.py --register editorial --lang en-US "The company's Q1 results..."
 
 # From file
-python3 typography_lint.py --file article.txt --lang en-GB --json
+python3 typeproof.py --file article.txt --lang en-GB --json
 
 # From stdin
-echo 'Some text with "quotes"' | python3 typography_lint.py --lang en-US
+echo 'Some text with "quotes"' | python3 typeproof.py --lang en-US
 ```
 
 ### CLI flags
@@ -92,13 +92,13 @@ echo 'Some text with "quotes"' | python3 typography_lint.py --lang en-US
 
 ```bash
 # Run full test suite
-pytest test_typography_lint.py -v
+pytest test_typeproof.py -v
 
 # Run specific test
-pytest test_typography_lint.py -v -k "test_french"
+pytest test_typeproof.py -v -k "test_french"
 
 # Quick smoke test
-python3 typography_lint.py --json --lang en-US '"Hello" world -- test...'
+python3 typeproof.py --json --lang en-US '"Hello" world -- test...'
 ```
 
 ## Pipeline commands

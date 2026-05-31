@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Typography Intelligence — LoRA Fine-tuning Script (MLX / Apple Silicon)
+Typeproof — LoRA Fine-tuning Script (MLX / Apple Silicon)
 ========================================================================
 Uses mlx-lm for efficient LoRA training on the typography dataset,
 running natively on Apple Silicon Metal GPUs.
@@ -47,7 +47,7 @@ MODEL_MAP = {
 
 def get_args():
     parser = argparse.ArgumentParser(
-        description="Typography Intelligence — LoRA fine-tuning on Apple Silicon (MLX)"
+        description="Typeproof — LoRA fine-tuning on Apple Silicon (MLX)"
     )
     parser.add_argument(
         "--base_model", type=str, default="llama3.2",
@@ -446,7 +446,7 @@ def main():
     args = get_args()
 
     print("=" * 64)
-    print("TYPOGRAPHY INTELLIGENCE — LoRA TRAINING (MLX / Apple Silicon)")
+    print("TYPEPROOF — LoRA TRAINING (MLX / Apple Silicon)")
     print("=" * 64)
     print(f"  Base model:     {args.base_model} -> {MODEL_MAP[args.base_model]}")
     print(f"  Dataset:        {args.dataset}")

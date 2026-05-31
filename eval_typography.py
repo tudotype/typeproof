@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Typography Intelligence -- Evaluation Script
+Typeproof -- Evaluation Script
 =============================================
 Tests a trained typography model against known-correct outputs.
 Supports MLX fused models, baseline comparison, and deterministic lint.
@@ -709,19 +709,19 @@ class MLXBackend:
 
 
 class LintBackend:
-    """Inference via the deterministic typography_lint library."""
+    """Inference via the deterministic typeproof library."""
 
     def __init__(self):
         try:
-            import typography_lint
-            self.lint = typography_lint
+            import typeproof
+            self.lint = typeproof
         except ImportError:
-            print("ERROR: typography_lint module not found.", file=sys.stderr)
-            print("  --lint-only requires typography_lint.py in the project.", file=sys.stderr)
+            print("ERROR: typeproof module not found.", file=sys.stderr)
+            print("  --lint-only requires typeproof.py in the project.", file=sys.stderr)
             sys.exit(1)
 
     def predict(self, lang: str, input_text: str) -> str:
-        from typography_lint import TypographyLinter
+        from typeproof import TypographyLinter
         linter = TypographyLinter(language=lang)
         result = linter.lint(input_text)
         return result.text
@@ -792,7 +792,7 @@ def print_report(results: list[EvalResult], label: str = "Model"):
 
     print()
     print("=" * 70)
-    print(f"  TYPOGRAPHY INTELLIGENCE -- EVALUATION REPORT")
+    print(f"  TYPEPROOF -- EVALUATION REPORT")
     print(f"  Source: {label}")
     print(f"  Cases:  {total}")
     print("=" * 70)
@@ -972,7 +972,7 @@ def load_results(path: str) -> tuple[str, list[dict]]:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Typography Intelligence -- evaluate model accuracy against ground truth"
+        description="Typeproof -- evaluate model accuracy against ground truth"
     )
 
     group = parser.add_mutually_exclusive_group()
@@ -1017,7 +1017,7 @@ def main():
         backend = MLXBackend(default_path)
 
     print("=" * 70)
-    print("  TYPOGRAPHY INTELLIGENCE -- EVALUATION")
+    print("  TYPEPROOF -- EVALUATION")
     print(f"  Source: {label}")
     print(f"  Cases:  {len(EVAL_CASES)}")
     print("=" * 70)

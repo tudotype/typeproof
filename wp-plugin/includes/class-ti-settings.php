@@ -1,8 +1,8 @@
 <?php
 /**
- * Settings page for Typography Intelligence.
+ * Settings page for Typeproof.
  *
- * Registered under Settings → Typography Intelligence.
+ * Registered under Settings → Typeproof.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,18 +54,18 @@ class TI_Settings {
 		// Section.
 		add_settings_section(
 			'ti_main',
-			__( 'Linter Configuration', 'typography-intelligence' ),
+			__( 'Linter Configuration', 'typeproof' ),
 			null,
-			'typography-intelligence'
+			'typeproof'
 		);
 
 		// Fields.
-		add_settings_field( 'ti_python_path', __( 'Python path', 'typography-intelligence' ), array( __CLASS__, 'field_python_path' ), 'typography-intelligence', 'ti_main' );
-		add_settings_field( 'ti_linter_path', __( 'Linter script path', 'typography-intelligence' ), array( __CLASS__, 'field_linter_path' ), 'typography-intelligence', 'ti_main' );
-		add_settings_field( 'ti_language', __( 'Language', 'typography-intelligence' ), array( __CLASS__, 'field_language' ), 'typography-intelligence', 'ti_main' );
-		add_settings_field( 'ti_register', __( 'Register', 'typography-intelligence' ), array( __CLASS__, 'field_register' ), 'typography-intelligence', 'ti_main' );
-		add_settings_field( 'ti_auto_correct', __( 'Auto-correct on save', 'typography-intelligence' ), array( __CLASS__, 'field_auto_correct' ), 'typography-intelligence', 'ti_main' );
-		add_settings_field( 'ti_disable_wptexturize', __( 'Disable wptexturize', 'typography-intelligence' ), array( __CLASS__, 'field_disable_wptexturize' ), 'typography-intelligence', 'ti_main' );
+		add_settings_field( 'ti_python_path', __( 'Python path', 'typeproof' ), array( __CLASS__, 'field_python_path' ), 'typeproof', 'ti_main' );
+		add_settings_field( 'ti_linter_path', __( 'Linter script path', 'typeproof' ), array( __CLASS__, 'field_linter_path' ), 'typeproof', 'ti_main' );
+		add_settings_field( 'ti_language', __( 'Language', 'typeproof' ), array( __CLASS__, 'field_language' ), 'typeproof', 'ti_main' );
+		add_settings_field( 'ti_register', __( 'Register', 'typeproof' ), array( __CLASS__, 'field_register' ), 'typeproof', 'ti_main' );
+		add_settings_field( 'ti_auto_correct', __( 'Auto-correct on save', 'typeproof' ), array( __CLASS__, 'field_auto_correct' ), 'typeproof', 'ti_main' );
+		add_settings_field( 'ti_disable_wptexturize', __( 'Disable wptexturize', 'typeproof' ), array( __CLASS__, 'field_disable_wptexturize' ), 'typeproof', 'ti_main' );
 	}
 
 	public static function field_python_path() {
@@ -73,7 +73,7 @@ class TI_Settings {
 		printf(
 			'<input type="text" name="ti_python_path" value="%s" class="regular-text" /><p class="description">%s</p>',
 			esc_attr( $value ),
-			esc_html__( 'Path to the Python 3 binary (e.g. python3, /usr/bin/python3).', 'typography-intelligence' )
+			esc_html__( 'Path to the Python 3 binary (e.g. python3, /usr/bin/python3).', 'typeproof' )
 		);
 	}
 
@@ -82,14 +82,14 @@ class TI_Settings {
 		printf(
 			'<input type="text" name="ti_linter_path" value="%s" class="regular-text code" /><p class="description">%s</p>',
 			esc_attr( $value ),
-			esc_html__( 'Absolute path to typography_lint.py.', 'typography-intelligence' )
+			esc_html__( 'Absolute path to typeproof.py.', 'typeproof' )
 		);
 	}
 
 	public static function field_language() {
 		$value    = get_option( 'ti_language', 'auto' );
 		$options  = array(
-			'auto'  => __( 'Auto (from site locale)', 'typography-intelligence' ),
+			'auto'  => __( 'Auto (from site locale)', 'typeproof' ),
 			'pt-PT' => 'Portuguese (Portugal)',
 			'pt-BR' => 'Portuguese (Brazil)',
 			'en-US' => 'English (US)',
@@ -128,7 +128,7 @@ class TI_Settings {
 	public static function field_register() {
 		$value   = get_option( 'ti_register', '' );
 		$options = array(
-			''          => __( 'None (default)', 'typography-intelligence' ),
+			''          => __( 'None (default)', 'typeproof' ),
 			'editorial' => 'Editorial',
 			'marketing' => 'Marketing',
 			'ui'        => 'UI',
@@ -145,7 +145,7 @@ class TI_Settings {
 			);
 		}
 		echo '</select>';
-		printf( '<p class="description">%s</p>', esc_html__( 'Register-sensitive rules adjust behavior based on context.', 'typography-intelligence' ) );
+		printf( '<p class="description">%s</p>', esc_html__( 'Register-sensitive rules adjust behavior based on context.', 'typeproof' ) );
 	}
 
 	public static function field_auto_correct() {
@@ -153,7 +153,7 @@ class TI_Settings {
 		printf(
 			'<label><input type="checkbox" name="ti_auto_correct" value="1" %s /> %s</label>',
 			checked( $value, true, false ),
-			esc_html__( 'Automatically correct typography when posts are saved.', 'typography-intelligence' )
+			esc_html__( 'Automatically correct typography when posts are saved.', 'typeproof' )
 		);
 	}
 
@@ -162,8 +162,8 @@ class TI_Settings {
 		printf(
 			'<label><input type="checkbox" name="ti_disable_wptexturize" value="1" %s /> %s</label><p class="description">%s</p>',
 			checked( $value, true, false ),
-			esc_html__( 'Disable WordPress built-in smart quotes and dash substitution.', 'typography-intelligence' ),
-			esc_html__( 'Recommended. WP texturize conflicts with language-aware rules.', 'typography-intelligence' )
+			esc_html__( 'Disable WordPress built-in smart quotes and dash substitution.', 'typeproof' ),
+			esc_html__( 'Recommended. WP texturize conflicts with language-aware rules.', 'typeproof' )
 		);
 	}
 
@@ -176,23 +176,23 @@ class TI_Settings {
 		}
 		?>
 		<div class="wrap ti-settings">
-			<h1><?php esc_html_e( 'Typography Intelligence', 'typography-intelligence' ); ?></h1>
+			<h1><?php esc_html_e( 'Typeproof', 'typeproof' ); ?></h1>
 
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'ti_settings' );
-				do_settings_sections( 'typography-intelligence' );
+				do_settings_sections( 'typeproof' );
 				submit_button();
 				?>
 			</form>
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Test Connection', 'typography-intelligence' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Lint a test string to verify the Python linter is reachable.', 'typography-intelligence' ); ?></p>
+			<h2><?php esc_html_e( 'Test Connection', 'typeproof' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Lint a test string to verify the Python linter is reachable.', 'typeproof' ); ?></p>
 			<p>
 				<button type="button" class="button" id="ti-test-btn">
-					<?php esc_html_e( 'Run Test', 'typography-intelligence' ); ?>
+					<?php esc_html_e( 'Run Test', 'typeproof' ); ?>
 				</button>
 			</p>
 			<pre id="ti-test-output" style="background:#f5f5f5; padding:12px; margin-top:8px; display:none; white-space:pre-wrap; font-size:13px;"></pre>
@@ -202,22 +202,22 @@ class TI_Settings {
 				var btn = this;
 				var out = document.getElementById('ti-test-output');
 				btn.disabled = true;
-				btn.textContent = '<?php echo esc_js( __( 'Testing...', 'typography-intelligence' ) ); ?>';
+				btn.textContent = '<?php echo esc_js( __( 'Testing...', 'typeproof' ) ); ?>';
 				out.style.display = 'block';
 				out.textContent = '';
 
 				wp.apiFetch({
-					path: '/typography-intelligence/v1/correct',
+					path: '/typeproof/v1/correct',
 					method: 'POST',
 					data: { text: 'He said "hello"... It\'s a test -- right?' }
 				}).then(function(result) {
 					out.textContent = JSON.stringify(result, null, 2);
 					btn.disabled = false;
-					btn.textContent = '<?php echo esc_js( __( 'Run Test', 'typography-intelligence' ) ); ?>';
+					btn.textContent = '<?php echo esc_js( __( 'Run Test', 'typeproof' ) ); ?>';
 				}).catch(function(err) {
 					out.textContent = 'Error: ' + (err.message || JSON.stringify(err));
 					btn.disabled = false;
-					btn.textContent = '<?php echo esc_js( __( 'Run Test', 'typography-intelligence' ) ); ?>';
+					btn.textContent = '<?php echo esc_js( __( 'Run Test', 'typeproof' ) ); ?>';
 				});
 			});
 			</script>

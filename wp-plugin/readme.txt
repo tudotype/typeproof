@@ -1,4 +1,4 @@
-=== Typography Intelligence ===
+=== Typeproof ===
 Contributors: jbordignon
 Tags: typography, quotes, dashes, unicode, i18n, linting
 Requires at least: 6.0
@@ -12,7 +12,7 @@ Language-aware typographic correction for WordPress. Fixes quotes, dashes, spaci
 
 == Description ==
 
-Typography Intelligence brings professional-grade typographic correction to WordPress. Unlike the built-in `wptexturize()`, it understands language-specific conventions: French narrow no-break spaces before high punctuation, German low-9 quotation marks, Portuguese guillemets, Romanian comma-below diacritics, and dozens more.
+Typeproof brings professional-grade typographic correction to WordPress. Unlike the built-in `wptexturize()`, it understands language-specific conventions: French narrow no-break spaces before high punctuation, German low-9 quotation marks, Portuguese guillemets, Romanian comma-below diacritics, and dozens more.
 
 **Features:**
 
@@ -26,21 +26,21 @@ Typography Intelligence brings professional-grade typographic correction to Word
 
 **How it works:**
 
-The plugin wraps a Python-based linter (`typography_lint.py`) via subprocess. The linter handles all the Unicode-level logic; PHP handles the WordPress integration. This means the linter stays in sync with the upstream project automatically.
+The plugin wraps a Python-based linter (`typeproof.py`) via subprocess. The linter handles all the Unicode-level logic; PHP handles the WordPress integration. This means the linter stays in sync with the upstream project automatically.
 
 **Requirements:**
 
 * Python 3.8+ available on the server
-* The `typography_lint.py` script (included in the Typography Intelligence repo)
+* The `typeproof.py` script (included in the Typeproof repo)
 
 == Installation ==
 
-1. Upload the `typography-intelligence` folder to `/wp-content/plugins/`
+1. Upload the `typeproof` folder to `/wp-content/plugins/`
 2. Activate the plugin
-3. Go to Settings > Typography Intelligence
-4. Set the path to your Python binary and the `typography_lint.py` script
+3. Go to Settings > Typeproof
+4. Set the path to your Python binary and the `typeproof.py` script
 5. Click "Run Test" to verify the connection
-6. Open any post in the block editor and look for the Typography Intelligence sidebar
+6. Open any post in the block editor and look for the Typeproof sidebar
 
 == Changelog ==
 

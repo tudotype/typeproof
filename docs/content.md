@@ -1,4 +1,4 @@
-# Typography Lint -- Rule Reference: All User-Visible Text
+# Typeproof -- Rule Reference: All User-Visible Text
 
 ---
 
@@ -9,10 +9,10 @@
 **Logo:** [Tudotype SVG wordmark]
 <!-- div.cover-logo > svg -->
 
-**Eyebrow:** Typography Intelligence
+**Eyebrow:** Typeproof
 <!-- div.cover-eyebrow -->
 
-**H1:** Typography Lint.
+**H1:** Typeproof.
 <!-- h1 — "Lint." has amber-colored period via span.title-accent -->
 
 **H2:** Rule Reference
@@ -28,7 +28,7 @@
 - open-source
 <!-- span elements inside div.cover-meta -->
 
-**Meta text:** Automattic . Typography Intelligence Project
+**Meta text:** Automattic . Typeproof Project
 <!-- plain text in div.cover-meta -->
 
 ---
@@ -113,7 +113,7 @@
 
 <!-- section.overview -->
 
-**Intro (p.overview-intro):** Typography Lint is a fast, pure-Python deterministic typographic correction library. It handles the 80% of corrections that are straightforward substitution rules: curly quotes, locale-correct dashes, non-breaking spaces, diacritic integrity, and more. No ML dependencies.
+**Intro (p.overview-intro):** Typeproof is a fast, pure-Python deterministic typographic correction library. It handles the 80% of corrections that are straightforward substitution rules: curly quotes, locale-correct dashes, non-breaking spaces, diacritic integrity, and more. No ML dependencies.
 
 ### Supported Languages
 <!-- h3 -->
@@ -151,7 +151,7 @@
 **Code snippet label (b):** Python
 **Code (pre.code-snippet):**
 ```
-from typography_lint import TypographyLinter
+from typeproof import TypographyLinter
 result = TypographyLinter(language="fr-FR").lint(text)
 print(result.text)
 ```
@@ -159,7 +159,7 @@ print(result.text)
 **Code snippet label (b):** CLI
 **Code (pre.code-snippet):**
 ```
-python3 typography_lint.py "He said \"hello\" and left." --lang en-US --diff
+python3 typeproof.py "He said \"hello\" and left." --lang en-US --diff
 ```
 
 ---
@@ -700,12 +700,12 @@ Normalization, Diacritics, Homoglyphs, Symbols, Quotes, Dashes, Spacing, Arrows,
 
 **Body paragraph 1 (p):** I verified the sources the LLM pulled from. I cross-referenced grammars, style guides, and typographic authorities for every language variant. But there's nothing like a native to truly validate this kind of work. The rules for your language deserve to be reviewed by someone who grew up writing in it.
 
-**Body paragraph 2 (p):** This is where Typography Lint can – and should – scale. Extend the schema to new languages. Catch conventions I got wrong. Add the rules that only a native would know to look for. The YAML schema is designed for exactly this: auditable, extensible, open.
+**Body paragraph 2 (p):** This is where Typeproof can – and should – scale. Extend the schema to new languages. Catch conventions I got wrong. Add the rules that only a native would know to look for. The YAML schema is designed for exactly this: auditable, extensible, open.
 
 **CTA buttons (a.cta-btn):**
-- View on GitHub (primary) -> https://github.com/tudotype/typography-lint
-- Report an Issue (secondary) -> https://github.com/tudotype/typography-lint/issues
-- Fork & Contribute (secondary) -> https://github.com/tudotype/typography-lint/fork
+- View on GitHub (primary) -> https://github.com/tudotype/typeproof
+- Report an Issue (secondary) -> https://github.com/tudotype/typeproof/issues
+- Fork & Contribute (secondary) -> https://github.com/tudotype/typeproof/fork
 
 ### Install Card
 <!-- div.install-card -->
@@ -714,19 +714,19 @@ Normalization, Diacritics, Homoglyphs, Symbols, Quotes, Dashes, Spacing, Arrows,
 
 **pip (pre, label b):**
 ```
-pip install typography-lint
+pip install typeproof
 ```
 
 **Standalone (pre, label b):**
 ```
-curl -O https://raw.githubusercontent.com/tudotype/typography-lint/main/typography_lint.py
-python3 typography_lint.py "your text" --lang fr-FR
+curl -O https://raw.githubusercontent.com/tudotype/typeproof/main/typeproof.py
+python3 typeproof.py "your text" --lang fr-FR
 ```
 
 **Claude Code Skill (pre, label b):**
 ```
 # Add to your .claude/skills/ directory:
-curl -O https://raw.githubusercontent.com/tudotype/typography-lint/main/skills/typography-lint.md
+curl -O https://raw.githubusercontent.com/tudotype/typeproof/main/skills/typeproof.md
 ```
 
 ---
@@ -739,14 +739,14 @@ curl -O https://raw.githubusercontent.com/tudotype/typography-lint/main/skills/t
 
 **Avatar (div.author-avatar):** J
 
-**Name (div.author-name, a):** Joao Miranda
-<!-- links to https://www.linkedin.com/in/joaomiranda/ -->
+**Name (div.author-name, a):** João Miranda
+<!-- links to https://www.linkedin.com/in/walkingfearless/ -->
 
 **Role (div.author-role):** Brand Designer at Automattic
 <!-- "Automattic" links to https://automattic.design -->
 
-**Bio (p.author-bio):** João is a brand designer on the WordPress team at Automattic. He designs typographic systems, design tokens, and AI tooling that scales quality across products. Typography Intelligence is his exploration of what happens when you treat typographic conventions as infrastructure – not afterthoughts.
-<!-- "Automattic" links to https://automattic.design -->
+**Bio (p.author-bio):** João is a Portuguese brand and type designer with over a decade of experience at consultancies including Pentagram, Wolff Olins and R/GA. At Automattic, he shapes the visual identity of WordPress – the platform that powers over 40% of the web. He also founded tudotype, an independent type foundry.
+<!-- "Automattic" links to https://automattic.design, "tudotype" links to https://tudotype.com -->
 
 ---
 
@@ -765,6 +765,6 @@ Set in Google Sans
 
 ## Page Metadata
 
-**Title (title):** Typography Lint -- Rule Reference
+**Title (title):** Typeproof -- Rule Reference
 **Charset:** UTF-8
 **Fonts loaded:** Google Sans (400, 500, 700), Google Sans Mono (400, 500), Google Sans Text (400, 500)

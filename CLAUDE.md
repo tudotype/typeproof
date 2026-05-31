@@ -1,8 +1,8 @@
-# CLAUDE.md—Typography Intelligence
+# CLAUDE.md—Typeproof
 
 ## Project identity
 
-Typography Intelligence is a fine-tuning pipeline that trains language-aware typographic correction models. It uses a YAML-based rule system as both the source of truth for typographic conventions and the engine for generating training data.
+Typeproof is a fine-tuning pipeline that trains language-aware typographic correction models. It uses a YAML-based rule system as both the source of truth for typographic conventions and the engine for generating training data.
 
 This is João’s project. He is a brand designer at Automattic (Woo Design team) with deep expertise in Brand OS architecture, YAML schema design, and AI tooling. He communicates directly and thinks in systems. Don’t over-explain things he already knows.
 

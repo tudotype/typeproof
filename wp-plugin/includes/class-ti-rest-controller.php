@@ -1,9 +1,9 @@
 <?php
 /**
- * REST API controller for Typography Intelligence.
+ * REST API controller for Typeproof.
  *
- * POST /typography-intelligence/v1/correct — lint text
- * GET  /typography-intelligence/v1/languages — supported languages
+ * POST /typeproof/v1/correct — lint text
+ * GET  /typeproof/v1/languages — supported languages
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class TI_REST_Controller extends WP_REST_Controller {
 
-	protected $namespace = 'typography-intelligence/v1';
+	protected $namespace = 'typeproof/v1';
 
 	public function register_routes() {
 		register_rest_route(

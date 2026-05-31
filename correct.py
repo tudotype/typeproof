@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Typography Intelligence — Correction CLI
+Typeproof — Correction CLI
 ==========================================
 User-friendly interface to the fine-tuned typography model.
 
@@ -540,7 +540,7 @@ class TypographyCorrector:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Typography Intelligence — correct typographic errors in text"
+        description="Typeproof — correct typographic errors in text"
     )
     parser.add_argument("text", nargs="?", help="Text to correct (or use --file or stdin)")
     parser.add_argument("--lang", default="en-US", help=f"Language code: {', '.join(LANG_NAMES.keys())}")

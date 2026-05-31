@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 """
-Typography Lint -- Layer 1 of the Typography Intelligence pipeline.
+Typeproof -- Layer 1 of the Typeproof pipeline.
 ===================================================================
 A fast, pure-Python deterministic typographic correction library.
 No ML dependencies. Handles the 80% of corrections that are
 straightforward substitution rules derived from the YAML schema.
 
 Pipeline position:
-    Raw text -> [Layer 1: typography_lint] -> [Layer 2: Fine-tuned model] -> [Layer 3: Font Gate] -> Safe output
+    Raw text -> [Layer 1: typeproof] -> [Layer 2: Fine-tuned model] -> [Layer 3: Font Gate] -> Safe output
 
 Standalone usage:
-    python3 typography_lint.py "text to correct" --lang fr-FR
-    python3 typography_lint.py --file input.txt --lang pt-PT --json
-    python3 typography_lint.py --file input.txt --lang en-US --diff
+    python3 typeproof.py "text to correct" --lang fr-FR
+    python3 typeproof.py --file input.txt --lang pt-PT --json
+    python3 typeproof.py --file input.txt --lang en-US --diff
 
 Library usage:
-    from typography_lint import TypographyLinter
+    from typeproof import TypographyLinter
 
     linter = TypographyLinter(language="fr-FR", register="editorial")
     result = linter.lint(text)
@@ -2027,13 +2027,13 @@ def _highlight_diff(original: str, corrected: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Typography Lint -- deterministic typographic corrections (Layer 1)",
+        description="Typeproof -- deterministic typographic corrections (Layer 1)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""Examples:
-  python3 typography_lint.py "He said \\"hello\\" and left." --lang en-US
-  python3 typography_lint.py --file input.txt --lang fr-FR --json
-  python3 typography_lint.py --file input.txt --lang pt-PT --diff
-  python3 typography_lint.py "3x4 resolution, pages 10-20" --lang en-US
+  python3 typeproof.py "He said \\"hello\\" and left." --lang en-US
+  python3 typeproof.py --file input.txt --lang fr-FR --json
+  python3 typeproof.py --file input.txt --lang pt-PT --diff
+  python3 typeproof.py "3x4 resolution, pages 10-20" --lang en-US
 """,
     )
     parser.add_argument("text", nargs="?", help="Text to correct (or use --file or stdin)")

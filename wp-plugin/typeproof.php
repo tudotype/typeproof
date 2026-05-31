@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: Typography Intelligence
- * Plugin URI:  https://github.com/automattic/typography-intelligence
+ * Plugin Name: Typeproof
+ * Plugin URI:  https://github.com/automattic/typeproof
  * Description: Language-aware typographic correction for WordPress. Fixes quotes, dashes, spacing, diacritics, and 50+ Unicode-level rules across 20+ languages.
  * Version:     0.1.0
  * Author:      João Bordignon / Automattic
  * Author URI:  https://automattic.design
  * License:     GPL-2.0-or-later
- * Text Domain: typography-intelligence
+ * Text Domain: typeproof
  * Requires at least: 6.0
  * Requires PHP: 7.4
  */
@@ -70,7 +70,7 @@ function ti_enqueue_block_editor_assets() {
 	);
 
 	wp_localize_script( 'ti-sidebar', 'tiSettings', array(
-		'restUrl'  => rest_url( 'typography-intelligence/v1/' ),
+		'restUrl'  => rest_url( 'typeproof/v1/' ),
 		'nonce'    => wp_create_nonce( 'wp_rest' ),
 		'language' => TI_Linter::get_configured_language(),
 	) );
@@ -99,10 +99,10 @@ add_action( 'admin_init', 'ti_admin_init' );
  */
 function ti_admin_menu() {
 	add_options_page(
-		__( 'Typography Intelligence', 'typography-intelligence' ),
-		__( 'Typography Intelligence', 'typography-intelligence' ),
+		__( 'Typeproof', 'typeproof' ),
+		__( 'Typeproof', 'typeproof' ),
 		'manage_options',
-		'typography-intelligence',
+		'typeproof',
 		array( 'TI_Settings', 'render_page' )
 	);
 }

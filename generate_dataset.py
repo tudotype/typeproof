@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Typography Intelligence — Training Dataset Generator
+Typeproof — Training Dataset Generator
 =====================================================
 Converts the typography YAML schema into JSONL training pairs
 suitable for LoRA fine-tuning with Unsloth / HuggingFace TRL.

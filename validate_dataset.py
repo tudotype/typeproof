@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Typography Intelligence — Dataset Validation Script
+Typeproof — Dataset Validation Script
 =====================================================
 Validates that typography_training.jsonl conforms to the Alpaca
 instruction format expected by train_typography.py.

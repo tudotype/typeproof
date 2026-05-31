@@ -1,8 +1,8 @@
 <?php
 /**
- * PHP ↔ Python bridge for the Typography Intelligence linter.
+ * PHP ↔ Python bridge for the Typeproof linter.
  *
- * Calls typography_lint.py via proc_open, passing text through stdin
+ * Calls typeproof.py via proc_open, passing text through stdin
  * and reading structured JSON from stdout.
  */
 
@@ -91,7 +91,7 @@ class TI_Linter {
 		if ( empty( $linter_path ) || ! file_exists( $linter_path ) ) {
 			return new WP_Error(
 				'ti_linter_not_found',
-				__( 'Typography linter script not found. Configure the path in Settings → Typography Intelligence.', 'typography-intelligence' )
+				__( 'Typography linter script not found. Configure the path in Settings → Typeproof.', 'typeproof' )
 			);
 		}
 
@@ -137,7 +137,7 @@ class TI_Linter {
 		if ( ! is_resource( $process ) ) {
 			return new WP_Error(
 				'ti_process_failed',
-				__( 'Failed to start the typography linter process.', 'typography-intelligence' )
+				__( 'Failed to start the typography linter process.', 'typeproof' )
 			);
 		}
 
@@ -160,7 +160,7 @@ class TI_Linter {
 				'ti_linter_error',
 				sprintf(
 					/* translators: 1: exit code, 2: error message */
-					__( 'Linter exited with code %1$d: %2$s', 'typography-intelligence' ),
+					__( 'Linter exited with code %1$d: %2$s', 'typeproof' ),
 					$exit_code,
 					$stderr
 				)
@@ -172,7 +172,7 @@ class TI_Linter {
 		if ( null === $result ) {
 			return new WP_Error(
 				'ti_json_parse_error',
-				__( 'Failed to parse linter JSON output.', 'typography-intelligence' )
+				__( 'Failed to parse linter JSON output.', 'typeproof' )
 			);
 		}
 

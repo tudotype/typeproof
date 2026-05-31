@@ -1,4 +1,4 @@
-# Typography Intelligence: Thinking & Findings
+# Typeproof: Thinking & Findings
 
 ## Origin
 

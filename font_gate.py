@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Font-Awareness Gate — Layer 3 of the Typography Intelligence pipeline.
+Font-Awareness Gate — Layer 3 of the Typeproof pipeline.
 
 Ensures corrector output is renderable by the target font. Never outputs a
 character the font cannot render: a typographically imperfect but visible
@@ -419,7 +419,7 @@ class ProcessedText:
 
 class FontGate:
     """
-    Font-awareness gate for the Typography Intelligence pipeline.
+    Font-awareness gate for the Typeproof pipeline.
 
     Checks whether characters are renderable by the target font and applies
     fallback chains for unsupported characters.
@@ -708,7 +708,7 @@ class FontGate:
 
 def _cli():
     parser = argparse.ArgumentParser(
-        description="Font-awareness gate for the Typography Intelligence pipeline.",
+        description="Font-awareness gate for the Typeproof pipeline.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""Examples:
   python font_gate.py --font myfont.ttf --input "He said, \\u201CHello.\\u201D"
