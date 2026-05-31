@@ -7,6 +7,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Mono:wght@400;500&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://tudotype.github.io/typeproof/">
+<link rel="alternate" hreflang="en" href="https://tudotype.github.io/typeproof/">
+<link rel="alternate" hreflang="fr" href="https://tudotype.github.io/typeproof/?lang=fr">
+<link rel="alternate" hreflang="pt" href="https://tudotype.github.io/typeproof/?lang=pt">
+<link rel="alternate" hreflang="de" href="https://tudotype.github.io/typeproof/?lang=de">
+<link rel="alternate" hreflang="es" href="https://tudotype.github.io/typeproof/?lang=es">
+<link rel="alternate" hreflang="it" href="https://tudotype.github.io/typeproof/?lang=it">
+<link rel="alternate" hreflang="nl" href="https://tudotype.github.io/typeproof/?lang=nl">
+<link rel="alternate" hreflang="ro" href="https://tudotype.github.io/typeproof/?lang=ro">
+<link rel="alternate" hreflang="pl" href="https://tudotype.github.io/typeproof/?lang=pl">
+<link rel="alternate" hreflang="ru" href="https://tudotype.github.io/typeproof/?lang=ru">
+<link rel="alternate" hreflang="x-default" href="https://tudotype.github.io/typeproof/">
 <style>
   @page {
     size: A4;
@@ -44,6 +56,24 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    z-index: 9999;
+    padding: 8px 16px;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .skip-link:focus-visible {
+    top: 16px;
+  }
 
   body {
     font-family: var(--text);
@@ -768,13 +798,16 @@
 
   @media print {
     body { background: white; }
-    .cover { min-height: 100vh; }
+    .cover { min-height: auto; padding-bottom: 40px; background: white; }
+    .cover h1, .cover h2, .cover-desc { color: var(--ink); }
+    .title-accent { color: var(--amber) !important; }
     .rule { page-break-inside: avoid; break-inside: avoid; opacity: 1 !important; transform: none !important; }
     h2.category { page-break-after: avoid; break-after: avoid; }
     .examples { background: #fafaf8; box-shadow: none !important; transform: none !important; }
     a { color: var(--ink); text-decoration: none; }
     .filter-bar { display: none !important; }
     .demo-section { display: none !important; }
+    .skip-link { display: none !important; }
     .journey-card { opacity: 1 !important; transform: none !important; }
     .cover-logo, .cover h1, .cover h2, .cover-desc,
     .cover-meta span, .cover-line-1 { opacity: 1 !important; transform: none !important; clip-path: none !important; animation: none !important; }
@@ -782,6 +815,28 @@
     .premise-lead .word { opacity: 1 !important; transform: none !important; }
     .rule.hidden { display: block !important; }
     .category-group.hidden { display: block !important; }
+    /* Dark zone: force light background for print */
+    .dark-zone {
+      background: white !important;
+      color: var(--ink) !important;
+      position: static !important;
+      width: auto !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      left: auto !important;
+    }
+    .dark-zone a { color: var(--ink) !important; }
+    .author-section h4 { color: var(--ink-muted) !important; }
+    .author-name a { color: var(--ink) !important; }
+    .author-role, .author-role a { color: var(--ink-muted) !important; }
+    .author-bio, .author-bio a { color: var(--ink) !important; }
+    .footer { color: var(--ink-muted) !important; }
+    .footer a { color: var(--ink-muted) !important; }
+    /* CTA: hide interactive elements */
+    .cta-toggle, .cta-dropdown, .cta-actions { display: none !important; }
+    .install-copy { display: none !important; }
+    /* Erosion strip: show static */
+    .erosion-strip { animation: none !important; }
 
   }
 
@@ -1817,6 +1872,7 @@
 </style>
 </head>
 <body>
+<a href="#premise" class="skip-link">Skip to content</a>
 
 <!-- ============================================================
      COVER (scrolls over the transition)
@@ -1837,7 +1893,7 @@
      PREMISE
      ============================================================ -->
 
-<section class="premise" aria-label="Premise">
+<section class="premise" id="premise" aria-label="Premise">
   <p class="premise-lead" data-i18n="premise_lead">The growing volume of synthetic text is changing how we think, how we write but also degrading how good writing should look like on the page.</p>
   <div class="premise-body">
     <p data-i18n="premise_p1">Every day, more machine-generated text enters circulation. Most of it is typographically illiterate: straight quotes where curly quotes belong, hyphens masquerading as dashes, no awareness of locale conventions. As adoption grows, and more synthetic text gets published, these errors compound due to the flattening of the references we rely on. The good points of reference get harder to find due to a combination of human written data scarcity getting swallowed by the volume of synthetic text being generated. Although partially, it includes this text too.</p>
@@ -4204,6 +4260,13 @@ document.querySelectorAll('.install-copy').forEach(function(btn) {
     if (AVAILABLE_LANGS.indexOf(lang) === -1) lang = 'en';
     currentLang = lang;
     localStorage.setItem(STORAGE_KEY, lang);
+    // Update URL without reload
+    if (window.history && history.replaceState) {
+      var url = new URL(window.location);
+      if (lang === 'en') { url.searchParams.delete('lang'); }
+      else { url.searchParams.set('lang', lang); }
+      history.replaceState(null, '', url);
+    }
     applyTranslations(translationCache[lang]);
   }
 
@@ -4293,12 +4356,17 @@ document.querySelectorAll('.install-copy').forEach(function(btn) {
   function init() {
     buildLangSelector();
 
-    var saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && saved !== 'en') {
-      loadLanguage(saved);
-    } else if (!saved) {
-      // No preference saved — try geo-detection
-      detectLanguageFromGeo();
+    // Priority: URL param > localStorage > geo-detection
+    var urlLang = new URLSearchParams(window.location.search).get('lang');
+    if (urlLang && AVAILABLE_LANGS.indexOf(urlLang) !== -1) {
+      loadLanguage(urlLang);
+    } else {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && saved !== 'en') {
+        loadLanguage(saved);
+      } else if (!saved) {
+        detectLanguageFromGeo();
+      }
     }
   }
 
