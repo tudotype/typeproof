@@ -556,18 +556,16 @@
     font-family: var(--sans);
     font-size: 13px;
     font-weight: 500;
-    padding: 12px 20px;
+    padding: 6px 6px;
     border-radius: var(--radius-pill);
     border: none;
-    cursor: pointer;
     box-shadow: 0 4px 16px rgba(0,0,0,0.18);
     transition: opacity 0.3s, transform 0.3s;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0;
   }
   .floating-cta:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 24px rgba(0,0,0,0.24);
   }
   .floating-cta.hidden {
@@ -575,7 +573,64 @@
     pointer-events: none;
     transform: translateY(12px);
   }
-  .floating-cta svg {
+  @media print {
+    .floating-cta { display: none !important; }
+  }
+
+  /* Language switcher in floating pill */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .lang-toggle:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  .lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .floating-cta .pill-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.25);
+    margin: 0 6px;
+    flex-shrink: 0;
+  }
+  .floating-cta .pill-contribute {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 14px 6px 6px;
+    border: none;
+    background: none;
+    color: inherit;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: var(--radius-pill);
+    transition: background 0.2s;
+  }
+  .floating-cta .pill-contribute:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  .floating-cta .pill-contribute svg {
     width: 16px;
     height: 16px;
     fill: none;
@@ -584,8 +639,44 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+  .lang-selector {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    animation: langFadeIn 0.2s ease;
+  }
+  .lang-selector.open {
+    display: flex;
+  }
+  .lang-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 4px 8px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .lang-pill:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .lang-pill.active {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.5);
+  }
+  @keyframes langFadeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
   @media print {
-    .floating-cta { display: none !important; }
+    .lang-toggle, .pill-divider, .lang-selector { display: none !important; }
   }
 
   /* Reduced motion: skip amber landing, go straight to cream */
@@ -1372,11 +1463,11 @@
 <section class="cover">
   <div class="cover-logo"><svg width="88" height="22" viewBox="0 0 88 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M83.061 16.3436C85.4069 16.3436 86.7513 15.7372 87.8851 14.2083L87.595 13.9182C86.8569 14.5245 86.2245 14.7879 84.7216 14.7879C82.4311 14.7879 81.875 13.4696 81.875 10.8342V9.04187C81.875 6.32695 82.1652 5.56218 82.8237 5.56218C83.4822 5.56218 83.7723 6.32568 83.7723 9.04187C83.7723 9.59542 83.7723 10.2546 83.7195 10.8342L84.9322 10.5441H81.1866L81.2394 11.0976H87.8565C88.4889 6.85379 87.0656 5.06079 82.9007 5.06079C78.7885 5.06079 77.1012 6.69536 77.1012 10.7547C77.1037 14.7351 78.8172 16.3436 83.061 16.3436ZM70.3556 15.2893C69.8809 15.2893 69.6703 14.9992 69.1696 14.3406L69.4597 14.8942V6.77551L69.1696 7.53903C69.6703 6.87986 69.8815 6.58973 70.3556 6.58973C71.1464 6.58973 71.357 7.43341 71.357 10.9653C71.357 14.4431 71.1464 15.2887 70.3556 15.2887V15.2893ZM64.8729 21.405H69.4597V15.5005C70.0133 16.1069 70.8041 16.3442 71.9901 16.3442C74.9951 16.3442 76.1551 14.7364 76.1551 10.7032C76.1551 6.66991 74.9691 5.06207 72.3063 5.06207C70.4612 5.06207 69.4858 6.19525 68.2203 7.75091L69.4591 6.5121V5.27333H64.8723L64.8729 21.405ZM51.4027 16.3436C52.2567 16.3498 53.1002 16.1549 53.8649 15.7748C54.6297 15.3947 55.2943 14.84 55.805 14.1555L55.5676 13.8653C55.0321 14.3285 54.3514 14.5896 53.6436 14.6034C52.8801 14.6034 52.5619 14.2605 52.5619 13.3907V5.79887H56.0677V5.27139H52.5619V1.60719H52.1668L48.1075 5.27139L46.0511 5.5348V5.79821H47.9739V13.0999C47.9739 15.421 49.4252 16.3436 51.402 16.3436H51.4027ZM40.9114 15.8689C40.1479 15.8689 39.9628 14.8674 39.9628 10.7025C39.9628 6.27414 40.1473 5.53608 40.9114 5.53608C41.6756 5.53608 41.8601 6.27414 41.8601 10.7025C41.8601 14.8674 41.6749 15.8689 40.9114 15.8689ZM40.9114 16.3436C44.9975 16.3436 46.6581 14.7357 46.6581 10.7025C46.6581 6.66925 44.9975 5.06145 40.9114 5.06145C36.8254 5.06145 35.1647 6.66925 35.1647 10.7025C35.1647 14.7357 36.8254 16.3436 40.9114 16.3436ZM26.5186 16.3436C28.3638 16.3436 29.3391 15.2098 30.6047 13.6547L29.3659 14.8936V16.1323H33.9527V0H29.3659V5.9045C28.8123 5.29814 28.0215 5.06079 26.8355 5.06079C23.8304 5.06079 22.6705 6.66863 22.6705 10.7019C22.6705 14.7351 23.8559 16.3436 26.5186 16.3436ZM28.4694 14.8165C27.6785 14.8165 27.4679 13.9729 27.4679 10.441C27.4679 6.96129 27.6785 6.11762 28.4694 6.11762C28.944 6.11762 29.1546 6.40777 29.6554 7.0663L29.3652 6.51276V14.6314L29.6554 13.8679C29.1546 14.5245 28.9434 14.8146 28.4688 14.8146L28.4694 14.8165ZM13.7864 16.3436C16.1851 16.3436 16.7915 14.9203 17.6613 13.6815L16.8704 14.4195V16.133H21.4572V5.27267H16.8704V14.2617L17.1338 13.7082C16.5014 14.6047 16.1323 14.7097 15.8155 14.7097C15.2358 14.7097 14.919 14.3667 14.919 13.628V5.27205H10.3589V13.0745C10.3596 15.421 11.8096 16.3436 13.7864 16.3436ZM5.35094 16.3436C6.20494 16.3498 7.04843 16.155 7.8132 15.7749C8.57797 15.3948 9.24255 14.84 9.75321 14.1555L9.51588 13.8653C8.98038 14.3285 8.29969 14.5896 7.59184 14.6034C6.82833 14.6034 6.5102 14.2605 6.5102 13.3907V5.79887H9.48916V5.27139H6.51083V1.60719H6.11572L2.05639 5.27139L0 5.53546V5.79887H1.92405V13.1006C1.92405 15.421 3.37217 16.3436 5.35094 16.3436ZM53.3528 21.405H55.4881C57.2015 21.405 58.3614 20.4296 59.1523 18.6634L65.1624 5.27267H64.4244L61.4193 12.2842L62.1313 11.4934L59.4953 5.27267H54.2232L59.9165 16.9245L60.1799 15.2899L59.4679 16.5287C59.0225 17.2923 58.6509 17.583 57.8601 17.583H53.3522L53.3528 21.405Z" fill="#1D1D1D"/></svg></div>
   <h1><span class="cover-line cover-line-1">Typeproof<span class="title-accent">.</span></span></h1>
-  <h2>Language-aware typographic correction<br>for the multilingual web</h2>
-  <p class="cover-desc" style="font-family:var(--text); font-size:11pt; color:#5C3600; max-width:440px; margin-bottom:48px; line-height:1.6;">Indexing the rules for everyone before they&#x2019;re forgotten by a flood of synthetic text. 46 deterministic rules across 21 language variants, encoded as executable infrastructure.</p>
+  <h2 data-i18n="cover_subtitle">Language-aware typographic correction<br>for the multilingual web</h2>
+  <p class="cover-desc" data-i18n="cover_desc" style="font-family:var(--text); font-size:11pt; color:#5C3600; max-width:440px; margin-bottom:48px; line-height:1.6;">Indexing the rules for everyone before they&#x2019;re forgotten by a flood of synthetic text. 46 deterministic rules across 21 language variants, encoded as executable infrastructure.</p>
   <div class="cover-meta">
     <span>v1.0</span> <span>May 2026</span> <span>46+ rules</span> <span>open-source</span><br>
-    Typeproof. A type &amp; AI endeavour by Jo&#x00E3;o Miranda
+    <span data-i18n="cover_meta_text">Typeproof. A type &amp; AI endeavour by Jo&#x00E3;o Miranda</span>
   </div>
 </section>
 
@@ -1385,11 +1476,11 @@
      ============================================================ -->
 
 <section class="premise">
-  <p class="premise-lead">The growing volume of synthetic text is changing how we think, how we write but also degrading how good writing should look like on the page.</p>
+  <p class="premise-lead" data-i18n="premise_lead">The growing volume of synthetic text is changing how we think, how we write but also degrading how good writing should look like on the page.</p>
   <div class="premise-body">
-    <p>Every day, more machine-generated text enters circulation. Most of it is typographically illiterate: straight quotes where curly quotes belong, hyphens masquerading as dashes, no awareness of locale conventions. As adoption grows, and more synthetic text gets published, these errors compound due to the flattening of the references we rely on. The good points of reference get harder to find due to a combination of human written data scarcity getting swallowed by the volume of synthetic text being generated. Although partially, it includes this text too.</p>
-    <p>It doesn&#x2019;t help that English hegemony, a language that already differs between english-speaking countries, is flattening our ability to write natively. French spacing rules vanish. Portuguese guillemets become American curly quotes. German low-high quotation marks are replaced by English ones. The typographic DNA of each language erodes silently, one API call at a time.</p>
-    <p>This project exists because someone has to write the rules down and share with the community before they&#x2019;re forgotten. Not as documentation that drifts from practice, but as executable infrastructure: a schema that generates training data, a linter that enforces conventions, a model that learns the judgement calls no lookup table can make.</p>
+    <p data-i18n="premise_p1">Every day, more machine-generated text enters circulation. Most of it is typographically illiterate: straight quotes where curly quotes belong, hyphens masquerading as dashes, no awareness of locale conventions. As adoption grows, and more synthetic text gets published, these errors compound due to the flattening of the references we rely on. The good points of reference get harder to find due to a combination of human written data scarcity getting swallowed by the volume of synthetic text being generated. Although partially, it includes this text too.</p>
+    <p data-i18n="premise_p2">It doesn&#x2019;t help that English hegemony, a language that already differs between english-speaking countries, is flattening our ability to write natively. French spacing rules vanish. Portuguese guillemets become American curly quotes. German low-high quotation marks are replaced by English ones. The typographic DNA of each language erodes silently, one API call at a time.</p>
+    <p data-i18n="premise_p3">This project exists because someone has to write the rules down and share with the community before they&#x2019;re forgotten. Not as documentation that drifts from practice, but as executable infrastructure: a schema that generates training data, a linter that enforces conventions, a model that learns the judgement calls no lookup table can make.</p>
   </div>
 </section>
 
@@ -1398,59 +1489,59 @@
      ============================================================ -->
 
 <section class="journey">
-  <div class="journey-eyebrow">The Journey</div>
+  <div class="journey-eyebrow" data-i18n="journey_eyebrow">The Journey</div>
 
   <details class="journey-card">
-    <summary class="accordion-trigger">The Spark <span class="accordion-icon">+</span></summary>
+    <summary class="accordion-trigger"><span data-i18n="journey_spark_title">The Spark</span> <span class="accordion-icon">+</span></summary>
     <div class="accordion-body">
-    <p>It started with an internal conversation about the em dash. Pablo Honey triggered a conversation about how it should be used, what the conventions are and whether Automattic should standardise. People from different teams, different countries, different editorial traditions weighed in. Everyone had an opinion about a single character.</p>
-    <p>Following that thread meant following the em dash across borders. American English uses it without spaces. British English prefers a spaced en dash. Portuguese uses travess&#x00E3;o for dialogue. French uses tiret with non-breaking spaces. The same function &#x2013; a parenthetical pause &#x2013; expressed differently in every language WordPress serves.</p>
-    <p>No good system existed. Gutenberg did basic smart quotes, English-only. Grammarly and ProWritingAid barely touched typographic correctness. Translation tools carried source-language conventions into target languages. I decided to build the infrastructure as an experiment with ML. The global impact of Automattic products, including its core contributions to WordPress, made this experiment even more relevant, as there&#x2019;s a great opportunity to do <em>the good thing</em> and promote our open-source ethos to share this widely.</p>
+    <p data-i18n="journey_spark_p1">It started with an internal conversation about the em dash. Pablo Honey triggered a conversation about how it should be used, what the conventions are and whether Automattic should standardise. People from different teams, different countries, different editorial traditions weighed in. Everyone had an opinion about a single character.</p>
+    <p data-i18n="journey_spark_p2">Following that thread meant following the em dash across borders. American English uses it without spaces. British English prefers a spaced en dash. Portuguese uses travess&#x00E3;o for dialogue. French uses tiret with non-breaking spaces. The same function &#x2013; a parenthetical pause &#x2013; expressed differently in every language WordPress serves.</p>
+    <p data-i18n="journey_spark_p3">No good system existed. Gutenberg did basic smart quotes, English-only. Grammarly and ProWritingAid barely touched typographic correctness. Translation tools carried source-language conventions into target languages. I decided to build the infrastructure as an experiment with ML. The global impact of Automattic products, including its core contributions to WordPress, made this experiment even more relevant, as there&#x2019;s a great opportunity to do <em>the good thing</em> and promote our open-source ethos to share this widely.</p>
     </div>
   </details>
 
   <details class="journey-card">
-    <summary class="accordion-trigger">The Architecture <span class="accordion-icon">+</span></summary>
+    <summary class="accordion-trigger"><span data-i18n="journey_arch_title">The Architecture</span> <span class="accordion-icon">+</span></summary>
     <div class="accordion-body">
-    <p>The key insight was the 80/20 split. Most typographic corrections are deterministic &#x2013; replacing straight quotes with curly quotes is a lookup operation. But some require genuine judgement: is this dash a parenthetical or a range? Should the colon capitalise what follows? Does this abbreviation need a period in this locale?</p>
-    <p>So we built two layers. Layer 1 is a pure-Python lint library: 46+ rules, 21 language variants, zero ML dependencies. It handles the deterministic 80%. Layer 2 is a fine-tuned model trained from a YAML schema that serves as the single source of truth. The schema describes rules; the generator translates them into training examples. When the schema changes, regenerate. The YAML never knows about edge cases; the Python handles them.</p>
-    <p>Three layers total: <strong>Lint &#x2192; Model &#x2192; Font Gate</strong>. The font gate ensures the corrected output is actually renderable in the target typeface. No missing glyphs. No weird glyph replacements. No tofu.</p>
+    <p data-i18n="journey_arch_p1">The key insight was the 80/20 split. Most typographic corrections are deterministic &#x2013; replacing straight quotes with curly quotes is a lookup operation. But some require genuine judgement: is this dash a parenthetical or a range? Should the colon capitalise what follows? Does this abbreviation need a period in this locale?</p>
+    <p data-i18n="journey_arch_p2">So we built two layers. Layer 1 is a pure-Python lint library: 46+ rules, 21 language variants, zero ML dependencies. It handles the deterministic 80%. Layer 2 is a fine-tuned model trained from a YAML schema that serves as the single source of truth. The schema describes rules; the generator translates them into training examples. When the schema changes, regenerate. The YAML never knows about edge cases; the Python handles them.</p>
+    <p data-i18n="journey_arch_p3">Three layers total: <strong>Lint &#x2192; Model &#x2192; Font Gate</strong>. The font gate ensures the corrected output is actually renderable in the target typeface. No missing glyphs. No weird glyph replacements. No tofu.</p>
     </div>
   </details>
 
   <details class="journey-card">
-    <summary class="accordion-trigger">The Data Lesson <span class="accordion-icon">+</span></summary>
+    <summary class="accordion-trigger"><span data-i18n="journey_data_title">The Data Lesson</span> <span class="accordion-icon">+</span></summary>
     <div class="accordion-body">
     <div class="journey-stats-row">
       <div>
         <div class="journey-stat">1/83</div>
-        <div class="journey-stat-label">v1 exact matches</div>
+        <div class="journey-stat-label" data-i18n="journey_data_stat1_label">v1 exact matches</div>
       </div>
       <div>
         <div class="journey-stat">22/83</div>
-        <div class="journey-stat-label">v2 exact matches</div>
+        <div class="journey-stat-label" data-i18n="journey_data_stat2_label">v2 exact matches</div>
       </div>
     </div>
-    <p>v1 trained on 3,292 pairs including 815 detection and explanation pairs. Those pairs taught the model to <em>explain</em> typography instead of <em>correcting</em> it. The instruction said &#x2018;correct the text&#x2019; but the model had learned that output means explanation.</p>
-    <p>v2 changed three things: added &#x2018;Output only the corrected text, no explanation&#x2019; to every instruction, removed the explanation pairs, and increased from 3 to 12 epochs. The result: 1/83 &#x2192; 22/83 exact matches. The largest single jump in the entire project. The lesson was clear: <strong>data quality beats data quantity</strong>. And it beats model size, architecture, and hyperparameter tuning.</p>
+    <p data-i18n="journey_data_p1">v1 trained on 3,292 pairs including 815 detection and explanation pairs. Those pairs taught the model to <em>explain</em> typography instead of <em>correcting</em> it. The instruction said &#x2018;correct the text&#x2019; but the model had learned that output means explanation.</p>
+    <p data-i18n="journey_data_p2">v2 changed three things: added &#x2018;Output only the corrected text, no explanation&#x2019; to every instruction, removed the explanation pairs, and increased from 3 to 12 epochs. The result: 1/83 &#x2192; 22/83 exact matches. The largest single jump in the entire project. The lesson was clear: <strong>data quality beats data quantity</strong>. And it beats model size, architecture, and hyperparameter tuning.</p>
     </div>
   </details>
 
   <details class="journey-card">
-    <summary class="accordion-trigger">The Ceiling <span class="accordion-icon">+</span></summary>
+    <summary class="accordion-trigger"><span data-i18n="journey_ceiling_title">The Ceiling</span> <span class="accordion-icon">+</span></summary>
     <div class="accordion-body">
     <div class="journey-stats-row">
       <div>
         <div class="journey-stat">27.7%</div>
-        <div class="journey-stat-label">3B ceiling (v3&#x2013;v4)</div>
+        <div class="journey-stat-label" data-i18n="journey_ceiling_stat1_label">3B ceiling (v3&#x2013;v4)</div>
       </div>
       <div>
         <div class="journey-stat">50.6%</div>
-        <div class="journey-stat-label">7B breakthrough (v5)</div>
+        <div class="journey-stat-label" data-i18n="journey_ceiling_stat2_label">7B breakthrough (v5)</div>
       </div>
     </div>
-    <p>Three iterations on Llama 3.2 3B plateaued at 23/83 (27.7%). Rank tuning, epoch tuning, template expansion &#x2013; nothing moved the needle. The remaining failures clustered around one root cause: invisible Unicode characters. NBSP (U+00A0), NNBSP (U+202F), ZWNJ (U+200C) &#x2013; characters the tokenizer couldn&#x2019;t represent at 3B scale.</p>
-    <p>Switching to Mistral 7B jumped to 42/83 (50.6%). The failure mode wasn&#x2019;t &#x2018;the model can&#x2019;t learn&#x2019; &#x2013; it was &#x2018;the tokenizer can&#x2019;t represent&#x2019;. The lessons from v1&#x2013;v4 (data quality, instruction format, correction-only templates) all transferred. The 7B model inherited them at the dataset level and added the one thing 3B couldn&#x2019;t provide: stable codepoint representations for invisible characters.</p>
+    <p data-i18n="journey_ceiling_p1">Three iterations on Llama 3.2 3B plateaued at 23/83 (27.7%). Rank tuning, epoch tuning, template expansion &#x2013; nothing moved the needle. The remaining failures clustered around one root cause: invisible Unicode characters. NBSP (U+00A0), NNBSP (U+202F), ZWNJ (U+200C) &#x2013; characters the tokenizer couldn&#x2019;t represent at 3B scale.</p>
+    <p data-i18n="journey_ceiling_p2">Switching to Mistral 7B jumped to 42/83 (50.6%). The failure mode wasn&#x2019;t &#x2018;the model can&#x2019;t learn&#x2019; &#x2013; it was &#x2018;the tokenizer can&#x2019;t represent&#x2019;. The lessons from v1&#x2013;v4 (data quality, instruction format, correction-only templates) all transferred. The 7B model inherited them at the dataset level and added the one thing 3B couldn&#x2019;t provide: stable codepoint representations for invisible characters.</p>
     </div>
   </details>
 </section>
@@ -1460,9 +1551,9 @@
      ============================================================ -->
 
 <section class="overview">
-  <p class="overview-intro">Typeproof is a fast, pure-Python deterministic typographic correction library. It handles the 80% of corrections that are straightforward substitution rules: curly quotes, locale-correct dashes, non-breaking spaces, diacritic integrity, and more. No ML dependencies.</p>
+  <p class="overview-intro" data-i18n="overview_intro">Typeproof is a fast, pure-Python deterministic typographic correction library. It handles the 80% of corrections that are straightforward substitution rules: curly quotes, locale-correct dashes, non-breaking spaces, diacritic integrity, and more. No ML dependencies.</p>
 
-  <h3>Supported Languages</h3>
+  <h3 data-i18n="overview_languages_title">Supported Languages</h3>
 
   <table class="lang-table">
     <thead>
@@ -1493,7 +1584,7 @@
     </tbody>
   </table>
 
-  <h3>Usage</h3>
+  <h3 data-i18n="overview_usage_title">Usage</h3>
 
   <pre class="code-snippet"><b>Python</b>
 from typeproof import TypographyLinter
@@ -1510,11 +1601,11 @@ python3 typeproof.py "He said \"hello\" and left." --lang en-US --diff</pre>
 
 <section class="demo-section">
   <div class="demo-panel">
-    <h3>Try It Live</h3>
-    <p class="demo-subtitle">Paste your own text. Select your language. See what changes. <strong>Changed glyphs are highlighted in green</strong> &#x2013; the corrections most people never notice, made visible.</p>
+    <h3 data-i18n="demo_title">Try It Live</h3>
+    <p class="demo-subtitle" data-i18n="demo_subtitle">Paste your own text. Select your language. See what changes. <strong>Changed glyphs are highlighted in green</strong> &#x2013; the corrections most people never notice, made visible.</p>
     <div class="demo-grid">
       <div class="demo-input-area">
-        <span class="demo-area-label">Your text</span>
+        <span class="demo-area-label" data-i18n="demo_your_text">Your text</span>
         <textarea class="demo-textarea" id="demo-input" placeholder="Paste text in any language&#x2026;">He said "hello" and left... She replied "goodbye" -- then walked away.
 
 The room was 1920x1080. It cost (c) 2024. See p. 42 for 3/4 of the data.
@@ -1544,16 +1635,16 @@ Click -> next, or go <- back.</textarea>
             <option value="ca">ca</option>
             <option value="ru">ru</option>
           </select>
-          <button class="demo-btn" id="demo-btn" onclick="runDemo()">Lint</button>
+          <button class="demo-btn" id="demo-btn" onclick="runDemo()" data-i18n="demo_btn">Lint</button>
         </div>
       </div>
       <div>
-        <span class="demo-area-label">Corrected</span>
+        <span class="demo-area-label" data-i18n="demo_corrected">Corrected</span>
         <div class="demo-output" id="demo-output"></div>
       </div>
     </div>
     <ul class="demo-corrections" id="demo-corrections"></ul>
-    <p class="demo-note">Showing a subset of rules (ellipsis, quotes, dashes, legal symbols, arrows, multiplication, fractions, apostrophes, double spaces). The full Python linter handles all 46+ rules including NBSP, diacritics, and accessibility.</p>
+    <p class="demo-note" data-i18n="demo_note">Showing a subset of rules (ellipsis, quotes, dashes, legal symbols, arrows, multiplication, fractions, apostrophes, double spaces). The full Python linter handles all 46+ rules including NBSP, diacritics, and accessibility.</p>
   </div>
 </section>
 
@@ -1563,9 +1654,9 @@ Click -> next, or go <- back.</textarea>
 
 <div class="filter-bar" id="filter-bar">
   <div class="filter-row">
-    <span class="filter-label">Language</span>
+    <span class="filter-label" data-i18n="filter_language">Language</span>
     <div class="filter-pills" id="lang-filters">
-      <button class="filter-pill active" data-lang="all">Show All</button>
+      <button class="filter-pill active" data-lang="all" data-i18n="filter_show_all">Show All</button>
       <button class="filter-pill" data-lang="universal">Universal</button>
       <button class="filter-pill" data-lang="en-US">en-US</button>
       <button class="filter-pill" data-lang="en-GB">en-GB</button>
@@ -1586,7 +1677,7 @@ Click -> next, or go <- back.</textarea>
     <span class="filter-count" id="filter-count">46 rules</span>
   </div>
   <div class="filter-row">
-    <span class="filter-label">Category</span>
+    <span class="filter-label" data-i18n="filter_category">Category</span>
     <div class="filter-pills" id="cat-filters">
       <button class="filter-pill" data-cat="normalization">Normalization</button>
       <button class="filter-pill" data-cat="diacritics">Diacritics</button>
@@ -2808,21 +2899,21 @@ Click -> next, or go <- back.</textarea>
      ============================================================ -->
 
 <section class="cta-section" id="contribute">
-  <div class="cta-eyebrow">Open Source</div>
-  <h2 class="cta-heading">This work needs native speakers.</h2>
+  <div class="cta-eyebrow" data-i18n="cta_eyebrow">Open Source</div>
+  <h2 class="cta-heading" data-i18n="cta_heading">This work needs native speakers.</h2>
   <div class="cta-body">
-    <p>I verified the sources the LLM pulled from. I cross-referenced grammars, style guides, and typographic authorities for every language variant. But there&#x2019;s nothing like a native to truly validate this kind of work. The rules for your language deserve to be reviewed by someone who grew up writing in it.</p>
-    <p>This is where Typeproof can &#x2013; and should &#x2013; scale. Extend the schema to new languages. Catch conventions I got wrong. Add the rules that only a native would know to look for. The YAML schema is designed for exactly this: auditable, extensible, open.</p>
+    <p data-i18n="cta_p1">I verified the sources the LLM pulled from. I cross-referenced grammars, style guides, and typographic authorities for every language variant. But there&#x2019;s nothing like a native to truly validate this kind of work. The rules for your language deserve to be reviewed by someone who grew up writing in it.</p>
+    <p data-i18n="cta_p2">This is where Typeproof can &#x2013; and should &#x2013; scale. Extend the schema to new languages. Catch conventions I got wrong. Add the rules that only a native would know to look for. The YAML schema is designed for exactly this: auditable, extensible, open.</p>
   </div>
 
   <div class="cta-buttons">
-    <a href="https://github.com/tudotype/typeproof" class="cta-btn cta-btn-primary" target="_blank">View on GitHub</a>
-    <a href="https://github.com/tudotype/typeproof/issues" class="cta-btn cta-btn-secondary" target="_blank">Report an Issue</a>
-    <a href="https://github.com/tudotype/typeproof/fork" class="cta-btn cta-btn-secondary" target="_blank">Fork &amp; Contribute</a>
+    <a href="https://github.com/tudotype/typeproof" class="cta-btn cta-btn-primary" target="_blank" data-i18n="cta_btn_github">View on GitHub</a>
+    <a href="https://github.com/tudotype/typeproof/issues" class="cta-btn cta-btn-secondary" target="_blank" data-i18n="cta_btn_issues">Report an Issue</a>
+    <a href="https://github.com/tudotype/typeproof/fork" class="cta-btn cta-btn-secondary" target="_blank" data-i18n="cta_btn_fork">Fork &amp; Contribute</a>
   </div>
 
   <div class="install-card" style="margin-bottom: 24px;">
-    <h4>Install</h4>
+    <h4 data-i18n="cta_install_title">Install</h4>
     <pre><b>pip</b>
 pip install typeproof</pre>
     <pre><b>Standalone</b>
@@ -2843,13 +2934,13 @@ curl -O https://raw.githubusercontent.com/tudotype/typeproof/main/skills/typepro
      ============================================================ -->
 
 <div class="author-section">
-  <h4>About the Author</h4>
+  <h4 data-i18n="author_title">About the Author</h4>
   <div class="author-card">
     <div class="author-avatar"><img src="https://1.gravatar.com/avatar/9a0ab25741b2c5a8d81e498d4924bb909c62ebad44a09175613abfceebd90963?s=96" alt="Jo&#x00E3;o Miranda"></div>
     <div class="author-info">
       <div class="author-name"><a href="https://www.linkedin.com/in/walkingfearless/" target="_blank">Jo&#x00E3;o Miranda</a></div>
-      <div class="author-role">Brand Designer at <a href="https://automattic.design" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">Automattic</a></div>
-      <p class="author-bio">Jo&#x00E3;o is a Portuguese brand and type designer with over a decade of experience at consultancies including Pentagram, Wolff Olins and R/GA. At <a href="https://automattic.design" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">Automattic</a>, he shapes the visual identity of WordPress &#x2013; the platform that powers over 40% of the web. He also founded <a href="https://tudotype.com" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">tudotype</a>, an independent type foundry.</p>
+      <div class="author-role" data-i18n="author_role">Brand Designer at <a href="https://automattic.design" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">Automattic</a></div>
+      <p class="author-bio" data-i18n="author_bio">Jo&#x00E3;o is a Portuguese brand and type designer with over a decade of experience at consultancies including Pentagram, Wolff Olins and R/GA. At <a href="https://automattic.design" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">Automattic</a>, he shapes the visual identity of WordPress &#x2013; the platform that powers over 40% of the web. He also founded <a href="https://tudotype.com" target="_blank" style="color:var(--ink-subtle); text-decoration:none; border-bottom:1px solid var(--border-light);">tudotype</a>, an independent type foundry.</p>
     </div>
   </div>
 </div>
@@ -2862,7 +2953,7 @@ curl -O https://raw.githubusercontent.com/tudotype/typeproof/main/skills/typepro
   <div class="footer-left">
     <span class="footer-logo"><svg width="88" height="22" viewBox="0 0 88 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M83.061 16.3436C85.4069 16.3436 86.7513 15.7372 87.8851 14.2083L87.595 13.9182C86.8569 14.5245 86.2245 14.7879 84.7216 14.7879C82.4311 14.7879 81.875 13.4696 81.875 10.8342V9.04187C81.875 6.32695 82.1652 5.56218 82.8237 5.56218C83.4822 5.56218 83.7723 6.32568 83.7723 9.04187C83.7723 9.59542 83.7723 10.2546 83.7195 10.8342L84.9322 10.5441H81.1866L81.2394 11.0976H87.8565C88.4889 6.85379 87.0656 5.06079 82.9007 5.06079C78.7885 5.06079 77.1012 6.69536 77.1012 10.7547C77.1037 14.7351 78.8172 16.3436 83.061 16.3436ZM70.3556 15.2893C69.8809 15.2893 69.6703 14.9992 69.1696 14.3406L69.4597 14.8942V6.77551L69.1696 7.53903C69.6703 6.87986 69.8815 6.58973 70.3556 6.58973C71.1464 6.58973 71.357 7.43341 71.357 10.9653C71.357 14.4431 71.1464 15.2887 70.3556 15.2887V15.2893ZM64.8729 21.405H69.4597V15.5005C70.0133 16.1069 70.8041 16.3442 71.9901 16.3442C74.9951 16.3442 76.1551 14.7364 76.1551 10.7032C76.1551 6.66991 74.9691 5.06207 72.3063 5.06207C70.4612 5.06207 69.4858 6.19525 68.2203 7.75091L69.4591 6.5121V5.27333H64.8723L64.8729 21.405ZM51.4027 16.3436C52.2567 16.3498 53.1002 16.1549 53.8649 15.7748C54.6297 15.3947 55.2943 14.84 55.805 14.1555L55.5676 13.8653C55.0321 14.3285 54.3514 14.5896 53.6436 14.6034C52.8801 14.6034 52.5619 14.2605 52.5619 13.3907V5.79887H56.0677V5.27139H52.5619V1.60719H52.1668L48.1075 5.27139L46.0511 5.5348V5.79821H47.9739V13.0999C47.9739 15.421 49.4252 16.3436 51.402 16.3436H51.4027ZM40.9114 15.8689C40.1479 15.8689 39.9628 14.8674 39.9628 10.7025C39.9628 6.27414 40.1473 5.53608 40.9114 5.53608C41.6756 5.53608 41.8601 6.27414 41.8601 10.7025C41.8601 14.8674 41.6749 15.8689 40.9114 15.8689ZM40.9114 16.3436C44.9975 16.3436 46.6581 14.7357 46.6581 10.7025C46.6581 6.66925 44.9975 5.06145 40.9114 5.06145C36.8254 5.06145 35.1647 6.66925 35.1647 10.7025C35.1647 14.7357 36.8254 16.3436 40.9114 16.3436ZM26.5186 16.3436C28.3638 16.3436 29.3391 15.2098 30.6047 13.6547L29.3659 14.8936V16.1323H33.9527V0H29.3659V5.9045C28.8123 5.29814 28.0215 5.06079 26.8355 5.06079C23.8304 5.06079 22.6705 6.66863 22.6705 10.7019C22.6705 14.7351 23.8559 16.3436 26.5186 16.3436ZM28.4694 14.8165C27.6785 14.8165 27.4679 13.9729 27.4679 10.441C27.4679 6.96129 27.6785 6.11762 28.4694 6.11762C28.944 6.11762 29.1546 6.40777 29.6554 7.0663L29.3652 6.51276V14.6314L29.6554 13.8679C29.1546 14.5245 28.9434 14.8146 28.4688 14.8146L28.4694 14.8165ZM13.7864 16.3436C16.1851 16.3436 16.7915 14.9203 17.6613 13.6815L16.8704 14.4195V16.133H21.4572V5.27267H16.8704V14.2617L17.1338 13.7082C16.5014 14.6047 16.1323 14.7097 15.8155 14.7097C15.2358 14.7097 14.919 14.3667 14.919 13.628V5.27205H10.3589V13.0745C10.3596 15.421 11.8096 16.3436 13.7864 16.3436ZM5.35094 16.3436C6.20494 16.3498 7.04843 16.155 7.8132 15.7749C8.57797 15.3948 9.24255 14.84 9.75321 14.1555L9.51588 13.8653C8.98038 14.3285 8.29969 14.5896 7.59184 14.6034C6.82833 14.6034 6.5102 14.2605 6.5102 13.3907V5.79887H9.48916V5.27139H6.51083V1.60719H6.11572L2.05639 5.27139L0 5.53546V5.79887H1.92405V13.1006C1.92405 15.421 3.37217 16.3436 5.35094 16.3436ZM53.3528 21.405H55.4881C57.2015 21.405 58.3614 20.4296 59.1523 18.6634L65.1624 5.27267H64.4244L61.4193 12.2842L62.1313 11.4934L59.4953 5.27267H54.2232L59.9165 16.9245L60.1799 15.2899L59.4679 16.5287C59.0225 17.2923 58.6509 17.583 57.8601 17.583H53.3522L53.3528 21.405Z" fill="#1D1D1D"/></svg></span>
   </div>
-  <div class="footer-right"><span class="amber">46+ rules</span> &middot; 21 language variants &middot; May 2026<br>Set in <a href="https://fonts.google.com/specimen/Google+Sans" target="_blank" style="color:var(--ink-muted); text-decoration:none; border-bottom:1px solid var(--border-light);">Google Sans</a></div>
+  <div class="footer-right" data-i18n="footer_text"><span class="amber">46+ rules</span> &middot; 21 language variants &middot; May 2026<br>Set in <a href="https://fonts.google.com/specimen/Google+Sans" target="_blank" style="color:var(--ink-muted); text-decoration:none; border-bottom:1px solid var(--border-light);">Google Sans</a></div>
 </div>
 
 <script>
@@ -3378,22 +3469,30 @@ document.addEventListener('DOMContentLoaded', runDemo);
 </script>
 
 <!-- Floating contribute CTA -->
-<button class="floating-cta hidden" id="floating-cta" aria-label="Contribute to Typeproof">
-  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-  Contribute
-</button>
+<div class="floating-cta hidden" id="floating-cta" role="toolbar" aria-label="Page tools">
+  <button class="lang-toggle" id="lang-toggle" aria-label="Change language" title="Change language">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
+  </button>
+  <div class="lang-selector" id="lang-selector"></div>
+  <span class="pill-divider" id="pill-divider"></span>
+  <button class="pill-contribute" id="pill-contribute">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span data-i18n="floating_contribute">Contribute</span>
+  </button>
+</div>
 <script>
 (function() {
-  var btn = document.getElementById('floating-cta');
+  var pill = document.getElementById('floating-cta');
+  var contributeBtn = document.getElementById('pill-contribute');
   var target = document.getElementById('contribute');
-  if (!btn || !target) return;
+  if (!pill || !target) return;
 
-  btn.addEventListener('click', function() {
+  contributeBtn.addEventListener('click', function() {
     target.scrollIntoView({ behavior: 'smooth' });
   });
 
   var io = new IntersectionObserver(function(entries) {
-    btn.classList.toggle('hidden', entries[0].isIntersecting);
+    pill.classList.toggle('hidden', entries[0].isIntersecting);
   }, { threshold: 0.1 });
   io.observe(target);
 
@@ -3402,9 +3501,209 @@ document.addEventListener('DOMContentLoaded', runDemo);
   window.addEventListener('scroll', function() {
     if (!shown && window.scrollY > window.innerHeight * 0.5) {
       shown = true;
-      btn.classList.remove('hidden');
+      pill.classList.remove('hidden');
     }
   }, { passive: true });
+})();
+</script>
+
+<!-- i18n: language detection, translation loader, language switcher -->
+<script>
+(function() {
+  // ================================================================
+  // CONFIGURATION
+  // ================================================================
+  var AVAILABLE_LANGS = ['en','fr','pt','de','es','it','nl','ro','pl','ru'];
+  var LANG_LABELS = {
+    en: 'EN', fr: 'FR', pt: 'PT', de: 'DE', es: 'ES',
+    it: 'IT', nl: 'NL', ro: 'RO', pl: 'PL', ru: 'RU'
+  };
+  var COUNTRY_TO_LANG = {
+    FR: 'fr', BE: 'fr', MC: 'fr', LU: 'fr',
+    PT: 'pt', BR: 'pt', AO: 'pt', MZ: 'pt',
+    DE: 'de', AT: 'de', CH: 'de', LI: 'de',
+    ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es', EC: 'es', UY: 'es', PY: 'es', BO: 'es', CR: 'es', CU: 'es', DO: 'es', GT: 'es', HN: 'es', NI: 'es', PA: 'es', SV: 'es',
+    IT: 'it', SM: 'it', VA: 'it',
+    NL: 'nl', SR: 'nl',
+    RO: 'ro', MD: 'ro',
+    PL: 'pl',
+    RU: 'ru', BY: 'ru', KZ: 'ru', KG: 'ru'
+  };
+  var STORAGE_KEY = 'typeproof-lang';
+  var currentLang = 'en';
+  var translationCache = {};
+
+  // ================================================================
+  // APPLY TRANSLATIONS
+  // ================================================================
+  function applyTranslations(strings) {
+    var elements = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < elements.length; i++) {
+      var key = elements[i].getAttribute('data-i18n');
+      if (strings[key] !== undefined) {
+        elements[i].innerHTML = strings[key];
+      }
+    }
+    // Update html lang attribute
+    document.documentElement.lang = currentLang === 'en' ? 'en' : currentLang;
+    // Update active state in language selector
+    var pills = document.querySelectorAll('.lang-pill');
+    for (var j = 0; j < pills.length; j++) {
+      pills[j].classList.toggle('active', pills[j].getAttribute('data-lang-code') === currentLang);
+    }
+  }
+
+  // ================================================================
+  // LOAD LANGUAGE
+  // ================================================================
+  function loadLanguage(lang) {
+    if (AVAILABLE_LANGS.indexOf(lang) === -1) lang = 'en';
+    currentLang = lang;
+    localStorage.setItem(STORAGE_KEY, lang);
+
+    if (lang === 'en') {
+      // English is inline in the HTML — reload from en.json only if cached
+      if (translationCache['en']) {
+        applyTranslations(translationCache['en']);
+      }
+      // For EN, just update the selector active state
+      var pills = document.querySelectorAll('.lang-pill');
+      for (var j = 0; j < pills.length; j++) {
+        pills[j].classList.toggle('active', pills[j].getAttribute('data-lang-code') === 'en');
+      }
+      document.documentElement.lang = 'en';
+      return;
+    }
+
+    if (translationCache[lang]) {
+      applyTranslations(translationCache[lang]);
+      return;
+    }
+
+    fetch('i18n/' + lang + '.json')
+      .then(function(res) {
+        if (!res.ok) throw new Error('Translation file not found: ' + lang);
+        return res.json();
+      })
+      .then(function(strings) {
+        translationCache[lang] = strings;
+        applyTranslations(strings);
+      })
+      .catch(function(err) {
+        console.warn('Typeproof i18n: ' + err.message + '. Falling back to English.');
+        currentLang = 'en';
+        localStorage.setItem(STORAGE_KEY, 'en');
+      });
+  }
+
+  // ================================================================
+  // CACHE ENGLISH STRINGS (for switching back)
+  // ================================================================
+  function cacheEnglishStrings() {
+    var strings = {};
+    var elements = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < elements.length; i++) {
+      strings[elements[i].getAttribute('data-i18n')] = elements[i].innerHTML;
+    }
+    translationCache['en'] = strings;
+  }
+
+  // ================================================================
+  // BUILD LANGUAGE SELECTOR
+  // ================================================================
+  function buildLangSelector() {
+    var selector = document.getElementById('lang-selector');
+    var toggle = document.getElementById('lang-toggle');
+    var divider = document.getElementById('pill-divider');
+    var contribute = document.getElementById('pill-contribute');
+    if (!selector || !toggle) return;
+
+    // Build pills
+    for (var i = 0; i < AVAILABLE_LANGS.length; i++) {
+      var lang = AVAILABLE_LANGS[i];
+      var pill = document.createElement('button');
+      pill.className = 'lang-pill' + (lang === currentLang ? ' active' : '');
+      pill.setAttribute('data-lang-code', lang);
+      pill.textContent = LANG_LABELS[lang];
+      pill.addEventListener('click', (function(l) {
+        return function(e) {
+          e.stopPropagation();
+          loadLanguage(l);
+          closeSelector();
+        };
+      })(lang));
+      selector.appendChild(pill);
+    }
+
+    function closeSelector() {
+      selector.classList.remove('open');
+      if (divider) divider.style.display = '';
+      if (contribute) contribute.style.display = '';
+    }
+
+    toggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = selector.classList.contains('open');
+      if (isOpen) {
+        closeSelector();
+      } else {
+        selector.classList.add('open');
+        if (divider) divider.style.display = 'none';
+        if (contribute) contribute.style.display = 'none';
+      }
+    });
+
+    // Close on click outside
+    document.addEventListener('click', function(e) {
+      if (!selector.classList.contains('open')) return;
+      var pill = document.getElementById('floating-cta');
+      if (pill && !pill.contains(e.target)) {
+        closeSelector();
+      }
+    });
+  }
+
+  // ================================================================
+  // GEO-IP DETECTION
+  // ================================================================
+  function detectLanguageFromGeo() {
+    fetch('https://ipapi.co/json/')
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data && data.country_code) {
+          var detected = COUNTRY_TO_LANG[data.country_code];
+          if (detected && detected !== 'en') {
+            loadLanguage(detected);
+          }
+        }
+      })
+      .catch(function() {
+        // Silently fall back to English
+      });
+  }
+
+  // ================================================================
+  // INIT
+  // ================================================================
+  function init() {
+    cacheEnglishStrings();
+    buildLangSelector();
+
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && saved !== 'en') {
+      loadLanguage(saved);
+    } else if (!saved) {
+      // No preference saved — try geo-detection
+      detectLanguageFromGeo();
+    }
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
 
