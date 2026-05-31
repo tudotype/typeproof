@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+
+      # ── Linter unit tests ────────────────────────────────────
+      - name: Run linter tests
+        run: python -m pytest test_typeproof.py -v --tb=short
+
+      # ── Schema ↔ linter parity ───────────────────────────────
+      - name: Schema parity check
+        run: python -m pytest test_schema_parity.py -v --tb=short
+
+      # ── i18n key parity ──────────────────────────────────────
+      - name: Validate i18n translations
+        run: |
+          python3 -c "
+          import json, sys, re, pathlib
+
+          i18n_dir = pathlib.Path('docs/i18n')
+          if not i18n_dir.exists():
+              print('No i18n directory found, skipping')
+              sys.exit(0)
+
+          # Load en.json as reference
+          en = json.loads((i18n_dir / 'en.json').read_text())
+          en_keys = set(en.keys())
+          print(f'en.json: {len(en_keys)} keys')
+
+          errors = []
+          for f in sorted(i18n_dir.glob('*.json')):
+              if f.name == 'en.json':
+                  continue
+              try:
+                  data = json.loads(f.read_text())
+              except json.JSONDecodeError as e:
+                  errors.append(f'{f.name}: invalid JSON — {e}')
+                  continue
+              other_keys = set(data.keys())
+              missing = en_keys - other_keys
+              extra = other_keys - en_keys
+              if missing:
+                  errors.append(f'{f.name}: missing keys: {missing}')
+              if extra:
+                  errors.append(f'{f.name}: extra keys: {extra}')
+              # Check no empty values
+              empties = [k for k, v in data.items() if not v.strip()]
+              if empties:
+                  errors.append(f'{f.name}: empty values for: {empties}')
+              print(f'{f.name}: {len(other_keys)} keys — OK')
+
+          if errors:
+              print()
+              for e in errors:
+                  print(f'ERROR: {e}')
+              sys.exit(1)
+          print('All translation files valid.')
+          "
+
+      # ── HTML ↔ i18n key sync ─────────────────────────────────
+      - name: Validate HTML data-i18n attributes
+        run: |
+          python3 -c "
+          import json, re, sys, pathlib
+
+          html = pathlib.Path('docs/index.html').read_text()
+          en = json.loads(pathlib.Path('docs/i18n/en.json').read_text())
+
+          html_keys = set(re.findall(r'data-i18n=\"([^\"]+)\"', html))
+          json_keys = set(en.keys())
+
+          missing_in_json = html_keys - json_keys
+          missing_in_html = json_keys - html_keys
+
+          errors = []
+          if missing_in_json:
+              errors.append(f'Keys in HTML but missing from en.json: {missing_in_json}')
+          if missing_in_html:
+              errors.append(f'Keys in en.json but missing from HTML: {missing_in_html}')
+
+          if errors:
+              for e in errors:
+                  print(f'ERROR: {e}')
+              sys.exit(1)
+
+          print(f'HTML and en.json in sync: {len(html_keys)} keys')
+          "
+
+      # ── Dataset staleness check ──────────────────────────────
+      - name: Check dataset freshness
+        run: |
+          python3 -c "
+          import os, sys
+
+          jsonl = 'typography_training.jsonl'
+          schema = 'typography-system-schema.yaml'
+
+          if not os.path.exists(jsonl):
+              print('No JSONL dataset found, skipping staleness check')
+              sys.exit(0)
+
+          jsonl_mtime = os.path.getmtime(jsonl)
+          schema_mtime = os.path.getmtime(schema)
+
+          if schema_mtime > jsonl_mtime:
+              print('WARNING: Schema is newer than dataset — run: python generate_dataset.py')
+              # Warn but don't fail — dataset regen requires review
+          else:
+              print('Dataset is up to date with schema')
+          "
