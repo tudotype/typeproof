@@ -896,7 +896,7 @@
     .demo-area-label { font-size: 11px; }
 
     /* Filter bar — 15px outer, compact pills */
-    .filter-bar { padding: 8px 16px; gap: 6px; }
+    .filter-bar { padding: 8px 15px; gap: 6px; }
     .filter-toggle { font-size: 13px; padding: 10px 14px; min-height: 44px; }
     .filter-pill { font-size: 11px; padding: 8px 14px; min-height: 36px; }
     .filter-dropdown { min-width: 160px; max-width: calc(100vw - 32px); }
@@ -1331,6 +1331,28 @@
   /* Filter states */
   .rule.hidden { display: none !important; }
   .category-group.hidden { display: none !important; }
+  .empty-state.hidden { display: none !important; }
+  .empty-state {
+    text-align: center;
+    padding: 64px 24px;
+    color: var(--ink-muted, #888);
+  }
+  .empty-state-msg {
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .empty-state-reset {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+  .empty-state-reset:hover { opacity: 0.8; }
 
   /* Scroll reveal animation */
   .rule {
@@ -3341,6 +3363,11 @@ Click -> next, or go <- back.</textarea>
 
 </div><!-- /category-group code-exclusion -->
 
+<div class="empty-state hidden" id="empty-state">
+  <p class="empty-state-msg">No rules match this combination of language and category.</p>
+  <button class="empty-state-reset" id="empty-reset">Reset filters</button>
+</div>
+
 </div><!-- .content -->
 
 <!-- ============================================================
@@ -3687,6 +3714,7 @@ document.addEventListener('DOMContentLoaded', runDemo);
   const catToggle = document.getElementById('cat-toggle-filter');
   const langValue = document.getElementById('lang-value');
   const catValue = document.getElementById('cat-value');
+  const emptyState = document.getElementById('empty-state');
 
   let activeLangs = new Set(['all']);
   let activeCat = null;
@@ -3741,6 +3769,8 @@ document.addEventListener('DOMContentLoaded', runDemo);
       const visibleRules = g.querySelectorAll('.rule:not(.hidden)');
       g.classList.toggle('hidden', visibleRules.length === 0);
     });
+
+    emptyState.classList.toggle('hidden', visible > 0);
 
     countEl.textContent = visible + ' rule' + (visible !== 1 ? 's' : '');
     updateLabels();
@@ -3833,6 +3863,15 @@ document.addEventListener('DOMContentLoaded', runDemo);
         window.scrollTo({top: y, behavior: 'smooth'});
       }
     }
+    applyFilters();
+  });
+
+  // Empty-state reset button
+  document.getElementById('empty-reset').addEventListener('click', () => {
+    activeLangs = new Set(['all']);
+    activeCat = null;
+    langFilters.querySelectorAll('.filter-pill').forEach(p => p.classList.toggle('active', p.dataset.lang === 'all'));
+    catFilters.querySelectorAll('.filter-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === 'all'));
     applyFilters();
   });
 
