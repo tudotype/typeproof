@@ -98,8 +98,9 @@ See [`thinking.md`](thinking.md) for the model-iteration history — what the mo
 
 | Status | Locales |
 |---|---|
-| Author-native | `pt-PT`, `pt-BR` |
-| LLM-sourced, pending native review | `en-US`, `en-GB`, `fr-FR`, `de-DE`, `it-IT`, `es-ES`, `es-MX`, `nl-NL`, `nl-BE`, `ro-RO`, `sc` |
+| Native-verified | `pt-PT`, `pt-BR` (author-native), `it-IT` |
+| Cross-checked against style authorities (not yet native-verified) | `es-ES`, `es-MX`, `de-DE`, `fr-FR` |
+| LLM-sourced, pending review | `en-US`, `en-GB`, `nl-NL`, `nl-BE`, `ro-RO`, `sc` |
 
 If a locale above is yours, [we’d love your eyes on it](CONTRIBUTING.md).
 

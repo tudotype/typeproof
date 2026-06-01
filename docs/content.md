@@ -73,7 +73,7 @@
 
 **Paragraph 1:** The key insight was the 80/20 split. Most typographic corrections are deterministic – replacing straight quotes with curly quotes is a lookup operation. But some require genuine judgment: is this dash a parenthetical or a range? Should the colon capitalise what follows? Does this abbreviation need a period in this locale?
 
-**Paragraph 2:** So we built two layers. Layer 1 is a pure-Python lint library: 46+ rules, 13 language variants, zero ML dependencies. It handles the deterministic 80%. Layer 2 is a fine-tuned model trained from a YAML schema that serves as the single source of truth. The schema describes rules; the generator translates them into training examples. When the schema changes, regenerate. The YAML never knows about edge cases; the Python handles them.
+**Paragraph 2:** So we built two layers. Layer 1 is a pure-Python lint library: 34 live rules — 46 indexed in the schema — across 13 language variants, zero ML dependencies. It handles the deterministic 80%. Layer 2 is a fine-tuned model trained from a YAML schema that serves as the single source of truth. The schema describes rules; the generator translates them into training examples. When the schema changes, regenerate. The YAML never knows about edge cases; the Python handles them.
 
 **Paragraph 3:** Three layers total: **Lint → Model → Font Gate**. The font gate ensures the corrected output is actually renderable in the target typeface. No missing glyphs. No weird glyph replacements. No tofu.
 
@@ -197,7 +197,7 @@ en-US (selected), en-GB, fr-FR, de-DE, pt-PT, pt-BR, it-IT, es-ES, es-MX, nl-NL,
 
 **Corrections list (ul.demo-corrections):** [dynamically generated]
 
-**Note (p.demo-note):** Showing a subset of rules (ellipsis, quotes, dashes, legal symbols, arrows, multiplication, fractions, apostrophes, double spaces). The full Python linter handles all 46+ rules including NBSP, diacritics, and accessibility.
+**Note (p.demo-note):** Showing a subset of rules (ellipsis, quotes, dashes, legal symbols, arrows, multiplication, fractions, apostrophes, double spaces). The full Python linter handles all 34 live rules, including NBSP and diacritics; 46 are indexed in the schema.
 
 **No-corrections message (JS):** No corrections needed -- your text is already typographically clean.
 
