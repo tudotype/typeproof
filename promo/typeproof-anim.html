@@ -1,0 +1,307 @@
+<title>Typeproof — Animated Frames</title>
+<style>
+  :root{
+    --paper:#F2F1ED; --ink:#1D1D1D; --ink-2:#4F4F4F; --ink-3:#8B897F;
+    --amber:#FFA000; --amber-soft:#FFF3CC; --amber-dark:#996000;
+    --green-soft:#EBF4EC; --green-text:#1B5E20; --red-soft:#FFEEE9;
+    --sans:"Google Sans","Product Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mono:"Google Sans Mono","SF Mono",ui-monospace,Menlo,monospace;
+  }
+  body{margin:0;background:#fff;}
+  #grid{display:grid;}
+  body.live{background:#FAF9F6;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:20px;padding:24px;box-sizing:border-box;font-family:var(--sans);}
+  @media (prefers-color-scheme: dark){ body.live{background:#171614;} }
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;}
+  .bar a{font-family:var(--mono);font-size:13px;text-decoration:none;color:#5F5D55;border:1px solid #D8D6CF;border-radius:9999px;padding:6px 16px;background:#fff;}
+  .bar a.on{background:var(--amber);border-color:var(--amber);color:#1D1D1D;font-weight:600;}
+  @media (prefers-color-scheme: dark){ .bar a{background:#201F1C;color:#A5A299;border-color:#33322D;} .bar a.on{background:var(--amber);color:#1D1D1D;border-color:var(--amber);} }
+  #stage{position:relative;}
+  #stage .frame{position:absolute;top:0;left:0;transform-origin:top left;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 12px 32px -18px rgba(0,0,0,.3);}
+  .frame{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:hidden;position:relative;box-sizing:border-box;}
+  .eyebrow{font-size:22px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--amber-dark);}
+  .diff{font-family:var(--mono);}
+  .hl{background:var(--green-soft);color:var(--green-text);border-radius:6px;padding:0 6px;display:inline-block;}
+  .bad{background:var(--red-soft);color:#B71C1C;border-radius:6px;padding:0 6px;}
+  .tag{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--ink-2);background:#E7E5DF;border-radius:9999px;padding:5px 16px;margin-right:16px;white-space:nowrap;}
+  .tag.loc{color:var(--amber-dark);background:var(--amber-soft);}
+  .caret{color:var(--amber);font-weight:700;}
+  .ghost{position:absolute;font-weight:700;color:var(--amber-soft);line-height:1;user-select:none;z-index:0;}
+  .z{position:relative;z-index:1;}
+
+  .f-st{width:1080px;height:1920px;padding:120px 96px;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-st h3{font-size:110px;line-height:1.03;letter-spacing:-0.03em;margin:28px 0 0;font-weight:700;}
+  .f-st .diff{font-size:40px;display:flex;flex-direction:column;gap:22px;}
+  .f-st .cta{background:var(--ink);color:var(--paper);border-radius:16px;padding:40px 48px;font-size:38px;display:flex;flex-direction:column;gap:10px;}
+  .f-st .cta .u{color:var(--amber);font-family:var(--mono);font-size:34px;}
+
+  .f-sq{width:1080px;height:1080px;padding:88px;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-sq h3{font-size:84px;line-height:1.05;letter-spacing:-0.03em;margin:24px 0 0;font-weight:700;max-width:12ch;}
+  .f-sq .diff{font-size:31px;display:flex;flex-direction:column;gap:18px;}
+  .f-sq .diff > span{display:flex;flex-direction:column;align-items:flex-start;gap:14px;}
+  .f-sq .foot{display:flex;justify-content:space-between;align-items:center;font-size:26px;color:var(--ink-2);}
+
+  .f-li{width:1200px;height:627px;padding:72px 80px;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-li h3{font-size:66px;line-height:1.05;letter-spacing:-0.03em;margin:16px 0 0;font-weight:700;max-width:16ch;}
+  .f-li .ghost{font-size:620px;right:20px;top:-180px;}
+  .f-li .diff{font-size:25px;display:flex;flex-direction:column;gap:14px;}
+  .f-li .diff > span{display:flex;align-items:center;}
+  .f-li .meta{display:flex;justify-content:space-between;align-items:center;font-size:22px;color:var(--ink-2);}
+  .f-li .meta b{color:var(--ink);font-weight:500;}
+
+  .dot{color:var(--amber);}
+</style>
+<div id="grid"></div>
+<script>
+"use strict";
+const LOGO = `<svg width="88" height="22" viewBox="0 0 88 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M83.061 16.3436C85.4069 16.3436 86.7513 15.7372 87.8851 14.2083L87.595 13.9182C86.8569 14.5245 86.2245 14.7879 84.7216 14.7879C82.4311 14.7879 81.875 13.4696 81.875 10.8342V9.04187C81.875 6.32695 82.1652 5.56218 82.8237 5.56218C83.4822 5.56218 83.7723 6.32568 83.7723 9.04187C83.7723 9.59542 83.7723 10.2546 83.7195 10.8342L84.9322 10.5441H81.1866L81.2394 11.0976H87.8565C88.4889 6.85379 87.0656 5.06079 82.9007 5.06079C78.7885 5.06079 77.1012 6.69536 77.1012 10.7547C77.1037 14.7351 78.8172 16.3436 83.061 16.3436ZM70.3556 15.2893C69.8809 15.2893 69.6703 14.9992 69.1696 14.3406L69.4597 14.8942V6.77551L69.1696 7.53903C69.6703 6.87986 69.8815 6.58973 70.3556 6.58973C71.1464 6.58973 71.357 7.43341 71.357 10.9653C71.357 14.4431 71.1464 15.2887 70.3556 15.2887V15.2893ZM64.8729 21.405H69.4597V15.5005C70.0133 16.1069 70.8041 16.3442 71.9901 16.3442C74.9951 16.3442 76.1551 14.7364 76.1551 10.7032C76.1551 6.66991 74.9691 5.06207 72.3063 5.06207C70.4612 5.06207 69.4858 6.19525 68.2203 7.75091L69.4591 6.5121V5.27333H64.8723L64.8729 21.405ZM51.4027 16.3436C52.2567 16.3498 53.1002 16.1549 53.8649 15.7748C54.6297 15.3947 55.2943 14.84 55.805 14.1555L55.5676 13.8653C55.0321 14.3285 54.3514 14.5896 53.6436 14.6034C52.8801 14.6034 52.5619 14.2605 52.5619 13.3907V5.79887H56.0677V5.27139H52.5619V1.60719H52.1668L48.1075 5.27139L46.0511 5.5348V5.79821H47.9739V13.0999C47.9739 15.421 49.4252 16.3436 51.402 16.3436H51.4027ZM40.9114 15.8689C40.1479 15.8689 39.9628 14.8674 39.9628 10.7025C39.9628 6.27414 40.1473 5.53608 40.9114 5.53608C41.6756 5.53608 41.8601 6.27414 41.8601 10.7025C41.8601 14.8674 41.6749 15.8689 40.9114 15.8689ZM40.9114 16.3436C44.9975 16.3436 46.6581 14.7357 46.6581 10.7025C46.6581 6.66925 44.9975 5.06145 40.9114 5.06145C36.8254 5.06145 35.1647 6.66925 35.1647 10.7025C35.1647 14.7357 36.8254 16.3436 40.9114 16.3436ZM26.5186 16.3436C28.3638 16.3436 29.3391 15.2098 30.6047 13.6547L29.3659 14.8936V16.1323H33.9527V0H29.3659V5.9045C28.8123 5.29814 28.0215 5.06079 26.8355 5.06079C23.8304 5.06079 22.6705 6.66863 22.6705 10.7019C22.6705 14.7351 23.8559 16.3436 26.5186 16.3436ZM28.4694 14.8165C27.6785 14.8165 27.4679 13.9729 27.4679 10.441C27.4679 6.96129 27.6785 6.11762 28.4694 6.11762C28.944 6.11762 29.1546 6.40777 29.6554 7.0663L29.3652 6.51276V14.6314L29.6554 13.8679C29.1546 14.5245 28.9434 14.8146 28.4688 14.8146L28.4694 14.8165ZM13.7864 16.3436C16.1851 16.3436 16.7915 14.9203 17.6613 13.6815L16.8704 14.4195V16.133H21.4572V5.27267H16.8704V14.2617L17.1338 13.7082C16.5014 14.6047 16.1323 14.7097 15.8155 14.7097C15.2358 14.7097 14.919 14.3667 14.919 13.628V5.27205H10.3589V13.0745C10.3596 15.421 11.8096 16.3436 13.7864 16.3436ZM5.35094 16.3436C6.20494 16.3498 7.04843 16.155 7.8132 15.7749C8.57797 15.3948 9.24255 14.84 9.75321 14.1555L9.51588 13.8653C8.98038 14.3285 8.29969 14.5896 7.59184 14.6034C6.82833 14.6034 6.5102 14.2605 6.5102 13.3907V5.79887H9.48916V5.27139H6.51083V1.60719H6.11572L2.05639 5.27139L0 5.53546V5.79887H1.92405V13.1006C1.92405 15.421 3.37217 16.3436 5.35094 16.3436ZM53.3528 21.405H55.4881C57.2015 21.405 58.3614 20.4296 59.1523 18.6634L65.1624 5.27267H64.4244L61.4193 12.2842L62.1313 11.4934L59.4953 5.27267H54.2232L59.9165 16.9245L60.1799 15.2899L59.4679 16.5287C59.0225 17.2923 58.6509 17.583 57.8601 17.583H53.3522L53.3528 21.405Z" fill="#1D1D1D"/></svg>`;
+function logoAt(h){ return LOGO.replace('width="88" height="22"', `width="${h*4}" height="${h}"`); }
+
+// ---------- helpers ----------
+const clamp = (x,a,b)=>Math.min(b,Math.max(a,x));
+const p = (t,t0,d)=>clamp((t-t0)/d,0,1);                 // linear progress
+const outCubic = x=>1-Math.pow(1-x,3);
+const outBack = x=>{const c=1.70158;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+
+function fadeUp(el,t,t0,d=0.45,dist=26){
+  const k = outCubic(p(t,t0,d));
+  el.style.opacity = k;
+  el.style.transform = `translateY(${(1-k)*dist}px)`;
+}
+// token list -> spans; returns {root, setChars(n, caretOn), total}
+function tokenLine(tokens){
+  const root = document.createElement("span");
+  root.style.display = "inline";
+  const spans = tokens.map(([txt,cls])=>{
+    const sp = document.createElement("span");
+    if(cls) sp.dataset.cls = cls;
+    sp.dataset.full = txt;
+    root.appendChild(sp);
+    return sp;
+  });
+  const caret = document.createElement("span");
+  caret.className = "caret";
+  root.appendChild(caret);
+  const total = tokens.reduce((a,[txt])=>a+txt.length,0);
+  function setChars(n, caretOn){
+    let left = n;
+    for(const sp of spans){
+      const full = sp.dataset.full;
+      const take = clamp(left, 0, full.length);
+      sp.textContent = full.slice(0, take);
+      sp.className = take>0 && sp.dataset.cls ? sp.dataset.cls : "";
+      left -= take;
+    }
+    caret.textContent = caretOn ? "▍" : "";
+  }
+  return {root, setChars, total};
+}
+// corrected line: chips pop with stagger; returns {root, set(t,t0)}
+function popLine(tokens, stagger=0.22, popDur=0.32){
+  const root = document.createElement("span");
+  const chips = [];
+  tokens.forEach(([txt,cls])=>{
+    const sp = document.createElement("span");
+    sp.textContent = txt;
+    if(cls){ sp.className = cls; chips.push(sp); }
+    root.appendChild(sp);
+  });
+  function set(t,t0){
+    const base = outCubic(p(t,t0,0.4));
+    root.style.opacity = base;
+    root.style.transform = `translateY(${(1-base)*18}px)`;
+    chips.forEach((sp,i)=>{
+      const k = p(t, t0+0.2+i*stagger, popDur);
+      sp.style.opacity = k;
+      sp.style.transform = `scale(${k===0 ? 0.6 : outBack(k)})`;
+    });
+  }
+  return {root, set};
+}
+function el(tag, cls, html){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(html !== undefined) e.innerHTML = html;
+  return e;
+}
+function tagEl(txt, loc){
+  const e = el("span", "tag"+(loc?" loc":""), txt);
+  e.style.alignSelf = "flex-start";
+  return e;
+}
+
+// ---------- shared content ----------
+const RAW_DONE = [["The model said ",""],['"done",',"bad"],[" paused ",""],["-","bad"],[" then left",""],["...","bad"]];
+const US_DONE  = [["The model said ",""],["“done,”","hl"],[" paused ",""],["—","hl"],[" then left",""],["…","hl"]];
+const GB_DONE  = [["The model said ",""],["‘done’,","hl"],[" paused ",""],["–","hl"],[" then left",""],["…","hl"]];
+
+// ---------- STORY 1080×1920, 6.5s ----------
+function buildStory(root){
+  root.className = "frame f-st";
+  const header = el("div","", "");
+  header.style.cssText = "display:flex;justify-content:space-between;align-items:flex-start;gap:40px;";
+  const hLeft = el("div");
+  hLeft.appendChild(el("div","eyebrow","Typeproof"));
+  hLeft.appendChild(el("h3","",'Watch the green diff<span class="dot">.</span>'));
+  header.appendChild(hLeft);
+  header.insertAdjacentHTML("beforeend", logoAt(40));
+
+  const mid = el("div","diff");
+  const rawTag = tagEl("LLM output");
+  const typed = tokenLine([["She replied ",""],['"goodbye"',"bad"],[" --","bad"],["\nthen walked away",""],["...","bad"]]);
+  const typedWrap = el("div"); typedWrap.style.whiteSpace = "pre-wrap"; typedWrap.appendChild(typed.root);
+  const gap = el("div"); gap.style.height = "52px";
+  const okTag = tagEl("typeproof · en-US", true);
+  const fixed = popLine([["She replied ",""],["“goodbye”","hl"],[" —","hl"],["\nthen walked away",""],["…","hl"]], 0.3);
+  const fixedWrap = el("div"); fixedWrap.style.whiteSpace = "pre-wrap"; fixedWrap.appendChild(fixed.root);
+  mid.style.display = "flex"; mid.style.flexDirection = "column"; mid.style.gap = "26px";
+  mid.append(rawTag, typedWrap, gap, okTag, fixedWrap);
+
+  const cta = el("div","cta");
+  cta.innerHTML = '<span>Paste your own text. Any of 13 languages.</span><span class="u">tudotype.github.io/typeproof</span>';
+  root.append(header, mid, cta);
+
+  return function update(t){
+    fadeUp(header, t, 0.0);
+    fadeUp(rawTag, t, 0.5, 0.3, 12);
+    const typing = p(t, 0.8, 1.8);
+    typed.setChars(Math.round(typing*typed.total), t>0.7 && t<2.9 && (t*2%1<0.55));
+    typedWrap.style.opacity = t>0.5 ? 1 : 0;
+    fadeUp(okTag, t, 2.9, 0.3, 12);
+    fixed.set(t, 3.05);
+    fadeUp(cta, t, 4.6, 0.5, 60);
+  };
+}
+
+// ---------- SQUARE 1080×1080, 7.5s ----------
+function buildSquare(root){
+  root.className = "frame f-sq";
+  const header = el("div","");
+  header.style.cssText = "display:flex;justify-content:space-between;align-items:flex-start;gap:40px;";
+  const hLeft = el("div");
+  hLeft.appendChild(el("div","eyebrow","Typeproof"));
+  hLeft.appendChild(el("h3","",'Same words. Different typography<span class="dot">.</span>'));
+  header.appendChild(hLeft);
+  header.insertAdjacentHTML("beforeend", logoAt(34));
+
+  const mid = el("div","diff");
+  const rawTag = tagEl("LLM output");
+  const typed = tokenLine(RAW_DONE);
+  const rawRow = el("span"); rawRow.append(rawTag, typed.root);
+  const usRow = el("span"); const usTag = tagEl("en-US", true); const us = popLine(US_DONE);
+  const usLine = el("span"); usLine.appendChild(us.root); usRow.append(usTag, usLine);
+  const gbRow = el("span"); const gbTag = tagEl("en-GB", true); const gb = popLine(GB_DONE);
+  const gbLine = el("span"); gbLine.appendChild(gb.root); gbRow.append(gbTag, gbLine);
+  mid.append(rawRow, usRow, gbRow);
+  mid.style.gap = "34px";
+
+  const foot = el("div","foot",
+    '<span><b style="color:var(--ink);font-weight:500;">34 rules · 13 language variants</b> · open source</span><span style="font-family:var(--mono);color:var(--ink-3);">github.com/tudotype/typeproof</span>');
+  root.append(header, mid, foot);
+
+  return function update(t){
+    fadeUp(header, t, 0.0);
+    fadeUp(rawTag, t, 0.5, 0.3, 12);
+    const typing = p(t, 0.7, 1.7);
+    typed.setChars(Math.round(typing*typed.total), t>0.6 && t<2.7 && (t*2%1<0.55));
+    const kUS = outCubic(p(t, 2.9, 0.35));
+    usTag.style.opacity = kUS; us.set(t, 3.0);
+    const kGB = outCubic(p(t, 4.7, 0.35));
+    gbTag.style.opacity = kGB; gb.set(t, 4.8);
+    fadeUp(foot, t, 6.1, 0.4, 16);
+  };
+}
+
+// ---------- LINKEDIN 1200×627, 7s ----------
+function buildLinkedIn(root){
+  root.className = "frame f-li";
+  root.insertAdjacentHTML("beforeend", '<div class="ghost">”</div>');
+  const header = el("div","z");
+  header.style.cssText = "display:flex;justify-content:space-between;align-items:flex-start;gap:40px;";
+  const hLeft = el("div");
+  hLeft.appendChild(el("div","eyebrow","Typeproof"));
+  hLeft.appendChild(el("h3","",'The typography fonts can’t reach<span class="dot">.</span>'));
+  header.appendChild(hLeft);
+  header.insertAdjacentHTML("beforeend", logoAt(36));
+
+  const mid = el("div","diff z");
+  const rawTag = el("span","tag","LLM output");
+  const typed = tokenLine(RAW_DONE);
+  const rawRow = el("span"); rawRow.append(rawTag, typed.root);
+  const usRow = el("span"); const usTag = el("span","tag loc","en-US"); const us = popLine(US_DONE);
+  usRow.append(usTag, us.root);
+  const gbRow = el("span"); const gbTag = el("span","tag loc","en-GB"); const gb = popLine(GB_DONE);
+  gbRow.append(gbTag, gb.root);
+  mid.append(rawRow, usRow, gbRow);
+
+  const meta = el("div","meta z",
+    '<span><b>34 rules</b> · <b>13 language variants</b> · open source</span><span>github.com/tudotype/typeproof</span>');
+  root.append(header, mid, meta);
+
+  return function update(t){
+    fadeUp(header, t, 0.0);
+    fadeUp(rawTag, t, 0.4, 0.3, 10);
+    const typing = p(t, 0.6, 1.6);
+    typed.setChars(Math.round(typing*typed.total), t>0.5 && t<2.5 && (t*2%1<0.55));
+    usTag.style.opacity = outCubic(p(t, 2.7, 0.35)); us.set(t, 2.8);
+    gbTag.style.opacity = outCubic(p(t, 4.4, 0.35)); gb.set(t, 4.5);
+    fadeUp(meta, t, 5.7, 0.4, 14);
+  };
+}
+
+// ---------- driver ----------
+const ASSETS = {
+  story: {build: buildStory, w:1080, h:1920, dur:6.5},
+  sq:    {build: buildSquare, w:1080, h:1080, dur:7.5},
+  li:    {build: buildLinkedIn, w:1200, h:627, dur:7.0},
+};
+const q = new URLSearchParams(location.search);
+const asset = ASSETS[q.get("asset") || "story"];
+const grid = document.getElementById("grid");
+
+if(q.has("count")){
+  // batch mode: tile `count` instances, states start/fps … (start+count-1)/fps
+  const fps = +q.get("fps") || 24;
+  const start = +q.get("start") || 0;
+  const count = +q.get("count");
+  const cols = +q.get("cols") || 2;
+  grid.style.gridTemplateColumns = `repeat(${cols}, ${asset.w}px)`;
+  for(let i=0;i<count;i++){
+    const cell = document.createElement("div");
+    grid.appendChild(cell);
+    const update = asset.build(cell);
+    update(Math.min((start+i)/fps, asset.dur));
+  }
+}else{
+  // live mode: toolbar + scaled looping preview
+  document.body.classList.add("live");
+  const cur = q.get("asset") || "story";
+  const bar = document.createElement("div"); bar.className = "bar";
+  [["story","Story 1080×1920"],["sq","IG post 1080×1080"],["li","LinkedIn 1200×627"]].forEach(([k,label])=>{
+    const a = document.createElement("a");
+    a.href = "?asset="+k; a.textContent = label;
+    if(k===cur) a.className = "on";
+    bar.appendChild(a);
+  });
+  document.body.insertBefore(bar, grid);
+  const stage = document.createElement("div"); stage.id = "stage";
+  grid.appendChild(stage);
+  const cell = document.createElement("div");
+  stage.appendChild(cell);
+  const update = asset.build(cell);
+  function fit(){
+    const availW = Math.min(window.innerWidth - 48, 860);
+    const availH = window.innerHeight - 120;
+    const k = Math.min(availW/asset.w, availH/asset.h, 1);
+    cell.style.transform = `scale(${k})`;
+    stage.style.width = asset.w*k+"px";
+    stage.style.height = asset.h*k+"px";
+  }
+  window.addEventListener("resize", fit); fit();
+  const t0 = performance.now();
+  (function tick(){
+    const t = ((performance.now()-t0)/1000) % (asset.dur + 0.6);
+    update(Math.min(t, asset.dur));
+    requestAnimationFrame(tick);
+  })();
+}
+</script>
