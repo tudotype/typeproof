@@ -125,8 +125,9 @@
       </div>
       <div class="diff z">
         <span><span class="tag">LLM output</span><span>The model said <span class="bad">"done",</span> paused <span class="bad">-</span> then left<span class="bad">...</span></span></span>
-        <span><span class="tag loc">en-US</span><span>The model said <span class="hl">“done,”</span> paused <span class="hl">—</span> then left<span class="hl">…</span></span></span>
-        <span><span class="tag loc">en-GB</span><span>The model said <span class="hl">‘done’,</span> paused <span class="hl">–</span> then left<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-US</span><span>The model said <span class="hl">“done”</span>, paused<span class="hl">—</span>then left<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-GB</span><span>The model said "done", paused <span class="hl">–</span> then left<span class="hl">…</span></span></span>
+        <span style="font-family:var(--mono);font-size:19px;color:var(--ink-3);">en-GB keeps "done" — UK single vs double quotes is house style. Typeproof never guesses.</span>
       </div>
       <div class="meta z">
         <span><b>34 rules</b> · <b>13 language variants</b> · open source</span>
@@ -165,7 +166,7 @@ E a parte de que mais gosto: isto precisa de falantes nativos. Se uma regra esti
 
 Demo e repositório nos comentários ⤵</p>
     </div>
-    <div class="copy"><h4>Alt text</h4><p>A sentence labelled “LLM output”, written with straight quotes, a lone hyphen and three periods, is corrected twice: for en-US with double curly quotes, the comma inside the quote and an unspaced em dash; for en-GB with single quotes, the comma outside and a spaced en dash. Corrections are highlighted in green. Headline: “The typography fonts can’t reach.”</p></div>
+    <div class="copy"><h4>Alt text</h4><p>A sentence labelled “LLM output”, written with straight quotes, a lone hyphen and three periods, is corrected twice: for en-US with double curly quotes and an unspaced em dash; for en-GB with a spaced en dash while the straight quotes are deliberately left untouched — a note explains that UK single vs double quotes is house style and Typeproof never guesses. Corrections are highlighted in green. Headline: “The typography fonts can’t reach.”</p></div>
   </section>
 
   <!-- ============ INSTAGRAM CAROUSEL ============ -->
@@ -206,11 +207,11 @@ Demo e repositório nos comentários ⤵</p>
       <div class="rows" style="gap:22px;">
         <div class="row"><span class="tag">LLM</span><span class="bad">"hello"</span></div>
         <div class="row"><span class="lang">en-US</span><span class="hl">“hello”</span></div>
-        <div class="row"><span class="lang">en-GB</span><span class="hl">‘hello’</span></div>
         <div class="row"><span class="lang">de-DE</span><span class="hl">„hallo“</span></div>
         <div class="row"><span class="lang">pt-PT</span><span class="hl">« olá »</span></div>
         <div class="row"><span class="lang">fr-FR</span><span class="hl">« bonjour »</span></div>
         <div class="row"><span class="lang">ro-RO</span><span class="hl">„salut”</span></div>
+        <div style="font-family:var(--mono);font-size:22px;color:var(--ink-3);max-width:34ch;line-height:1.5;">en-GB? Contested — Oxford wants ‘hello’, the Guardian wants “hello”. Typeproof never guesses.</div>
       </div>
       <div class="foot"><span>13 language variants · 34 deterministic rules</span><span class="count">typeproof</span></div>
     </div></div>
@@ -260,11 +261,11 @@ Feito em aberto. Procuram-se falantes nativos — link na bio.
       </div>
       <div class="diff">
         <span class="tag" style="align-self:flex-start;">LLM output</span>
-        <span>She replied <span class="bad">"goodbye"</span> <span class="bad">--</span></span>
+        <span>She replied <span class="bad">"goodbye"</span> <span class="bad">-</span></span>
         <span>then walked away<span class="bad">...</span></span>
         <span style="height:30px;"></span>
         <span class="tag loc" style="align-self:flex-start;">typeproof · en-US</span>
-        <span>She replied <span class="hl">“goodbye”</span> <span class="hl">—</span></span>
+        <span>She replied <span class="hl">“goodbye”</span><span class="hl">—</span></span>
         <span>then walked away<span class="hl">…</span></span>
       </div>
       <div class="cta">
@@ -288,8 +289,8 @@ Feito em aberto. Procuram-se falantes nativos — link na bio.
       </div>
       <div class="diff">
         <span><span class="tag">LLM output</span><span><span class="bad">"done",</span> he said <span class="bad">-</span> moving on<span class="bad">...</span></span></span>
-        <span><span class="tag loc">en-US</span><span><span class="hl">“done,”</span> he said <span class="hl">—</span> moving on<span class="hl">…</span></span></span>
-        <span><span class="tag loc">en-GB</span><span><span class="hl">‘done’,</span> he said <span class="hl">–</span> moving on<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-US</span><span><span class="hl">“done”</span>, he said<span class="hl">—</span>moving on<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-GB</span><span>"done", he said <span class="hl">–</span> moving on<span class="hl">…</span>&nbsp;&nbsp;<span style="font-size:18px;color:var(--ink-3);">quotes untouched — house style</span></span></span>
       </div>
       <div class="meta"><span>34 rules · 13 language variants · pure Python</span><span>github.com/tudotype/typeproof</span></div>
     </div></div>
@@ -299,7 +300,7 @@ Feito em aberto. Procuram-se falantes nativos — link na bio.
 
 Straight quotes, wrong dashes, missing diacritics — fixed at the **codepoint** level, with rules that change by language. Portuguese gets « guillemets », German gets „low-high” quotes, French gets narrow no-break spaces before `!` and `?`.
 
-`He said "hello" -- then left...` → `He said “hello” — then left…`
+`He said "hello" - then left...` → `He said “hello”—then left…`
 
 • 34 deterministic rules · 13 language variants · pure Python, no ML needed for the core
 • Never corrupts code: URLs, backticks and paths are masked before any rule runs

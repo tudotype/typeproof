@@ -131,8 +131,9 @@ function tagEl(txt, loc){
 
 // ---------- shared content ----------
 const RAW_DONE = [["The model said ",""],['"done",',"bad"],[" paused ",""],["-","bad"],[" then left",""],["...","bad"]];
-const US_DONE  = [["The model said ",""],["“done,”","hl"],[" paused ",""],["—","hl"],[" then left",""],["…","hl"]];
-const GB_DONE  = [["The model said ",""],["‘done’,","hl"],[" paused ",""],["–","hl"],[" then left",""],["…","hl"]];
+const US_DONE  = [["The model said ",""],["“done”","hl"],[", paused",""],["—","hl"],["then left",""],["…","hl"]];
+const GB_DONE  = [["The model said ",""],['"done",',""],[" paused ",""],["–","hl"],[" then left",""],["…","hl"]];
+const GB_NOTE  = 'en-GB keeps "done" — UK single vs double quotes is house style. Typeproof never guesses.';
 
 // ---------- STORY 1080×1920, 6.5s ----------
 function buildStory(root){
@@ -147,11 +148,11 @@ function buildStory(root){
 
   const mid = el("div","diff");
   const rawTag = tagEl("LLM output");
-  const typed = tokenLine([["She replied ",""],['"goodbye"',"bad"],[" --","bad"],["\nthen walked away",""],["...","bad"]]);
+  const typed = tokenLine([["She replied ",""],['"goodbye"',"bad"],[" ",""],["-","bad"],["\nthen walked away",""],["...","bad"]]);
   const typedWrap = el("div"); typedWrap.style.whiteSpace = "pre-wrap"; typedWrap.appendChild(typed.root);
   const gap = el("div"); gap.style.height = "52px";
   const okTag = tagEl("typeproof · en-US", true);
-  const fixed = popLine([["She replied ",""],["“goodbye”","hl"],[" —","hl"],["\nthen walked away",""],["…","hl"]], 0.3);
+  const fixed = popLine([["She replied ",""],["“goodbye”","hl"],["—","hl"],["\nthen walked away",""],["…","hl"]], 0.3);
   const fixedWrap = el("div"); fixedWrap.style.whiteSpace = "pre-wrap"; fixedWrap.appendChild(fixed.root);
   mid.style.display = "flex"; mid.style.flexDirection = "column"; mid.style.gap = "26px";
   mid.append(rawTag, typedWrap, gap, okTag, fixedWrap);
@@ -191,7 +192,9 @@ function buildSquare(root){
   const usLine = el("span"); usLine.appendChild(us.root); usRow.append(usTag, usLine);
   const gbRow = el("span"); const gbTag = tagEl("en-GB", true); const gb = popLine(GB_DONE);
   const gbLine = el("span"); gbLine.appendChild(gb.root); gbRow.append(gbTag, gbLine);
-  mid.append(rawRow, usRow, gbRow);
+  const gbNote = el("div","", GB_NOTE);
+  gbNote.style.cssText = "font-family:var(--mono);font-size:22px;color:var(--ink-3);max-width:36ch;line-height:1.5;";
+  mid.append(rawRow, usRow, gbRow, gbNote);
   mid.style.gap = "34px";
 
   const foot = el("div","foot",
@@ -207,7 +210,8 @@ function buildSquare(root){
     usTag.style.opacity = kUS; us.set(t, 3.0);
     const kGB = outCubic(p(t, 4.7, 0.35));
     gbTag.style.opacity = kGB; gb.set(t, 4.8);
-    fadeUp(foot, t, 6.1, 0.4, 16);
+    fadeUp(gbNote, t, 5.6, 0.4, 12);
+    fadeUp(foot, t, 6.4, 0.4, 16);
   };
 }
 
@@ -231,7 +235,9 @@ function buildLinkedIn(root){
   usRow.append(usTag, us.root);
   const gbRow = el("span"); const gbTag = el("span","tag loc","en-GB"); const gb = popLine(GB_DONE);
   gbRow.append(gbTag, gb.root);
-  mid.append(rawRow, usRow, gbRow);
+  const gbNote = el("span","", GB_NOTE);
+  gbNote.style.cssText = "font-family:var(--mono);font-size:18px;color:var(--ink-3);";
+  mid.append(rawRow, usRow, gbRow, gbNote);
 
   const meta = el("div","meta z",
     '<span><b>34 rules</b> · <b>13 language variants</b> · open source</span><span>github.com/tudotype/typeproof</span>');
@@ -244,7 +250,8 @@ function buildLinkedIn(root){
     typed.setChars(Math.round(typing*typed.total), t>0.5 && t<2.5 && (t*2%1<0.55));
     usTag.style.opacity = outCubic(p(t, 2.7, 0.35)); us.set(t, 2.8);
     gbTag.style.opacity = outCubic(p(t, 4.4, 0.35)); gb.set(t, 4.5);
-    fadeUp(meta, t, 5.7, 0.4, 14);
+    fadeUp(gbNote, t, 5.3, 0.4, 10);
+    fadeUp(meta, t, 6.0, 0.4, 14);
   };
 }
 
