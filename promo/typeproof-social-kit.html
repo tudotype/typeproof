@@ -1,0 +1,308 @@
+<title>Typeproof — Social Kit</title>
+<style>
+  :root{
+    --paper:#F2F1ED; --paper-hi:#FFFFFF; --ink:#1D1D1D; --ink-2:#4F4F4F; --ink-3:#8B897F;
+    --amber:#FFA000; --amber-soft:#FFF3CC; --amber-dark:#996000;
+    --green:#397C42; --green-soft:#EBF4EC; --green-text:#1B5E20;
+    --red:#FF4517; --red-soft:#FFEEE9;
+    --pg-bg:#FAF9F6; --pg-card:#FFFFFF; --pg-ink:#1D1D1D; --pg-ink2:#5F5D55; --pg-border:#E4E2DC;
+    --sans:"Google Sans","Product Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mono:"Google Sans Mono","SF Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --pg-bg:#171614; --pg-card:#201F1C; --pg-ink:#EDEBE5; --pg-ink2:#A5A299; --pg-border:#33322D; }
+  }
+  :root[data-theme="dark"]{ --pg-bg:#171614; --pg-card:#201F1C; --pg-ink:#EDEBE5; --pg-ink2:#A5A299; --pg-border:#33322D; }
+  :root[data-theme="light"]{ --pg-bg:#FAF9F6; --pg-card:#FFFFFF; --pg-ink:#1D1D1D; --pg-ink2:#5F5D55; --pg-border:#E4E2DC; }
+
+  body{background:var(--pg-bg);color:var(--pg-ink);font-family:var(--sans);margin:0;
+       -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:56px 24px 96px;display:flex;flex-direction:column;gap:64px;}
+
+  header h1{font-size:clamp(28px,4vw,40px);margin:0 0 8px;letter-spacing:-0.02em;text-wrap:balance;}
+  header h1 .dot{color:var(--amber);}
+  header p{color:var(--pg-ink2);max-width:62ch;line-height:1.55;margin:0;}
+  .honest{display:inline-block;margin-top:14px;font-size:13px;color:var(--amber-dark);background:var(--amber-soft);
+          border-radius:9999px;padding:5px 14px;font-weight:500;}
+  @media (prefers-color-scheme: dark){ .honest{background:#3A2E10;color:#FFC961;} }
+  :root[data-theme="dark"] .honest{background:#3A2E10;color:#FFC961;}
+  :root[data-theme="light"] .honest{background:var(--amber-soft);color:var(--amber-dark);}
+
+  section{display:flex;flex-direction:column;gap:20px;}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--pg-border);padding-bottom:10px;}
+  .sec-head h2{font-size:20px;margin:0;letter-spacing:-0.01em;}
+  .dims{font-family:var(--mono);font-size:12px;color:var(--pg-ink2);}
+
+  .frame-wrap{position:relative;width:100%;overflow:hidden;border-radius:10px;
+              box-shadow:0 1px 3px rgba(0,0,0,.12),0 12px 32px -18px rgba(0,0,0,.25);}
+  .frame{position:absolute;top:0;left:0;transform-origin:top left;
+         background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:hidden;}
+
+  /* ——— shared frame vocabulary ——— */
+  .eyebrow{font-size:22px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--amber-dark);}
+  .brandline{display:flex;align-items:center;gap:18px;font-size:22px;color:var(--ink-2);}
+  .diff{font-family:var(--mono);}
+  .hl{background:var(--green-soft);color:var(--green-text);border-radius:6px;padding:0 6px;}
+  .bad{background:var(--red-soft);color:#B71C1C;border-radius:6px;padding:0 6px;}
+  .pillrow{display:flex;gap:14px;flex-wrap:wrap;}
+  .pill{border:2px solid var(--ink);border-radius:9999px;padding:8px 22px;font-size:22px;font-weight:500;}
+  .pill.amber{border-color:var(--amber);background:var(--amber);color:var(--ink);}
+  .ghost{position:absolute;font-weight:700;color:var(--amber-soft);line-height:1;user-select:none;z-index:0;}
+  .z{position:relative;z-index:1;}
+
+  /* ——— LinkedIn 1200×627 ——— */
+  .f-li{width:1200px;height:627px;padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-li h3{font-size:76px;line-height:1.04;letter-spacing:-0.03em;margin:20px 0 0;font-weight:700;max-width:14ch;}
+  .f-li h3 .dot{color:var(--amber);}
+  .f-li .diff{font-size:31px;display:flex;flex-direction:column;gap:14px;}
+  .f-li .diff .arrow{color:var(--ink-3);}
+  .f-li .ghost{font-size:620px;right:20px;top:-180px;}
+  .f-li .meta{display:flex;justify-content:space-between;align-items:center;font-size:24px;color:var(--ink-2);}
+  .f-li .meta b{color:var(--ink);font-weight:500;}
+
+  /* ——— Instagram 1080×1080 ——— */
+  .f-sq{width:1080px;height:1080px;padding:88px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-sq .count{font-family:var(--mono);font-size:24px;color:var(--ink-3);}
+  .f-sq h3{font-size:92px;line-height:1.04;letter-spacing:-0.03em;margin:0;font-weight:700;text-wrap:balance;}
+  .f-sq h3 .dot{color:var(--amber);}
+  .f-sq .sub{font-size:34px;line-height:1.4;color:var(--ink-2);max-width:24ch;}
+  .rows{display:flex;flex-direction:column;gap:26px;}
+  .row{display:flex;align-items:center;gap:26px;font-size:40px;}
+  .row .lang{font-family:var(--mono);font-size:24px;color:var(--amber-dark);background:var(--amber-soft);border-radius:9999px;padding:6px 18px;flex:0 0 auto;}
+  .row .arrow{color:var(--ink-3);}
+  .f-sq .foot{display:flex;justify-content:space-between;align-items:center;font-size:26px;color:var(--ink-2);}
+  .sq-hero-glyph{font-size:420px;font-weight:700;line-height:.9;letter-spacing:-0.02em;color:var(--ink);margin:-30px 0 -60px -14px;}
+  .sq-hero-glyph .g2{color:var(--amber);}
+
+  /* ——— Story 1080×1920 ——— */
+  .f-st{width:1080px;height:1920px;padding:120px 96px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-st h3{font-size:110px;line-height:1.03;letter-spacing:-0.03em;margin:0;font-weight:700;}
+  .f-st h3 .dot{color:var(--amber);}
+  .f-st .diff{font-size:40px;display:flex;flex-direction:column;gap:22px;}
+  .f-st .cta{background:var(--ink);color:var(--paper);border-radius:16px;padding:40px 48px;font-size:38px;display:flex;flex-direction:column;gap:10px;}
+  .f-st .cta .u{color:var(--amber);font-family:var(--mono);font-size:34px;}
+
+  /* ——— Discord 1200×480 ——— */
+  .f-dc{width:1200px;height:480px;padding:64px 80px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
+  .f-dc h3{font-size:72px;margin:0;letter-spacing:-0.03em;font-weight:700;}
+  .f-dc h3 .dot{color:var(--amber);}
+  .f-dc .diff{font-size:30px;display:flex;gap:20px;align-items:center;}
+  .f-dc .meta{font-size:23px;color:var(--ink-2);display:flex;gap:28px;}
+
+  /* copy blocks */
+  .copy{background:var(--pg-card);border:1px solid var(--pg-border);border-radius:10px;padding:20px 24px;}
+  .copy h4{margin:0 0 10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-ink2);font-weight:600;}
+  .copy p, .copy pre{margin:0;line-height:1.6;font-size:15px;white-space:pre-wrap;}
+  .copy pre{font-family:var(--mono);font-size:13.5px;overflow-x:auto;}
+  .copy + .copy{margin-top:12px;}
+  .draft{color:var(--amber-dark);font-weight:600;}
+  .note{font-size:14px;color:var(--pg-ink2);line-height:1.6;max-width:70ch;}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Typeproof — social kit<span class="dot">.</span></h1>
+    <p>Launch visuals for LinkedIn, Instagram and Discord, set in the demo site’s own design language: paper ground, ink, amber accent, corrections in green. Captions below each frame are ready to paste — Portuguese copy is marked as draft until the voice reference lands.</p>
+    <span class="honest">All numbers use the honest framing: 34 live rules · 13 language variants</span>
+  </header>
+
+  <!-- ============ LINKEDIN ============ -->
+  <section>
+    <div class="sec-head"><h2>LinkedIn — link post</h2><span class="dims">1200 × 627</span></div>
+    <div class="frame-wrap"><div class="frame f-li">
+      <div class="ghost">”</div>
+      <div class="z">
+        <div class="eyebrow">Typeproof</div>
+        <h3>The typography fonts can’t reach<span class="dot">.</span></h3>
+      </div>
+      <div class="diff z">
+        <span>He said <span class="bad">"hello"</span> <span class="bad">--</span> then left<span class="bad">...</span></span>
+        <span><span class="arrow">→&nbsp;</span>He said <span class="hl">“hello”</span> <span class="hl">—</span> then left<span class="hl">…</span></span>
+      </div>
+      <div class="meta z">
+        <span><b>34 rules</b> · <b>13 language variants</b> · open source</span>
+        <span>github.com/tudotype/typeproof</span>
+      </div>
+    </div></div>
+    <div class="copy">
+      <h4>Caption — EN</h4>
+      <p>It started with an argument about the em dash.
+
+An internal thread about one character — how it should be used, whether we should standardise — turned into a question I couldn’t put down: who is writing down each language’s typographic rules before a flood of synthetic text flattens them?
+
+Typeproof is my answer. An open-source, language-aware typographic linter:
+
+→ 34 deterministic rules — quotes, dashes, spacing, diacritics — across 13 language variants
+→ Three layers: lint → fine-tuned model → font gate (it never emits a glyph your font can’t render)
+→ A YAML schema as the single source of truth — auditable, extensible, honest about what’s verified
+
+The deterministic core works today. Paste your own text into the live demo and watch the green diff.
+
+The part I care about most: this needs native speakers. If a rule is wrong for your language, you don’t write code — you open an issue with “what it is” vs. “what it should be”. That’s a contribution.
+
+Demo and repo in the comments ⤵</p>
+    </div>
+    <div class="copy">
+      <h4>Caption — PT-PT <span class="draft">· draft, pending voice reference</span></h4>
+      <p>Começou com uma discussão sobre o travessão.
+
+Uma conversa interna sobre um único carácter transformou-se numa pergunta que não me largou: quem está a registar as regras tipográficas de cada língua antes que a avalanche de texto sintético as nivele?
+
+O Typeproof é a minha resposta. Um linter tipográfico open-source, sensível ao idioma: 34 regras determinísticas em 13 variantes linguísticas, com um esquema YAML como fonte única de verdade.
+
+O núcleo determinístico já funciona hoje — experimenta a demo e vê o diff verde.
+
+E a parte de que mais gosto: isto precisa de falantes nativos. Se uma regra estiver errada na tua língua, não precisas de escrever código — basta um exemplo de « como está » e « como devia estar ».
+
+Demo e repositório nos comentários ⤵</p>
+    </div>
+    <div class="copy"><h4>Alt text</h4><p>A line of text with straight quotes, a double hyphen and three periods is corrected to curly quotes, an em dash and an ellipsis, with the corrected glyphs highlighted in green. Headline: “The typography fonts can’t reach.”</p></div>
+  </section>
+
+  <!-- ============ INSTAGRAM CAROUSEL ============ -->
+  <section>
+    <div class="sec-head"><h2>Instagram — carousel, 4 frames</h2><span class="dims">1080 × 1080</span></div>
+
+    <div class="frame-wrap"><div class="frame f-sq">
+      <div class="count">1 / 4</div>
+      <div>
+        <div class="sq-hero-glyph">«<span class="g2">—</span>»</div>
+        <h3>Typeproof<span class="dot">.</span></h3>
+      </div>
+      <div class="foot">
+        <span class="sub">Language-aware typographic correction for the multilingual web.</span>
+        <span class="eyebrow" style="font-size:20px;">Open source</span>
+      </div>
+    </div></div>
+
+    <div class="frame-wrap"><div class="frame f-sq">
+      <div class="count">2 / 4</div>
+      <h3>Synthetic text is typographically illiterate<span class="dot">.</span></h3>
+      <div class="rows diff" style="font-size:40px;">
+        <div class="row"><span class="bad">"straight quotes"</span><span class="arrow">→</span><span class="hl">“curly quotes”</span></div>
+        <div class="row"><span class="bad">hyphen - as dash</span><span class="arrow">→</span><span class="hl">em dash — proper</span></div>
+        <div class="row"><span class="bad">dot dot dot...</span><span class="arrow">→</span><span class="hl">ellipsis…</span></div>
+        <div class="row"><span class="bad">1920x1080</span><span class="arrow">→</span><span class="hl">1920 × 1080</span></div>
+      </div>
+      <div class="foot"><span>Errors compound — one API call at a time.</span><span class="count">typeproof</span></div>
+    </div></div>
+
+    <div class="frame-wrap"><div class="frame f-sq">
+      <div class="count">3 / 4</div>
+      <h3>Every language has its own typographic DNA<span class="dot">.</span></h3>
+      <div class="rows">
+        <div class="row"><span class="lang">en-US</span><span>“Typography matters.”</span></div>
+        <div class="row"><span class="lang">de-DE</span><span>„Typografie zählt.“</span></div>
+        <div class="row"><span class="lang">pt-PT</span><span>« A tipografia conta. »</span></div>
+        <div class="row"><span class="lang">fr-FR</span><span>« La typographie compte ! »</span></div>
+        <div class="row"><span class="lang">ro-RO</span><span>„Tipografia contează.”</span></div>
+      </div>
+      <div class="foot"><span>13 language variants · 34 deterministic rules</span><span class="count">typeproof</span></div>
+    </div></div>
+
+    <div class="frame-wrap"><div class="frame f-sq">
+      <div class="count">4 / 4</div>
+      <h3>This work needs native speakers<span class="dot">.</span></h3>
+      <div class="sub" style="font-size:38px;max-width:22ch;">If a rule is wrong for your language, you don’t need to write code. One before/after example is a contribution.</div>
+      <div class="pillrow">
+        <span class="pill amber">github.com/tudotype/typeproof</span>
+        <span class="pill">Live demo → link in bio</span>
+      </div>
+    </div></div>
+
+    <div class="copy">
+      <h4>Caption — EN</h4>
+      <p>Most machine-generated text gets typography wrong — straight quotes, fake dashes, no idea that Portuguese uses « guillemets » or that German quotes open „low”.
+
+Typeproof is an open-source linter that fixes typography at the codepoint level, per language. 34 deterministic rules, 13 language variants, and a font gate so it never emits a glyph your font can’t render.
+
+Built in the open. Native speakers wanted — link in bio.
+
+#typography #opensource #i18n #typedesign #wordpress</p>
+    </div>
+    <div class="copy">
+      <h4>Caption — PT-PT <span class="draft">· draft, pending voice reference</span></h4>
+      <p>A maior parte do texto gerado por máquinas é tipograficamente analfabeto — aspas retas, travessões falsos, nenhuma noção de que o português usa « aspas angulares ».
+
+O Typeproof é um linter open-source que corrige a tipografia ao nível do codepoint, língua a língua. 34 regras determinísticas, 13 variantes linguísticas.
+
+Feito em aberto. Procuram-se falantes nativos — link na bio.
+
+#tipografia #opensource #typedesign</p>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section>
+    <div class="sec-head"><h2>Instagram — story / reel cover</h2><span class="dims">1080 × 1920</span></div>
+    <div class="frame-wrap"><div class="frame f-st">
+      <div>
+        <div class="eyebrow">Typeproof</div>
+        <h3 style="margin-top:28px;">Watch the green diff<span class="dot">.</span></h3>
+      </div>
+      <div class="diff">
+        <span>She replied <span class="bad">"goodbye"</span> <span class="bad">--</span></span>
+        <span>then walked away<span class="bad">...</span></span>
+        <span style="height:22px;"></span>
+        <span><span style="color:var(--ink-3);">→&nbsp;</span>She replied <span class="hl">“goodbye”</span> <span class="hl">—</span></span>
+        <span>then walked away<span class="hl">…</span></span>
+      </div>
+      <div class="cta">
+        <span>Paste your own text. Any of 13 languages.</span>
+        <span class="u">tudotype.github.io/typeproof</span>
+      </div>
+    </div></div>
+    <div class="copy"><h4>Sticker note</h4><p>Add the link sticker over the dark card, pointing at the live demo. Poll idea for a second story: “Do you notice straight quotes in published text?” Yes, always / I do now.</p></div>
+  </section>
+
+  <!-- ============ DISCORD ============ -->
+  <section>
+    <div class="sec-head"><h2>Discord — banner + announcement</h2><span class="dims">1200 × 480</span></div>
+    <div class="frame-wrap"><div class="frame f-dc">
+      <div>
+        <div class="eyebrow" style="font-size:18px;">Open source · new release</div>
+        <h3>Typeproof<span class="dot">.</span> Lint your typography<span class="dot">.</span></h3>
+      </div>
+      <div class="diff">
+        <span class="bad">"hello" -- world...</span><span style="color:var(--ink-3);">→</span><span class="hl">“hello” — world…</span>
+      </div>
+      <div class="meta"><span>34 rules · 13 language variants · pure Python</span><span>github.com/tudotype/typeproof</span></div>
+    </div></div>
+    <div class="copy">
+      <h4>Announcement message — paste into Discord</h4>
+      <pre>**Typeproof** — language-aware typographic correction, open source ​🔤
+
+Straight quotes, wrong dashes, missing diacritics — fixed at the **codepoint** level, with rules that change by language. Portuguese gets « guillemets », German gets „low-high” quotes, French gets narrow no-break spaces before `!` and `?`.
+
+`He said "hello" -- then left...` → `He said “hello” — then left…`
+
+• 34 deterministic rules · 13 language variants · pure Python, no ML needed for the core
+• Never corrupts code: URLs, backticks and paths are masked before any rule runs
+• Strict mode for CI: when a change isn’t provably safe, it does nothing
+
+**Try it live:** https://tudotype.github.io/typeproof/
+**Repo:** https://github.com/tudotype/typeproof
+
+If a rule is wrong for your language, open an issue with a before/after example — no code required. Native speakers are the whole point.</pre>
+    </div>
+  </section>
+
+  <footer>
+    <p class="note">Export: each frame is built at its exact pixel size and scaled to fit this page. I can render them to PNG at 2× on request — or screenshot the frames from this page. Type is set in Google Sans when installed locally (falls back to the system sans). PT-PT frames use guillemets with thin spaces, per the pt-PT rule set — practising what we preach.</p>
+  </footer>
+</div>
+
+<script>
+  function fit(){
+    document.querySelectorAll('.frame-wrap').forEach(function(w){
+      var f=w.firstElementChild;
+      f.style.transform='none';
+      var nw=f.offsetWidth, nh=f.offsetHeight;
+      var s=Math.min(1, w.clientWidth/nw);
+      f.style.transform='scale('+s+')';
+      w.style.height=(nh*s)+'px';
+    });
+  }
+  window.addEventListener('resize', fit);
+  fit(); setTimeout(fit, 100);
+</script>
