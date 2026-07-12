@@ -48,13 +48,16 @@
   .pill{border:2px solid var(--ink);border-radius:9999px;padding:8px 22px;font-size:22px;font-weight:500;}
   .pill.amber{border-color:var(--amber);background:var(--amber);color:var(--ink);}
   .ghost{position:absolute;font-weight:700;color:var(--amber-soft);line-height:1;user-select:none;z-index:0;}
+  .tag{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--ink-2);background:#E7E5DF;border-radius:9999px;padding:5px 16px;margin-right:16px;white-space:nowrap;}
+  .tag.loc{color:var(--amber-dark);background:var(--amber-soft);}
   .z{position:relative;z-index:1;}
 
   /* ——— LinkedIn 1200×627 ——— */
   .f-li{width:1200px;height:627px;padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
   .f-li h3{font-size:76px;line-height:1.04;letter-spacing:-0.03em;margin:20px 0 0;font-weight:700;max-width:14ch;}
   .f-li h3 .dot{color:var(--amber);}
-  .f-li .diff{font-size:31px;display:flex;flex-direction:column;gap:14px;}
+  .f-li .diff{font-size:27px;display:flex;flex-direction:column;gap:16px;}
+  .f-li .diff > span{display:flex;align-items:center;}
   .f-li .diff .arrow{color:var(--ink-3);}
   .f-li .ghost{font-size:620px;right:20px;top:-180px;}
   .f-li .meta{display:flex;justify-content:space-between;align-items:center;font-size:24px;color:var(--ink-2);}
@@ -86,7 +89,9 @@
   .f-dc{width:1200px;height:480px;padding:64px 80px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
   .f-dc h3{font-size:72px;margin:0;letter-spacing:-0.03em;font-weight:700;}
   .f-dc h3 .dot{color:var(--amber);}
-  .f-dc .diff{font-size:30px;display:flex;gap:20px;align-items:center;}
+  .f-dc .diff{font-size:25px;display:flex;flex-direction:column;gap:12px;}
+  .f-dc .diff > span{display:flex;align-items:center;}
+  .f-dc .tag{font-size:16px;padding:4px 12px;margin-right:12px;}
   .f-dc .meta{font-size:23px;color:var(--ink-2);display:flex;gap:28px;}
 
   /* copy blocks */
@@ -116,8 +121,9 @@
         <h3>The typography fonts can’t reach<span class="dot">.</span></h3>
       </div>
       <div class="diff z">
-        <span>He said <span class="bad">"hello"</span> <span class="bad">--</span> then left<span class="bad">...</span></span>
-        <span><span class="arrow">→&nbsp;</span>He said <span class="hl">“hello”</span> <span class="hl">—</span> then left<span class="hl">…</span></span>
+        <span><span class="tag">LLM output</span><span>The model said <span class="bad">"done",</span> paused <span class="bad">-</span> then left<span class="bad">...</span></span></span>
+        <span><span class="tag loc">en-US</span><span>The model said <span class="hl">“done,”</span> paused <span class="hl">—</span> then left<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-GB</span><span>The model said <span class="hl">‘done’,</span> paused <span class="hl">–</span> then left<span class="hl">…</span></span></span>
       </div>
       <div class="meta z">
         <span><b>34 rules</b> · <b>13 language variants</b> · open source</span>
@@ -156,7 +162,7 @@ E a parte de que mais gosto: isto precisa de falantes nativos. Se uma regra esti
 
 Demo e repositório nos comentários ⤵</p>
     </div>
-    <div class="copy"><h4>Alt text</h4><p>A line of text with straight quotes, a double hyphen and three periods is corrected to curly quotes, an em dash and an ellipsis, with the corrected glyphs highlighted in green. Headline: “The typography fonts can’t reach.”</p></div>
+    <div class="copy"><h4>Alt text</h4><p>A sentence labelled “LLM output”, written with straight quotes, a lone hyphen and three periods, is corrected twice: for en-US with double curly quotes, the comma inside the quote and an unspaced em dash; for en-GB with single quotes, the comma outside and a spaced en dash. Corrections are highlighted in green. Headline: “The typography fonts can’t reach.”</p></div>
   </section>
 
   <!-- ============ INSTAGRAM CAROUSEL ============ -->
@@ -178,24 +184,30 @@ Demo e repositório nos comentários ⤵</p>
     <div class="frame-wrap"><div class="frame f-sq">
       <div class="count">2 / 4</div>
       <h3>Synthetic text is typographically illiterate<span class="dot">.</span></h3>
-      <div class="rows diff" style="font-size:40px;">
-        <div class="row"><span class="bad">"straight quotes"</span><span class="arrow">→</span><span class="hl">“curly quotes”</span></div>
-        <div class="row"><span class="bad">hyphen - as dash</span><span class="arrow">→</span><span class="hl">em dash — proper</span></div>
-        <div class="row"><span class="bad">dot dot dot...</span><span class="arrow">→</span><span class="hl">ellipsis…</span></div>
-        <div class="row"><span class="bad">1920x1080</span><span class="arrow">→</span><span class="hl">1920 × 1080</span></div>
+      <div class="rows diff" style="font-size:38px;">
+        <div class="row"><span class="bad">"It's fine"</span><span class="arrow">→</span><span class="hl">“It’s fine”</span></div>
+        <div class="row"><span class="bad">risk - and reward</span><span class="arrow">→</span><span class="hl">risk—and reward</span></div>
+        <div class="row"><span class="bad">2020-2024</span><span class="arrow">→</span><span class="hl">2020–2024</span></div>
+        <div class="row"><span class="bad">Wait...</span><span class="arrow">→</span><span class="hl">Wait…</span></div>
+        <div class="row"><span class="bad">1920x1080</span><span class="arrow">→</span><span class="hl">1920 × 1080</span></div>
       </div>
-      <div class="foot"><span>Errors compound — one API call at a time.</span><span class="count">typeproof</span></div>
+      <div class="foot"><span>Every chatbot ships these. Errors compound, one API call at a time.</span><span class="count">typeproof</span></div>
     </div></div>
 
     <div class="frame-wrap"><div class="frame f-sq">
       <div class="count">3 / 4</div>
-      <h3>Every language has its own typographic DNA<span class="dot">.</span></h3>
-      <div class="rows">
-        <div class="row"><span class="lang">en-US</span><span>“Typography matters.”</span></div>
-        <div class="row"><span class="lang">de-DE</span><span>„Typografie zählt.“</span></div>
-        <div class="row"><span class="lang">pt-PT</span><span>« A tipografia conta. »</span></div>
-        <div class="row"><span class="lang">fr-FR</span><span>« La typographie compte ! »</span></div>
-        <div class="row"><span class="lang">ro-RO</span><span>„Tipografia contează.”</span></div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <h3 style="font-size:80px;">Every language has its own typographic DNA<span class="dot">.</span></h3>
+        <div class="sub">An LLM writes them all the same way.</div>
+      </div>
+      <div class="rows" style="gap:22px;">
+        <div class="row"><span class="tag">LLM</span><span class="bad">"hello"</span></div>
+        <div class="row"><span class="lang">en-US</span><span class="hl">“hello”</span></div>
+        <div class="row"><span class="lang">en-GB</span><span class="hl">‘hello’</span></div>
+        <div class="row"><span class="lang">de-DE</span><span class="hl">„hallo“</span></div>
+        <div class="row"><span class="lang">pt-PT</span><span class="hl">« olá »</span></div>
+        <div class="row"><span class="lang">fr-FR</span><span class="hl">« bonjour »</span></div>
+        <div class="row"><span class="lang">ro-RO</span><span class="hl">„salut”</span></div>
       </div>
       <div class="foot"><span>13 language variants · 34 deterministic rules</span><span class="count">typeproof</span></div>
     </div></div>
@@ -241,10 +253,12 @@ Feito em aberto. Procuram-se falantes nativos — link na bio.
         <h3 style="margin-top:28px;">Watch the green diff<span class="dot">.</span></h3>
       </div>
       <div class="diff">
+        <span class="tag" style="align-self:flex-start;">LLM output</span>
         <span>She replied <span class="bad">"goodbye"</span> <span class="bad">--</span></span>
         <span>then walked away<span class="bad">...</span></span>
-        <span style="height:22px;"></span>
-        <span><span style="color:var(--ink-3);">→&nbsp;</span>She replied <span class="hl">“goodbye”</span> <span class="hl">—</span></span>
+        <span style="height:30px;"></span>
+        <span class="tag loc" style="align-self:flex-start;">typeproof · en-US</span>
+        <span>She replied <span class="hl">“goodbye”</span> <span class="hl">—</span></span>
         <span>then walked away<span class="hl">…</span></span>
       </div>
       <div class="cta">
@@ -264,7 +278,9 @@ Feito em aberto. Procuram-se falantes nativos — link na bio.
         <h3>Typeproof<span class="dot">.</span> Lint your typography<span class="dot">.</span></h3>
       </div>
       <div class="diff">
-        <span class="bad">"hello" -- world...</span><span style="color:var(--ink-3);">→</span><span class="hl">“hello” — world…</span>
+        <span><span class="tag">LLM output</span><span><span class="bad">"done",</span> he said <span class="bad">-</span> moving on<span class="bad">...</span></span></span>
+        <span><span class="tag loc">en-US</span><span><span class="hl">“done,”</span> he said <span class="hl">—</span> moving on<span class="hl">…</span></span></span>
+        <span><span class="tag loc">en-GB</span><span><span class="hl">‘done’,</span> he said <span class="hl">–</span> moving on<span class="hl">…</span></span></span>
       </div>
       <div class="meta"><span>34 rules · 13 language variants · pure Python</span><span>github.com/tudotype/typeproof</span></div>
     </div></div>
